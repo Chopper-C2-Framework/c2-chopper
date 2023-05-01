@@ -1,3 +1,3 @@
-module github.com/Chopper-C2-Framework/C2-Chopper
+module github.com/chopper-c2-framework/c2-chopper
 
 go 1.20

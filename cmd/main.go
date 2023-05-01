@@ -2,20 +2,20 @@ package main
 
 import (
 	"fmt"
+	"log"
 
-	"github.com/c2-chopper/core/plugins"
+	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 )
 
 func main() {
 
 	plugins, err := plugins.LoadPlugins()
 	if err != nil {
-		fmt.Errorf("%s", err)
+		log.Fatalf("%s", err)
 	}
 
 	for _, plugin := range plugins {
 		fmt.Println("[+]", plugin.Name)
-
 	}
 
 }
