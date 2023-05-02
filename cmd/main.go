@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/Chopper-C2-Framework/C2-Chopper/core/plugins"
 	"fmt"
 
-	"github.com/c2-chopper/core/plugins"
 )
 
 func main() {
