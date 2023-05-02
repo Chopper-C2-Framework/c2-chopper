@@ -11,10 +11,12 @@ import (
 )
 
 const (
-	PluginsDir = "./plugins"
-	ClientPort = 3000
-	ServerPort = 3000
-	Host       = "localhost"
+	PluginsDir    = "./plugins"
+	ClientPort    = 3000
+	ServerPort    = 3000
+	Host          = "localhost"
+	ServerCert    = "./cert/server-cert.pem"
+	ServerCertKey = "./cert/server-key.pem"
 )
 
 func TestParseConfigFile(t *testing.T) {
@@ -36,10 +38,12 @@ func TestParseConfigFile(t *testing.T) {
 func generateConfigFile(filePath string) {
 
 	config := config.Config{
-		PluginsDir: PluginsDir,
-		ClientPort: ClientPort,
-		ServerPort: ServerPort,
-		Host:       Host,
+		PluginsDir:    PluginsDir,
+		ClientPort:    ClientPort,
+		ServerPort:    ServerPort,
+		Host:          Host,
+		ServerCert:    ServerCert,
+		ServerCertKey: ServerCertKey,
 	}
 	b, err := yaml.Marshal(config)
 
