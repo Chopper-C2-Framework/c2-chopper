@@ -1,0 +1,3 @@
+[req_ext]
+keyUsage=critical, cRLSign, keyCertSign
+basicConstraints=critical, CA:true
