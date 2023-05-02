@@ -1,0 +1,4 @@
+plugins_dir: ~/.c2chopper
+client_port: 9001
+server_port:  9002
+host: localhost
