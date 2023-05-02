@@ -1,13 +1,18 @@
 package main
 
 import (
-	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	"fmt"
 	"log"
+
+	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
+
+	"github.com/chopper-c2-framework/c2-chopper/core/config"
+
+	"github.com/chopper-c2-framework/c2-chopper/server/grpc"
 )
 
 func main() {
-
+	config := config.ParseConfigFromPath()
 	plugins, err := plugins.LoadPlugins()
 	if err != nil {
 		log.Fatalf("%s", err)
@@ -17,4 +22,5 @@ func main() {
 		fmt.Println("[+]", plugin.Name)
 	}
 
+	grpc.NewgRPCServer(*config)
 }

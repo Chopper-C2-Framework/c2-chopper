@@ -38,9 +38,9 @@ func NewgRPCServer(config Cfg.Config) {
 	if err != nil {
 		log.Fatal("cannot load TLS credentials: ", err)
 	}
-	fmt.Println("[+] Loaded certificates.", config.ServerPort)
+	fmt.Println("[+] Loaded certificates.")
 
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%d", config.ServerPort))
+	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
