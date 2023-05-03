@@ -6,9 +6,10 @@ import (
 	"log"
 	"os"
 	"plugin"
+	"strings"
 )
 
-const PluginsDir = "./plugins"
+const PluginsDir = "../plugins/"
 
 func lookupError(currErr error, errorMsg string) error {
 	return errors.Join(currErr, errors.New(fmt.Sprintln("[-] Error: function lookup error in plugin", errorMsg)))
@@ -29,11 +30,16 @@ func LoadPlugins() ([]Plugin, error) {
 	)
 
 	if files, err = os.ReadDir(PluginsDir); err != nil {
+
 		log.Panicln("Error: Cannot load plugins, error occured")
 	}
 
 	for idx := range files {
 		file := files[idx]
+
+		if file.IsDir() || !strings.Contains(file.Name(), ".so") {
+			continue
+		}
 		fmt.Println("Loading plugin: ", files[idx].Name())
 
 		if p, err = plugin.Open(PluginsDir + files[idx].Name()); err != nil {
@@ -56,7 +62,7 @@ func LoadPlugins() ([]Plugin, error) {
 		}
 
 		plugin := newPlugin()
-		log.Println("[+] Loaded plugin ", plugin.Name)
+		log.Println("[+] Loaded plugin ", plugin.Name, plugin.Author)
 		plugins = append(plugins, plugin)
 	}
 
