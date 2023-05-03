@@ -10,14 +10,16 @@ import (
 )
 
 type Config struct {
-	PluginsDir string `yaml:"plugins_path"`
-	ClientPort int    `yaml:"client_port"`
-	ServerPort int    `yaml:"server_port"`
-	Host       string `yaml:"host"`
+	PluginsDir    string `yaml:"plugins_path"`
+	ClientPort    int    `yaml:"client_port"`
+	ServerPort    int    `yaml:"server_port"`
+	Host          string `yaml:"host"`
+	ServerCert    string `yaml:"server_cert_path"`
+	ServerCertKey string `yaml:"sever_cert_key_path"`
 }
 
 const (
-	DEFAULT_CONFIG_DIR = "~/.c2chopper/"
+	DEFAULT_CONFIG_DIR = "./"
 )
 
 const (
@@ -52,5 +54,3 @@ func ParseConfigFromFile(filePath string) (*Config, error) {
 	return &config, nil
 
 }
-
-
