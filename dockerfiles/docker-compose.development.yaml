@@ -1,0 +1,7 @@
+version: "3.9"
+services:
+  c2chopper:
+    build:
+      dockerfile: ./dockerfiles/Dockerfile
+      context: ../
+    command: ["go", "test", "-v", "./.../.../..."]

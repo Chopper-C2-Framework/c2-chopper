@@ -3,7 +3,6 @@ package plugins
 import (
 	"errors"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"plugin"
@@ -22,14 +21,14 @@ func reflectionError(currErr error, errorMsg string) error {
 func LoadPlugins() ([]Plugin, error) {
 
 	var (
-		files   []os.FileInfo
+		files   []os.DirEntry
 		plugins []Plugin
 		err     error
 		p       *plugin.Plugin
 		n       plugin.Symbol
 	)
 
-	if files, err = ioutil.ReadDir(PluginsDir); err != nil {
+	if files, err = os.ReadDir(PluginsDir); err != nil {
 		log.Panicln("Error: Cannot load plugins, error occured")
 	}
 
