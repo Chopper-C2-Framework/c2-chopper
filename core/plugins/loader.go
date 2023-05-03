@@ -30,7 +30,6 @@ func LoadPlugins() ([]Plugin, error) {
 		n       plugin.Symbol
 	)
 
-	fmt.Println(os.Getwd())
 	if files, err = ioutil.ReadDir(PluginsDir); err != nil {
 		log.Panicln("Error: Cannot load plugins, error occured")
 	}
