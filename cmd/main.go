@@ -6,11 +6,9 @@ import (
 	"os"
 
 	"github.com/chopper-c2-framework/c2-chopper/core"
+	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	"github.com/chopper-c2-framework/c2-chopper/server"
-
-	"github.com/chopper-c2-framework/c2-chopper/core/config"
-
 	"github.com/chopper-c2-framework/c2-chopper/server/grpc"
 )
 
@@ -30,6 +28,7 @@ func main() {
 	frameworkConfiguration := config.ParseConfigFromPath()
 
 	plugins, err := plugins.LoadPlugins()
+
 	if err != nil {
 		log.Fatalf("%s", err)
 	}
@@ -39,10 +38,6 @@ func main() {
 	}
 
 	go grpc.NewgRPCServer(*frameworkConfiguration)
-
-	if err := framework.Run(os.Args); err != nil {
-		log.Fatal(err)
-	}
 
 	err = framework.Run(os.Args)
 	if err != nil {
