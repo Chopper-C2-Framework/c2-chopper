@@ -7,6 +7,7 @@ import (
 
 	"github.com/chopper-c2-framework/c2-chopper/core"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
+	"github.com/chopper-c2-framework/c2-chopper/server"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 
@@ -16,11 +17,16 @@ import (
 func setupCli() {
 
 }
+func x() error {
+	return nil
+}
 
 func main() {
 
 	configCommands := config.GetCommands()
-	framework := core.CreateApp(configCommands)
+	serverCommands := server.GetCommands(x)
+
+	framework := core.CreateApp(configCommands, serverCommands)
 	frameworkConfiguration := config.ParseConfigFromPath()
 
 	plugins, err := plugins.LoadPlugins()

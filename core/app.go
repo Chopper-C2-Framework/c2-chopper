@@ -6,7 +6,13 @@ const (
 	CLI_NAME = "c2-chopper"
 )
 
-func CreateApp(commands []*cli.Command) *cli.App {
+func CreateApp(cmds ...[]*cli.Command) *cli.App {
+	var commands []*cli.Command
+
+	for _, moreCommands := range cmds {
+		commands = append(commands, moreCommands...)
+	}
+
 	app := &cli.App{
 		Name:     CLI_NAME,
 		Commands: commands,
