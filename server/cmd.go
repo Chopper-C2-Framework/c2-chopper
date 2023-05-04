@@ -1,4 +1,4 @@
-package server
+package grpc
 
 import (
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
