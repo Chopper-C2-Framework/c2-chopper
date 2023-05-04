@@ -5,3 +5,4 @@ services:
       dockerfile: ./dockerfiles/Dockerfile
       context: ../
     command: ["go", "test", "-v", "./.../.../..."]
+
