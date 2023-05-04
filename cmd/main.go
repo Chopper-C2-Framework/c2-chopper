@@ -9,7 +9,7 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	"github.com/chopper-c2-framework/c2-chopper/server"
-	"github.com/chopper-c2-framework/c2-chopper/server/grpc"
+	// "github.com/chopper-c2-framework/c2-chopper/server/grpc"
 )
 
 func setupCli() {
@@ -25,7 +25,7 @@ func main() {
 	serverCommands := server.GetCommands(x)
 
 	framework := core.CreateApp(configCommands, serverCommands)
-	frameworkConfiguration := config.ParseConfigFromPath()
+	// frameworkConfiguration := config.ParseConfigFromPath()
 
 	plugins, err := plugins.LoadPlugins()
 
@@ -37,10 +37,10 @@ func main() {
 		fmt.Println("[+]", plugin.Name)
 	}
 
-	go grpc.NewgRPCServer(*frameworkConfiguration)
+	// go grpc.NewgRPCServer(*frameworkConfiguration)
 
 	err = framework.Run(os.Args)
 	if err != nil {
-		log.Panicln("Error occured while launching the framework")
+		log.Panicln("Error occured while launching the framework", err)
 	}
 }

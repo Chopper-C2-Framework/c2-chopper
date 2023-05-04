@@ -23,6 +23,8 @@ func CheckIfConfigExistsInPath() (bool, error) {
 	return true, nil
 }
 
+
+
 func GenerateConfigIfNotExists() error {
 
 	exists, err := CheckIfConfigExistsInPath()
