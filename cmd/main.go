@@ -7,6 +7,7 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	"github.com/chopper-c2-framework/c2-chopper/server/grpc"
+
 )
 
 func main() {
