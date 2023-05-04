@@ -14,6 +14,10 @@ func GetCommands() []*cli.Command {
 		Usage:   "Generate default configuration for the framework.",
 
 		Action: func(cCtx *cli.Context) error {
+			err := GenerateConfigIfNotExists()
+			if err != nil {
+				fmt.Fprintln(os.Stderr, err)
+			}
 			return nil
 		},
 	}

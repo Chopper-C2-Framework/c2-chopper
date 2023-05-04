@@ -1,6 +1,11 @@
 package core
 
-import "github.com/urfave/cli/v2"
+import (
+	"context"
+
+	"github.com/chopper-c2-framework/c2-chopper/core/config"
+	"github.com/urfave/cli/v2"
+)
 
 const (
 	CLI_NAME = "c2-chopper"
@@ -14,7 +19,14 @@ func CreateApp(cmds ...[]*cli.Command) *cli.App {
 	}
 
 	app := &cli.App{
-		Name:     CLI_NAME,
+		Name: CLI_NAME,
+		Before: func(ctx *cli.Context) error {
+
+			config := config.ParseConfigFromPath()
+			ctx.Context = context.WithValue(ctx.Context, "config", config)
+			return nil
+
+		},
 		Commands: commands,
 		Authors: []*cli.Author{
 			{

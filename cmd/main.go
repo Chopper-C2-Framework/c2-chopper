@@ -8,7 +8,10 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core"
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
-	"github.com/chopper-c2-framework/c2-chopper/server"
+
+	// Fix architecture and make it one import !
+	server "github.com/chopper-c2-framework/c2-chopper/server"
+	serverGrpc "github.com/chopper-c2-framework/c2-chopper/server/grpc"
 	// "github.com/chopper-c2-framework/c2-chopper/server/grpc"
 )
 
@@ -22,7 +25,8 @@ func x() error {
 func main() {
 
 	configCommands := config.GetCommands()
-	serverCommands := server.GetCommands(x)
+
+	serverCommands := server.GetCommands(serverGrpc.ServerManager{})
 
 	framework := core.CreateApp(configCommands, serverCommands)
 	// frameworkConfiguration := config.ParseConfigFromPath()
