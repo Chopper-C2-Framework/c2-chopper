@@ -37,14 +37,8 @@ func TestParseConfigFile(t *testing.T) {
 
 func generateConfigFile(filePath string) {
 
-	config := config.Config{
-		PluginsDir:    PluginsDir,
-		ClientPort:    ClientPort,
-		ServerPort:    ServerPort,
-		Host:          Host,
-		ServerCert:    ServerCert,
-		ServerCertKey: ServerCertKey,
-	}
+	config := config.CreateDefaultConfig()
+
 	b, err := yaml.Marshal(config)
 
 	if err != nil {
@@ -52,6 +46,10 @@ func generateConfigFile(filePath string) {
 	}
 
 	f, err := os.Create(filePath)
+
+	if err != nil {
+		log.Panicln("Error creating file")
+	}
 
 	defer f.Close()
 

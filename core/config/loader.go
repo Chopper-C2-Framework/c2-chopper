@@ -2,24 +2,11 @@ package config
 
 import (
 	"errors"
-	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
 
 	"gopkg.in/yaml.v3"
-)
-
-type Config struct {
-	PluginsDir    string `yaml:"plugins_path"`
-	ClientPort    int    `yaml:"client_port"`
-	ServerPort    int    `yaml:"server_port"`
-	Host          string `yaml:"host"`
-	ServerCert    string `yaml:"server_cert_path"`
-	ServerCertKey string `yaml:"sever_cert_key_path"`
-}
-
-const (
-	DEFAULT_CONFIG_DIR = "./"
 )
 
 const (
@@ -27,8 +14,24 @@ const (
 	CONFIG_PARSING_FAILURE string = "Error: Parsing configuration file has failed"
 )
 
+func GetConfig() (*Config, error) {
+
+	err := GenerateConfigIfNotExists()
+
+	if err != nil {
+		log.Fatalln("Error getting configuration")
+	}
+
+	return ParseConfigFromPath(), nil
+}
+
 func ParseConfigFromPath() *Config {
-	configFilePath := filepath.Join(DEFAULT_CONFIG_DIR, "config.yaml")
+	userHomeDir, err := os.UserHomeDir()
+
+	if err != nil {
+		log.Panicln("Error retrieving user home directory")
+	}
+	configFilePath := filepath.Join(userHomeDir, CONFIG_DEFAULT_PATH)
 
 	config, err := ParseConfigFromFile(configFilePath)
 	if err != nil {
@@ -39,7 +42,7 @@ func ParseConfigFromPath() *Config {
 }
 
 func ParseConfigFromFile(filePath string) (*Config, error) {
-	f, err := ioutil.ReadFile(filePath)
+	f, err := os.ReadFile(filePath)
 
 	if err != nil {
 		return nil, errors.New(CONFIG_NOT_FOUND)
@@ -52,5 +55,4 @@ func ParseConfigFromFile(filePath string) (*Config, error) {
 	}
 
 	return &config, nil
-
 }
