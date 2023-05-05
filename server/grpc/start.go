@@ -17,6 +17,13 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
+type IServerManager interface {
+	NewgRPCServer(config *Cfg.Config) error
+}
+
+type ServerManager struct {
+}
+
 func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportCredentials, error) {
 	// Load server's certificate and private key
 	serverCert, err := tls.LoadX509KeyPair(certFile, keyFile)
@@ -33,7 +40,7 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 	return credentials.NewTLS(tlsCfg), nil
 }
 
-func NewgRPCServer(config Cfg.Config) {
+func (server_m ServerManager) NewgRPCServer(config *Cfg.Config) error {
 	tlsCredentials, err := loadTLSCredentials(config.ServerCert, config.ServerCertKey)
 	if err != nil {
 		log.Fatal("cannot load TLS credentials: ", err)
@@ -52,4 +59,5 @@ func NewgRPCServer(config Cfg.Config) {
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+	return nil
 }

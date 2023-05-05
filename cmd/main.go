@@ -3,20 +3,33 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
+	"github.com/chopper-c2-framework/c2-chopper/core"
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
-	"github.com/chopper-c2-framework/c2-chopper/server/grpc"
 
+	// Fix architecture and make it one import !
+	server "github.com/chopper-c2-framework/c2-chopper/server"
+	serverGrpc "github.com/chopper-c2-framework/c2-chopper/server/grpc"
+	// "github.com/chopper-c2-framework/c2-chopper/server/grpc"
 )
+
+func setupCli() {
+
+}
+func x() error {
+	return nil
+}
 
 func main() {
 
-	config, err := config.GetConfig()
+	configCommands := config.GetCommands()
 
-	if err != nil {
-		log.Fatalln("Error getting configuration file, if it's the first time launching the framework add --init")
-	}
+	serverCommands := server.GetCommands(serverGrpc.ServerManager{})
+
+	framework := core.CreateApp(configCommands, serverCommands)
+	// frameworkConfiguration := config.ParseConfigFromPath()
 
 	plugins, err := plugins.LoadPlugins()
 
@@ -28,5 +41,10 @@ func main() {
 		fmt.Println("[+]", plugin.Name)
 	}
 
-	grpc.NewgRPCServer(*config)
+	// go grpc.NewgRPCServer(*frameworkConfiguration)
+
+	err = framework.Run(os.Args)
+	if err != nil {
+		log.Panicln("Error occured while launching the framework", err)
+	}
 }

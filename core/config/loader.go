@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	CONFIG_NOT_FOUND       string = "The configuration file was not found to its specified path. If it's the first time using the framework add --init-config to generate a config file"
+	CONFIG_NOT_FOUND       string = "The configuration file was not found to its specified path. If it's the first time using the framework add `gen-config` or `genc` to generate a config file"
 	CONFIG_PARSING_FAILURE string = "Error: Parsing configuration file has failed"
 )
 
