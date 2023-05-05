@@ -9,10 +9,7 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 
-	// Fix architecture and make it one import !
 	server "github.com/chopper-c2-framework/c2-chopper/server"
-	serverGrpc "github.com/chopper-c2-framework/c2-chopper/server/grpc"
-	// "github.com/chopper-c2-framework/c2-chopper/server/grpc"
 )
 
 func setupCli() {
@@ -26,7 +23,7 @@ func main() {
 
 	configCommands := config.GetCommands()
 
-	serverCommands := server.GetCommands(serverGrpc.ServerManager{})
+	serverCommands := server.GetCommands()
 
 	framework := core.CreateApp(configCommands, serverCommands)
 	// frameworkConfiguration := config.ParseConfigFromPath()
@@ -40,8 +37,6 @@ func main() {
 	for _, plugin := range plugins {
 		fmt.Println("[+]", plugin.Name)
 	}
-
-	// go grpc.NewgRPCServer(*frameworkConfiguration)
 
 	err = framework.Run(os.Args)
 	if err != nil {

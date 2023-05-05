@@ -2,11 +2,11 @@ package grpc
 
 import (
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
-	"github.com/chopper-c2-framework/c2-chopper/server/grpc"
+	serverGrpc "github.com/chopper-c2-framework/c2-chopper/server/grpc"
 	"github.com/urfave/cli/v2"
 )
 
-func GetCommands(serverManager grpc.IServerManager) []*cli.Command {
+func GetCommands() []*cli.Command {
 
 	startServerCommand := &cli.Command{
 		Name:    "server",
@@ -20,6 +20,7 @@ func GetCommands(serverManager grpc.IServerManager) []*cli.Command {
 				return nil
 			}
 
+			serverManager := serverGrpc.ServerManager{}
 			err := serverManager.NewgRPCServer(frameworkConfig)
 			if err != nil {
 				return err
