@@ -1,4 +1,4 @@
-package grpc
+package server
 
 import (
 	"fmt"
@@ -8,8 +8,9 @@ import (
 
 	"crypto/tls"
 
-	pb "github.com/chopper-c2-framework/c2-chopper/proto"
-	"github.com/chopper-c2-framework/c2-chopper/server/grpc/internal/handler"
+	"github.com/chopper-c2-framework/c2-chopper/proto"
+
+	"github.com/chopper-c2-framework/c2-chopper/server/internal/handler"
 
 	"net"
 
@@ -17,11 +18,11 @@ import (
 	"google.golang.org/grpc/credentials"
 )
 
-type IServerManager interface {
+type IgRPCServer interface {
 	NewgRPCServer(config *Cfg.Config) error
 }
 
-type ServerManager struct {
+type gRPCServer struct {
 }
 
 func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportCredentials, error) {
@@ -40,7 +41,7 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 	return credentials.NewTLS(tlsCfg), nil
 }
 
-func (server_m ServerManager) NewgRPCServer(config *Cfg.Config) error {
+func (server_m gRPCServer) NewgRPCServer(config *Cfg.Config) error {
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
@@ -59,7 +60,10 @@ func (server_m ServerManager) NewgRPCServer(config *Cfg.Config) error {
 		s = grpc.NewServer()
 	}
 
-	pb.RegisterAuthServer(s, &handler.AuthServer{})
+	proto.RegisterAuthServiceServer(s, &handler.AuthService{})
+	proto.RegisterAgentServiceServer(s, &handler.AgentService{})
+	proto.RegisterTeamServiceServer(s, &handler.TeamService{})
+	proto.RegisterPluginServiceServer(s, &handler.PluginService{})
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+message Agent {
+    string id = 1;
+    string nickname = 2;
+}
+
+message Team {
+    string id = 1;
+    string name = 2;
+}
+
+message Plugin {
+	string Name = 1;      
+	PluginMetadata Metadata = 2;
+	PluginInfo info = 3;
+}
+
+message PluginMetadata {
+	string Version = 1;
+	string Author = 2;
+	repeated string Tags = 3;
+	string ReleaseDate = 4;
+	int32 Type = 5;
+	string SourceLink = 6;
+	string Description = 7;
+}
+
+message PluginInfo {
+	map<string, string> Options = 1;
+	string ReturnType = 2;
+}

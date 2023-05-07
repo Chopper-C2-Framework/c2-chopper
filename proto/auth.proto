@@ -2,18 +2,27 @@ syntax = "proto3";
 
 option go_package = "./proto";
 
-// The service definition.
-service Auth {
-    // Sends a greeting
-    rpc SayHello (HelloRequest) returns (HelloReply) {}
+service AuthService {
+    rpc Login (LoginRequest) returns (LoginResponse) {}
+    rpc Register (RegisterRequest) returns (RegisterResponse) {}
 }
   
-// The request message containing the user's name.
-message HelloRequest {
-    string name = 1;
+message LoginRequest {
+    string username = 1;
+    string password = 2;
 }
   
-// The response message containing the greetings
-message HelloReply {
-    string message = 1;
+message RegisterRequest {
+    string username = 1;
+    string password = 2;
+}
+
+message LoginResponse {
+    bool success = 1;
+    string token = 2;
+}
+
+message RegisterResponse {
+    bool success = 1;
+    string token = 2;
 }
