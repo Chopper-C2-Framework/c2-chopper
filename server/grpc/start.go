@@ -8,7 +8,8 @@ import (
 
 	"crypto/tls"
 
-	pb "github.com/chopper-c2-framework/c2-chopper/proto"
+	"github.com/chopper-c2-framework/c2-chopper/proto"
+
 	"github.com/chopper-c2-framework/c2-chopper/server/grpc/internal/handler"
 
 	"net"
@@ -59,7 +60,10 @@ func (server_m ServerManager) NewgRPCServer(config *Cfg.Config) error {
 		s = grpc.NewServer()
 	}
 
-	pb.RegisterAuthServer(s, &handler.AuthServer{})
+	proto.RegisterAuthServiceServer(s, &handler.AuthService{})
+	proto.RegisterAgentServiceServer(s, &handler.AgentService{})
+	proto.RegisterTeamServiceServer(s, &handler.TeamService{})
+	proto.RegisterPluginServiceServer(s, &handler.PluginService{})
 	if err := s.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

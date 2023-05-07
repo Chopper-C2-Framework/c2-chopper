@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+import "types.proto";
+import "google/protobuf/empty.proto";
+
+service AgentService {
+    rpc ListAgents (google.protobuf.Empty) returns (AgentListResponse) {}
+    rpc GetAgentInfo (GetAgentInfoRequest) returns (GetAgentInfoResponse) {}
+    rpc ExecuteCmd (ExecuteCmdRequest) returns (ExecuteCmdResponse) {}
+}
+
+message AgentListResponse {
+    bool success = 1;
+    repeated Agent data = 2;
+}
+
+message GetAgentInfoRequest {
+    string id = 1;
+}
+
+message GetAgentInfoResponse {
+    bool success = 1;
+    Agent data = 2;
+}
+
+message ExecuteCmdRequest {
+    string agentId = 1;
+    string cmd = 2;
+}
+
+message ExecuteCmdResponse {
+    bool success = 1;
+    string result = 2;
+}

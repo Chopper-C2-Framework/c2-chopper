@@ -2,16 +2,21 @@ package handler
 
 import (
 	context "context"
+	"fmt"
 
 	"github.com/chopper-c2-framework/c2-chopper/proto"
 )
 
-// We define a server struct that implements the server interface. 🥳🥳🥳
-type AuthServer struct {
-	proto.UnimplementedAuthServer
+type AuthService struct {
+	proto.UnimplementedAuthServiceServer
 }
 
-// We implement the SayHello method of the server interface. 🥳🥳🥳
-func (s *AuthServer) SayHello(ctx context.Context, in *proto.HelloRequest) (*proto.HelloReply, error) {
-	return &proto.HelloReply{Message: "Hello, " + in.GetName()}, nil
+func (s *AuthService) Login(ctx context.Context, in *proto.LoginRequest) (*proto.LoginResponse, error) {
+	fmt.Println("[gRPC] [AuthService] Login:", in.GetUsername())
+	return &proto.LoginResponse{Success: true}, nil
+}
+
+func (s *AuthService) Register(ctx context.Context, in *proto.RegisterRequest) (*proto.RegisterResponse, error) {
+	fmt.Println("[gRPC] [AuthService] Register:", in.GetUsername())
+	return &proto.RegisterResponse{Success: true}, nil
 }
