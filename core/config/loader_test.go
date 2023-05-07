@@ -17,6 +17,7 @@ const (
 	Host          = "localhost"
 	ServerCert    = "./cert/server-cert.pem"
 	ServerCertKey = "./cert/server-key.pem"
+	UseTLS        = true
 )
 
 func TestParseConfigFile(t *testing.T) {
@@ -29,7 +30,8 @@ func TestParseConfigFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if sconfig.ClientPort != ClientPort || sconfig.ServerPort != ServerPort || sconfig.Host != Host || sconfig.PluginsDir != PluginsDir {
+	// TODO: Change this check
+	if sconfig.ClientPort != ClientPort || sconfig.ServerPort != ServerPort || sconfig.Host != Host || sconfig.PluginsDir != PluginsDir || sconfig.UseTLS != UseTLS {
 		t.Fatalf("Error the configuration wasn't as intended")
 	}
 

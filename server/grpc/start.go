@@ -41,19 +41,23 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 }
 
 func (server_m ServerManager) NewgRPCServer(config *Cfg.Config) error {
-	tlsCredentials, err := loadTLSCredentials(config.ServerCert, config.ServerCertKey)
-	if err != nil {
-		log.Fatal("cannot load TLS credentials: ", err)
-	}
-	fmt.Println("[+] Loaded certificates.")
-
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	fmt.Println("[+] Created listener on port", config.ServerPort)
 
-	s := grpc.NewServer(grpc.Creds(tlsCredentials))
+	var s *grpc.Server
+	if config.UseTLS {
+		tlsCredentials, err := loadTLSCredentials(config.ServerCert, config.ServerCertKey)
+		if err != nil {
+			log.Fatal("cannot load TLS credentials: ", err)
+		}
+		fmt.Println("[+] Loaded certificates.")
+		s = grpc.NewServer(grpc.Creds(tlsCredentials))
+	} else {
+		s = grpc.NewServer()
+	}
 
 	pb.RegisterAuthServer(s, &handler.AuthServer{})
 	if err := s.Serve(listener); err != nil {

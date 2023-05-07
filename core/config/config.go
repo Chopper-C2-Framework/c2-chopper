@@ -13,6 +13,7 @@ type Config struct {
 	Host          string `yaml:"host"`
 	ServerCert    string `yaml:"server_cert_path"`
 	ServerCertKey string `yaml:"sever_cert_key_path"`
+	UseTLS        bool   `yaml:"use_tls"`
 }
 
 func CreateDefaultConfig() *Config {
