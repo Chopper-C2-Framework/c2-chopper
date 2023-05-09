@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+import "types.proto";
+import "google/protobuf/empty.proto";
+
+service ListenerService {
+    rpc ListListeners (google.protobuf.Empty) returns (ListenerListResponse) {}
+    rpc GetListenerInfo (GetListenerInfoRequest) returns (GetListenerInfoResponse) {}
+    rpc ExecuteCmd (ExecuteCmdRequest) returns (ExecuteCmdResponse) {}
+}
+
+message ListenerListResponse {
+    bool Success = 1;
+    repeated Listener Data = 2;
+}
+
+message GetListenerInfoRequest {
+    string Id = 1;
+}
+
+message GetListenerInfoResponse {
+    bool Success = 1;
+    Listener Data = 2;
+}
+
+message ExecuteCmdRequest {
+    string ListenerId = 1;
+    string Cmd = 2;
+}
+
+message ExecuteCmdResponse {
+    bool Success = 1;
+    string Result = 2;
+}

@@ -61,7 +61,7 @@ func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config) error {
 	}
 
 	proto.RegisterAuthServiceServer(server_m.server, &handler.AuthService{})
-	proto.RegisterAgentServiceServer(server_m.server, &handler.AgentService{})
+	proto.RegisterListenerServiceServer(server_m.server, &handler.ListenerService{})
 	proto.RegisterTeamServiceServer(server_m.server, &handler.TeamService{})
 	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{})
 	if err := server_m.server.Serve(listener); err != nil {
