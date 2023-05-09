@@ -23,6 +23,7 @@ type IgRPCServer interface {
 }
 
 type gRPCServer struct {
+	server *grpc.Server
 }
 
 func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportCredentials, error) {
@@ -48,23 +49,22 @@ func (server_m gRPCServer) NewgRPCServer(config *Cfg.Config) error {
 	}
 	fmt.Println("[+] Created listener on port", config.ServerPort)
 
-	var s *grpc.Server
 	if config.UseTLS {
 		tlsCredentials, err := loadTLSCredentials(config.ServerCert, config.ServerCertKey)
 		if err != nil {
 			log.Fatal("cannot load TLS credentials: ", err)
 		}
 		fmt.Println("[+] Loaded certificates.")
-		s = grpc.NewServer(grpc.Creds(tlsCredentials))
+		server_m.server = grpc.NewServer(grpc.Creds(tlsCredentials))
 	} else {
-		s = grpc.NewServer()
+		server_m.server = grpc.NewServer()
 	}
 
-	proto.RegisterAuthServiceServer(s, &handler.AuthService{})
-	proto.RegisterAgentServiceServer(s, &handler.AgentService{})
-	proto.RegisterTeamServiceServer(s, &handler.TeamService{})
-	proto.RegisterPluginServiceServer(s, &handler.PluginService{})
-	if err := s.Serve(listener); err != nil {
+	proto.RegisterAuthServiceServer(server_m.server, &handler.AuthService{})
+	proto.RegisterAgentServiceServer(server_m.server, &handler.AgentService{})
+	proto.RegisterTeamServiceServer(server_m.server, &handler.TeamService{})
+	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{})
+	if err := server_m.server.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 	return nil
