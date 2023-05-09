@@ -14,15 +14,21 @@ type Config struct {
 	ServerCert    string `yaml:"server_cert_path"`
 	ServerCertKey string `yaml:"sever_cert_key_path"`
 	UseTLS        bool   `yaml:"use_tls"`
+	ServerDb      string `yaml:"server_db_path"`
+}
+
+var DefaultConfig = Config{
+	PluginsDir:    "~/.c2chopper/plugins",
+	ClientPort:    9001,
+	ServerPort:    9002,
+	Host:          "localhost",
+	ServerCert:    "./cert/server-cert.pem",
+	ServerCertKey: "./cert/server-key.pem",
+	UseTLS:        false,
+	ServerDb:      "server.db",
 }
 
 func CreateDefaultConfig() *Config {
-	return &Config{
-		PluginsDir:    "~/.c2chopper/plugins",
-		ClientPort:    9001,
-		ServerPort:    9002,
-		Host:          "localhost",
-		ServerCertKey: "cert/server-key.pem",
-		ServerCert:    "cert/server-cert.pem",
-	}
+	cfg := DefaultConfig
+	return &cfg
 }

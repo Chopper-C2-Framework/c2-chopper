@@ -5,3 +5,4 @@ host: localhost
 server_cert_path: cert/server-cert.pem
 sever_cert_key_path: cert/server-key.pem
 use_tls: false
+server_db_path: "server.db"
