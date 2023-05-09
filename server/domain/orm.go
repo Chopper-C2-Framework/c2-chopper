@@ -16,7 +16,7 @@ type IORMConnection interface {
 }
 
 type ORMConnection struct {
-	db *gorm.DB
+	Db *gorm.DB
 }
 
 func (conn *ORMConnection) CreateDB(config *Cfg.Config) error {
@@ -35,6 +35,6 @@ func (conn *ORMConnection) CreateDB(config *Cfg.Config) error {
 
 	fmt.Println("[+] Migrated Models.")
 
-	conn.db = db
+	conn.Db = db
 	return nil
 }

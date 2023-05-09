@@ -21,11 +21,11 @@ func GetCommands() []*cli.Command {
 				return nil
 			}
 
-			var ormConnection orm.IORMConnection = &orm.ORMConnection{}
+			ormConnection := &orm.ORMConnection{}
 			ormConnection.CreateDB(frameworkConfig)
 
 			var serverManager IgRPCServer = &gRPCServer{}
-			err := serverManager.NewgRPCServer(frameworkConfig)
+			err := serverManager.NewgRPCServer(frameworkConfig, ormConnection)
 			if err != nil {
 				return err
 			}

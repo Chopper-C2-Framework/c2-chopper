@@ -11,15 +11,18 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/proto"
 
 	"github.com/chopper-c2-framework/c2-chopper/server/internal/handler"
+	"github.com/chopper-c2-framework/c2-chopper/server/internal/interceptor"
 
 	"net"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+
+	orm "github.com/chopper-c2-framework/c2-chopper/server/domain"
 )
 
 type IgRPCServer interface {
-	NewgRPCServer(config *Cfg.Config) error
+	NewgRPCServer(config *Cfg.Config, ormConnection *orm.ORMConnection) error
 }
 
 type gRPCServer struct {
@@ -42,12 +45,20 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 	return credentials.NewTLS(tlsCfg), nil
 }
 
-func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config) error {
+func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config, ormConnection *orm.ORMConnection) error {
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	fmt.Println("[+] Created listener on port", config.ServerPort)
+
+	AuthInterceptor := interceptor.AuthInterceptor{}
+	ORMInjector := interceptor.ORMInjectorInterceptor{DbConnection: ormConnection}
+
+	UnaryInterceptors := grpc.ChainUnaryInterceptor(
+		AuthInterceptor.UnaryServerInterceptor,
+		ORMInjector.UnaryServerInterceptor,
+	)
 
 	if config.UseTLS {
 		tlsCredentials, err := loadTLSCredentials(config.ServerCert, config.ServerCertKey)
@@ -55,9 +66,14 @@ func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config) error {
 			log.Fatal("cannot load TLS credentials: ", err)
 		}
 		fmt.Println("[+] Loaded certificates.")
-		server_m.server = grpc.NewServer(grpc.Creds(tlsCredentials))
+		server_m.server = grpc.NewServer(
+			grpc.Creds(tlsCredentials),
+			UnaryInterceptors,
+		)
 	} else {
-		server_m.server = grpc.NewServer()
+		server_m.server = grpc.NewServer(
+			UnaryInterceptors,
+		)
 	}
 
 	proto.RegisterAuthServiceServer(server_m.server, &handler.AuthService{})
