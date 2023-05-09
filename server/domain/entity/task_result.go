@@ -8,6 +8,7 @@ import (
 
 type TaskResultModel struct {
 	gorm.Model
-	executedAt time.Time
-	status     int32
+	ExecutedAt time.Time
+	Status     int32
+	Task       *TaskModel
 }

@@ -6,7 +6,7 @@ import (
 
 type ListenerModel struct {
 	gorm.Model
-	ip       string
-	port     int32
-	nickname string
+	Ip       string
+	Port     int32
+	Nickname string
 }

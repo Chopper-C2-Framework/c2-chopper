@@ -5,9 +5,8 @@ import (
 )
 
 type TaskModel struct {
-	gorm.Model // Contains createdAt
-	name       string
-	repeat     bool
-	listener   ListenerModel `gorm:"embedded"`
-	// createdAt time.Time
+	gorm.Model
+	Name     string
+	Repeat   bool
+	Listener ListenerModel `gorm:"embedded"`
 }
