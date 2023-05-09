@@ -3,21 +3,12 @@ package config_test
 import (
 	"log"
 	"os"
+	"reflect"
 	"testing"
 
 	"gopkg.in/yaml.v3"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
-)
-
-const (
-	PluginsDir    = "./plugins"
-	ClientPort    = 3000
-	ServerPort    = 3000
-	Host          = "localhost"
-	ServerCert    = "./cert/server-cert.pem"
-	ServerCertKey = "./cert/server-key.pem"
-	UseTLS        = true
 )
 
 func TestParseConfigFile(t *testing.T) {
@@ -30,8 +21,7 @@ func TestParseConfigFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// TODO: Change this check
-	if sconfig.ClientPort != ClientPort || sconfig.ServerPort != ServerPort || sconfig.Host != Host || sconfig.PluginsDir != PluginsDir || sconfig.UseTLS != UseTLS {
+	if !reflect.DeepEqual(sconfig, config.DefaultConfig) {
 		t.Fatalf("Error the configuration wasn't as intended")
 	}
 

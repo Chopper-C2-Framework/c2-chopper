@@ -1,6 +1,8 @@
 package server
 
 import (
+	orm "github.com/chopper-c2-framework/c2-chopper/server/domain"
+
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/urfave/cli/v2"
 )
@@ -19,7 +21,10 @@ func GetCommands() []*cli.Command {
 				return nil
 			}
 
-			serverManager := gRPCServer{}
+			var ormConnection orm.IORMConnection = &orm.ORMConnection{}
+			ormConnection.CreateDB(frameworkConfig)
+
+			var serverManager IgRPCServer = &gRPCServer{}
 			err := serverManager.NewgRPCServer(frameworkConfig)
 			if err != nil {
 				return err

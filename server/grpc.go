@@ -42,7 +42,7 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 	return credentials.NewTLS(tlsCfg), nil
 }
 
-func (server_m gRPCServer) NewgRPCServer(config *Cfg.Config) error {
+func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config) error {
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
