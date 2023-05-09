@@ -10,4 +10,6 @@ type TaskModel struct {
 	Repeat     bool
 	ListenerId int
 	Listener   ListenerModel
+	CreatorId  int
+	Creator    UserModel `gorm:"foreignKey:CreatorId"`
 }
