@@ -10,5 +10,6 @@ type TaskResultModel struct {
 	gorm.Model
 	ExecutedAt time.Time
 	Status     int32
+	TaskID     int
 	Task       *TaskModel
 }

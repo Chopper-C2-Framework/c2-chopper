@@ -6,7 +6,8 @@ import (
 
 type TaskModel struct {
 	gorm.Model
-	Name     string
-	Repeat   bool
-	Listener ListenerModel `gorm:"embedded"`
+	Name       string
+	Repeat     bool
+	ListenerId int
+	Listener   ListenerModel
 }
