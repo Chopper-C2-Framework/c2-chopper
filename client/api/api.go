@@ -8,7 +8,13 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
-func launchClient(frameworkConfig config.Config) {
+type IClientManager interface {
+	launchClient(frameworkConfig config.Config) error
+}
+
+type ClientManager struct{}
+
+func (c ClientManager) LaunchClient(frameworkConfig *config.Config) error {
 	api := fiber.New()
 	api.Use(cors.New())
 
@@ -18,5 +24,11 @@ func launchClient(frameworkConfig config.Config) {
 
 	api.Group("/api")
 
-	api.Listen(fmt.Sprintf(":%d", frameworkConfig.ClientPort))
+	err := api.Listen(fmt.Sprintf(":%d", frameworkConfig.ClientPort))
+
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
