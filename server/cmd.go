@@ -1,6 +1,8 @@
 package server
 
 import (
+	"log"
+
 	orm "github.com/chopper-c2-framework/c2-chopper/server/domain"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
@@ -22,10 +24,14 @@ func GetCommands() []*cli.Command {
 			}
 
 			var ormConnection orm.IORMConnection = &orm.ORMConnection{}
-			ormConnection.CreateDB(frameworkConfig)
+			err := ormConnection.CreateDB(frameworkConfig)
+
+			if err != nil {
+				log.Panicln("[-] Error connecting to database", err)
+			}
 
 			var serverManager IgRPCServer = &gRPCServer{}
-			err := serverManager.NewgRPCServer(frameworkConfig)
+			err = serverManager.NewgRPCServer(frameworkConfig)
 			if err != nil {
 				return err
 			}
