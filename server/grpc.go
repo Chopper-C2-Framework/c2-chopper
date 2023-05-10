@@ -18,7 +18,7 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 
-	orm "github.com/chopper-c2-framework/c2-chopper/server/domain"
+	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
 )
 
 type IgRPCServer interface {
@@ -56,8 +56,8 @@ func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config, ormConnection *orm
 	ORMInjector := interceptor.ORMInjectorInterceptor{DbConnection: ormConnection}
 
 	UnaryInterceptors := grpc.ChainUnaryInterceptor(
-		AuthInterceptor.UnaryServerInterceptor,
 		ORMInjector.UnaryServerInterceptor,
+		AuthInterceptor.UnaryServerInterceptor,
 	)
 
 	if config.UseTLS {

@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	orm "github.com/chopper-c2-framework/c2-chopper/server/domain"
+	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
 	"google.golang.org/grpc"
 )
 
