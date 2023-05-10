@@ -16,11 +16,12 @@ type IPluginManager interface {
 	ListLoadedPlugins() ([]string, error)
 	LoadAllPlugins() ([]*Plugin, error)
 	LoadPlugin(filePath string) (*Plugin, error)
+	GetPlugin(filePath string) (*Plugin, error)
 }
 
 type PluginManager struct {
 	config        *Cfg.Config
-	loadedPlugins map[string]Plugin
+	loadedPlugins map[string]*Plugin
 }
 
 func CreatePluginManager(cfg *Cfg.Config) PluginManager {
@@ -33,6 +34,14 @@ func lookupError(currErr error, errorMsg string) error {
 
 func reflectionError(currErr error, errorMsg string) error {
 	return errors.Join(currErr, errors.New(fmt.Sprintln("[-] Error: type reflection error in plugin", errorMsg)))
+}
+
+func (manager PluginManager) GetPlugin(filePath string) (*Plugin, error) {
+	loadedPlugin, ok := manager.loadedPlugins[filePath]
+	if !ok {
+		return nil, errors.New("Plugin not loaded")
+	}
+	return loadedPlugin, nil
 }
 
 func (manager PluginManager) ListLoadedPlugins() ([]string, error) {
@@ -70,7 +79,7 @@ func (manager PluginManager) LoadPlugin(filePath string) (*Plugin, error) {
 	loadedPlugin, ok := manager.loadedPlugins[filePath]
 	if ok {
 		fmt.Println("[+] Plugin already loaded:", filePath)
-		return &loadedPlugin, nil
+		return loadedPlugin, nil
 	}
 	fullPath := manager.config.PluginsDir + "/" + filePath
 
@@ -106,10 +115,10 @@ func (manager PluginManager) LoadPlugin(filePath string) (*Plugin, error) {
 		return nil, err
 	}
 
-	loadedPlugin = newPlugin()
-	log.Println("[+] Loaded plugin ", loadedPlugin.Name, loadedPlugin.Author)
-	manager.loadedPlugins[filePath] = loadedPlugin
-	return &loadedPlugin, nil
+	nPlugin := newPlugin()
+	log.Println("[+] Loaded plugin ", nPlugin.Author, nPlugin.Name)
+	manager.loadedPlugins[filePath] = &nPlugin
+	return &nPlugin, nil
 }
 
 func (manager PluginManager) LoadAllPlugins() ([]*Plugin, error) {

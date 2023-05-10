@@ -13,9 +13,8 @@ service PluginService {
 }
 
 message RunPluginRequest {
-    string Name = 1;
-    string Version = 2;
-	string Author = 3;
+    string FileName = 1;
+    map<string, string> params = 2;
 }
 
 message LoadPluginRequest {
