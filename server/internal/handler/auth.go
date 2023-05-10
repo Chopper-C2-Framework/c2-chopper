@@ -13,7 +13,6 @@ type AuthService struct {
 
 func (s *AuthService) Login(ctx context.Context, in *proto.LoginRequest) (*proto.LoginResponse, error) {
 	fmt.Println("[gRPC] [AuthService] Login:", in.GetUsername())
-	fmt.Println(ctx.Value("Db"))
 	return &proto.LoginResponse{Success: true}, nil
 }
 

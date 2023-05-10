@@ -7,9 +7,25 @@ import (
 	"os"
 	"plugin"
 	"strings"
+
+	Cfg "github.com/chopper-c2-framework/c2-chopper/core/config"
 )
 
-const PluginsDir = "../plugins/"
+type IPluginManager interface {
+	ListAllPlugins() ([]string, error)
+	ListLoadedPlugins() ([]string, error)
+	LoadAllPlugins() ([]*Plugin, error)
+	LoadPlugin(filePath string) (*Plugin, error)
+}
+
+type PluginManager struct {
+	config        *Cfg.Config
+	loadedPlugins map[string]Plugin
+}
+
+func CreatePluginManager(cfg *Cfg.Config) PluginManager {
+	return PluginManager{config: cfg}
+}
 
 func lookupError(currErr error, errorMsg string) error {
 	return errors.Join(currErr, errors.New(fmt.Sprintln("[-] Error: function lookup error in plugin", errorMsg)))
@@ -19,19 +35,23 @@ func reflectionError(currErr error, errorMsg string) error {
 	return errors.Join(currErr, errors.New(fmt.Sprintln("[-] Error: type reflection error in plugin", errorMsg)))
 }
 
-func LoadPlugins() ([]Plugin, error) {
+func (manager PluginManager) ListLoadedPlugins() ([]string, error) {
+	keys := make([]string, 0, len(manager.loadedPlugins))
+	for k := range manager.loadedPlugins {
+		keys = append(keys, k)
+	}
+	return keys, nil
+}
 
+func (manager PluginManager) ListAllPlugins() ([]string, error) {
 	var (
-		files   []os.DirEntry
-		plugins []Plugin
-		err     error
-		p       *plugin.Plugin
-		n       plugin.Symbol
+		plugins []string
 	)
 
-	if files, err = os.ReadDir(PluginsDir); err != nil {
-
-		log.Panicln("Error: Cannot load plugins, error occured")
+	files, err := os.ReadDir(manager.config.PluginsDir)
+	if err != nil {
+		// log.Panicln("Error: Cannot load plugins, No directory found.", err)
+		return nil, err
 	}
 
 	for idx := range files {
@@ -40,32 +60,77 @@ func LoadPlugins() ([]Plugin, error) {
 		if file.IsDir() || !strings.Contains(file.Name(), ".so") {
 			continue
 		}
-		fmt.Println("Loading plugin: ", files[idx].Name())
 
-		if p, err = plugin.Open(PluginsDir + files[idx].Name()); err != nil {
-			// TODO change this to append to the error object
-			log.Panicln(err)
-		}
+		plugins = append(plugins, file.Name())
+	}
+	return plugins, nil
+}
 
-		n, err = p.Lookup("New")
+func (manager PluginManager) LoadPlugin(filePath string) (*Plugin, error) {
+	loadedPlugin, ok := manager.loadedPlugins[filePath]
+	if ok {
+		fmt.Println("[+] Plugin already loaded:", filePath)
+		return &loadedPlugin, nil
+	}
+	fullPath := manager.config.PluginsDir + "/" + filePath
 
-		if err != nil {
-			err = lookupError(err, file.Name())
-			continue
-		}
+	fmt.Println("Loading plugin:", filePath)
 
-		newPlugin, ok := n.(func() Plugin)
-
-		if !ok {
-			err = reflectionError(err, fmt.Sprintf("New function for plugin %s", file.Name()))
-			continue
-		}
-
-		plugin := newPlugin()
-		log.Println("[+] Loaded plugin ", plugin.Name, plugin.Author)
-		plugins = append(plugins, plugin)
+	info, err := os.Lstat(fullPath)
+	if err != nil {
+		return nil, err
 	}
 
-	return plugins, err
+	if info.IsDir() {
+		return nil, errors.New("Bad file path, path is a directory.")
+	}
 
+	p, err := plugin.Open(fullPath)
+	if err != nil {
+		// log.Panicln(err)
+		return nil, err
+	}
+
+	n, err := p.Lookup("New")
+	if err != nil {
+		err = lookupError(err, filePath)
+		// log.Panicln(err)
+		return nil, err
+	}
+
+	fmt.Println(n)
+
+	newPlugin, ok := n.(func() Plugin)
+	if !ok {
+		err = reflectionError(err, fmt.Sprintf("New function for plugin %s", filePath))
+		return nil, err
+	}
+
+	loadedPlugin = newPlugin()
+	log.Println("[+] Loaded plugin ", loadedPlugin.Name, loadedPlugin.Author)
+	manager.loadedPlugins[filePath] = loadedPlugin
+	return &loadedPlugin, nil
+}
+
+func (manager PluginManager) LoadAllPlugins() ([]*Plugin, error) {
+	var (
+		plugins []*Plugin
+	)
+
+	files, err := manager.ListAllPlugins()
+	if err != nil {
+		return nil, err
+	}
+
+	for idx := range files {
+		file := files[idx]
+
+		loadedPlugin, err := manager.LoadPlugin(file)
+		if err != nil {
+			return plugins, err
+		}
+
+		plugins = append(plugins, loadedPlugin)
+	}
+	return plugins, nil
 }

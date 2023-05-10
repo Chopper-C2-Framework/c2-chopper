@@ -13,18 +13,18 @@ service PluginService {
 }
 
 message RunPluginRequest {
-
-}
-
-message LoadPluginRequest {
     string Name = 1;
     string Version = 2;
 	string Author = 3;
 }
 
+message LoadPluginRequest {
+    string FileName = 1;
+}
+
 message ListPluginsResponse {
     bool success = 1;
-    repeated Plugin data = 2;
+    repeated string names = 2;
 }
 
 message RunPluginResponse {

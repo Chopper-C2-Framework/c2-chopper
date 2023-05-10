@@ -6,20 +6,28 @@ import (
 
 	"github.com/chopper-c2-framework/c2-chopper/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
+
+	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 )
 
 type PluginService struct {
 	proto.UnimplementedPluginServiceServer
+	PluginManager plugins.IPluginManager
 }
 
 func (s *PluginService) ListLoadedPlugins(ctx context.Context, in *emptypb.Empty) (*proto.ListPluginsResponse, error) {
 	fmt.Println("[gRPC] [PluginService] ListLoadedPlugins")
-	return &proto.ListPluginsResponse{Success: true}, nil
+	plugins, _ := s.PluginManager.ListLoadedPlugins()
+	return &proto.ListPluginsResponse{Success: true, Names: plugins}, nil
 }
 
 func (s *PluginService) ListPlugins(ctx context.Context, in *emptypb.Empty) (*proto.ListPluginsResponse, error) {
 	fmt.Println("[gRPC] [PluginService] ListPlugins")
-	return &proto.ListPluginsResponse{Success: true}, nil
+	plugins, err := s.PluginManager.ListAllPlugins()
+	if err != nil {
+		return &proto.ListPluginsResponse{Success: false}, err
+	}
+	return &proto.ListPluginsResponse{Success: true, Names: plugins}, nil
 }
 
 func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginRequest) (*proto.RunPluginResponse, error) {
@@ -29,5 +37,10 @@ func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginReques
 
 func (s *PluginService) LoadPlugin(ctx context.Context, in *proto.LoadPluginRequest) (*proto.LoadPluginResponse, error) {
 	fmt.Println("[gRPC] [PluginService] LoadPlugin")
-	return &proto.LoadPluginResponse{Success: true}, nil
+	fmt.Println(in)
+	plugin, err := s.PluginManager.LoadPlugin(in.FileName)
+	if err != nil {
+		return &proto.LoadPluginResponse{Success: false}, err
+	}
+	return &proto.LoadPluginResponse{Success: true, Data: &proto.Plugin{Name: plugin.Name}}, nil
 }

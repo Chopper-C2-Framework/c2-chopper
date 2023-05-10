@@ -19,10 +19,15 @@ import (
 	"google.golang.org/grpc/credentials"
 
 	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
+	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 )
 
 type IgRPCServer interface {
-	NewgRPCServer(config *Cfg.Config, ormConnection *orm.ORMConnection) error
+	NewgRPCServer(
+		config *Cfg.Config,
+		ormConnection *orm.ORMConnection,
+		pluginManager *plugins.PluginManager,
+	) error
 }
 
 type gRPCServer struct {
@@ -45,7 +50,11 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 	return credentials.NewTLS(tlsCfg), nil
 }
 
-func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config, ormConnection *orm.ORMConnection) error {
+func (server_m *gRPCServer) NewgRPCServer(
+	config *Cfg.Config,
+	ormConnection *orm.ORMConnection,
+	pluginManager *plugins.PluginManager,
+) error {
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
@@ -79,7 +88,7 @@ func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config, ormConnection *orm
 	proto.RegisterAuthServiceServer(server_m.server, &handler.AuthService{})
 	proto.RegisterListenerServiceServer(server_m.server, &handler.ListenerService{})
 	proto.RegisterTeamServiceServer(server_m.server, &handler.TeamService{})
-	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{})
+	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{PluginManager: pluginManager})
 	if err := server_m.server.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
