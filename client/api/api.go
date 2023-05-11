@@ -6,6 +6,7 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/gofiber/fiber/v2/middleware/logger"
 )
 
 type IClientManager interface {
@@ -15,16 +16,23 @@ type IClientManager interface {
 type ClientManager struct{}
 
 func (c ClientManager) LaunchClient(frameworkConfig *config.Config) error {
-	api := fiber.New()
-	api.Use(cors.New())
+	app := fiber.New()
 
-	api.Get("/", func(c *fiber.Ctx) error {
-		return c.SendString("Hello, World 👋!")
-	})
+	app.Use(cors.New())
 
-	api.Group("/api")
+	app.Use(
+		logger.New(),
+	)
 
-	err := api.Listen(fmt.Sprintf(":%d", frameworkConfig.ClientPort))
+	// Uncomment when this is done
+	// api := app.Group("/api")
+	// routes.AuthRouter(api,AuthService)
+	// routes.UserRouter(api, UserService)
+	// routes.ManagementRouter(api, UserService)
+	// routes.ReportRouter(api, UserService)
+	// routes.AgentRouter(api,AgentService)
+
+	err := app.Listen(fmt.Sprintf(":%d", frameworkConfig.ClientPort))
 
 	if err != nil {
 		return err
