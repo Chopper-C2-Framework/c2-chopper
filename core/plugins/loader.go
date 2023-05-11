@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path/filepath"
 	"plugin"
 	"strings"
 
@@ -13,7 +14,7 @@ import (
 
 type IPluginManager interface {
 	ListAllPlugins() ([]string, error)
-	ListLoadedPlugins() ([]string, error)
+	ListLoadedPlugins() []string
 	LoadAllPlugins() ([]*Plugin, error)
 	LoadPlugin(filePath string) (*Plugin, error)
 	GetPlugin(filePath string) (*Plugin, error)
@@ -25,7 +26,9 @@ type PluginManager struct {
 }
 
 func CreatePluginManager(cfg *Cfg.Config) PluginManager {
-	return PluginManager{config: cfg}
+	return PluginManager{
+		config:        cfg,
+		loadedPlugins: make(map[string]*Plugin)}
 }
 
 func lookupError(currErr error, errorMsg string) error {
@@ -44,12 +47,12 @@ func (manager PluginManager) GetPlugin(filePath string) (*Plugin, error) {
 	return loadedPlugin, nil
 }
 
-func (manager PluginManager) ListLoadedPlugins() ([]string, error) {
+func (manager PluginManager) ListLoadedPlugins() []string {
 	keys := make([]string, 0, len(manager.loadedPlugins))
 	for k := range manager.loadedPlugins {
 		keys = append(keys, k)
 	}
-	return keys, nil
+	return keys
 }
 
 func (manager PluginManager) ListAllPlugins() ([]string, error) {
@@ -81,7 +84,8 @@ func (manager PluginManager) LoadPlugin(filePath string) (*Plugin, error) {
 		fmt.Println("[+] Plugin already loaded:", filePath)
 		return loadedPlugin, nil
 	}
-	fullPath := manager.config.PluginsDir + "/" + filePath
+
+	fullPath := filepath.Join(manager.config.PluginsDir, filePath)
 
 	fmt.Println("Loading plugin:", filePath)
 
