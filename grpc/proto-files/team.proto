@@ -1,5 +1,6 @@
 syntax = "proto3";
 
+import "google/api/annotations.proto";
 import "types.proto";
 
 option go_package = "./proto";
@@ -7,7 +8,12 @@ option go_package = "./proto";
 service TeamService {
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {}
   rpc JoinTeam(JoinTeamRequest) returns (JoinTeamResponse) {}
-  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {}
+  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
+    option (google.api.http) = {
+      post: "/v1/management/team/{team_id}"
+      body: "updated_team"
+    };
+  }
 }
 
 message CreateTeamRequest {
@@ -28,7 +34,8 @@ message JoinTeamResponse {
 }
 
 message UpdateTeamRequest {
-  Team data = 1;
+  string team_id = 1;
+  Team updated_team = 2;
 }
 
 message UpdateTeamResponse {
