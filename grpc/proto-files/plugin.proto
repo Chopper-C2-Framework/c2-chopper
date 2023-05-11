@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+option go_package = "./proto";
+
+import "types.proto";
+import "google/protobuf/empty.proto";
+
+service PluginService {
+    rpc ListLoadedPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {}
+    rpc ListPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {}
+    rpc RunPlugin (RunPluginRequest) returns (RunPluginResponse) {}
+    rpc LoadPlugin (LoadPluginRequest) returns (LoadPluginResponse) {}
+}
+
+message RunPluginRequest {
+    string FileName = 1;
+    map<string, string> params = 2;
+}
+
+message LoadPluginRequest {
+    string FileName = 1;
+}
+
+message ListPluginsResponse {
+    bool success = 1;
+    repeated string names = 2;
+}
+
+message RunPluginResponse {
+    bool success = 1;
+}
+
+message LoadPluginResponse {
+    bool success = 1;
+    Plugin data = 2;
+}

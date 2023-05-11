@@ -1,10 +1,10 @@
-package handler
+package grpc
 
 import (
 	context "context"
 	"fmt"
 
-	"github.com/chopper-c2-framework/c2-chopper/proto"
+	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"

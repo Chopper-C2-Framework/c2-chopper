@@ -5,17 +5,16 @@ import (
 	"log"
 
 	Cfg "github.com/chopper-c2-framework/c2-chopper/core/config"
+	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
+	handler "github.com/chopper-c2-framework/c2-chopper/server/grpc"
+	"github.com/chopper-c2-framework/c2-chopper/server/internal/interceptor"
 
 	"crypto/tls"
-
-	"github.com/chopper-c2-framework/c2-chopper/proto"
-
-	"github.com/chopper-c2-framework/c2-chopper/server/internal/handler"
-	"github.com/chopper-c2-framework/c2-chopper/server/internal/interceptor"
 
 	"net"
 
 	"google.golang.org/grpc"
+
 	"google.golang.org/grpc/credentials"
 
 	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
