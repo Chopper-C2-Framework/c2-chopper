@@ -17,7 +17,7 @@ type PluginService struct {
 
 func (s *PluginService) ListLoadedPlugins(ctx context.Context, in *emptypb.Empty) (*proto.ListPluginsResponse, error) {
 	fmt.Println("[gRPC] [PluginService] ListLoadedPlugins")
-	plugins, _ := s.PluginManager.ListLoadedPlugins()
+	plugins := s.PluginManager.ListLoadedPlugins()
 	return &proto.ListPluginsResponse{Success: true, Names: plugins}, nil
 }
 
