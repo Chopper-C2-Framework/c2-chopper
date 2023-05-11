@@ -6,8 +6,8 @@ import (
 
 	Cfg "github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
-	_ "github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 	handler "github.com/chopper-c2-framework/c2-chopper/server/grpc"
+	"github.com/chopper-c2-framework/c2-chopper/server/internal/interceptor"
 
 	"crypto/tls"
 
@@ -16,10 +16,17 @@ import (
 	"google.golang.org/grpc"
 
 	"google.golang.org/grpc/credentials"
+
+	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
+	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 )
 
 type IgRPCServer interface {
-	NewgRPCServer(config *Cfg.Config) error
+	NewgRPCServer(
+		config *Cfg.Config,
+		ormConnection *orm.ORMConnection,
+		pluginManager *plugins.PluginManager,
+	) error
 }
 
 type gRPCServer struct {
@@ -42,12 +49,24 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 	return credentials.NewTLS(tlsCfg), nil
 }
 
-func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config) error {
+func (server_m *gRPCServer) NewgRPCServer(
+	config *Cfg.Config,
+	ormConnection *orm.ORMConnection,
+	pluginManager *plugins.PluginManager,
+) error {
 	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServerPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	fmt.Println("[+] Created listener on port", config.ServerPort)
+
+	AuthInterceptor := interceptor.AuthInterceptor{}
+	ORMInjector := interceptor.ORMInjectorInterceptor{DbConnection: ormConnection}
+
+	UnaryInterceptors := grpc.ChainUnaryInterceptor(
+		ORMInjector.UnaryServerInterceptor,
+		AuthInterceptor.UnaryServerInterceptor,
+	)
 
 	if config.UseTLS {
 		tlsCredentials, err := loadTLSCredentials(config.ServerCert, config.ServerCertKey)
@@ -55,15 +74,20 @@ func (server_m *gRPCServer) NewgRPCServer(config *Cfg.Config) error {
 			log.Fatal("cannot load TLS credentials: ", err)
 		}
 		fmt.Println("[+] Loaded certificates.")
-		server_m.server = grpc.NewServer(grpc.Creds(tlsCredentials))
+		server_m.server = grpc.NewServer(
+			grpc.Creds(tlsCredentials),
+			UnaryInterceptors,
+		)
 	} else {
-		server_m.server = grpc.NewServer()
+		server_m.server = grpc.NewServer(
+			UnaryInterceptors,
+		)
 	}
 
 	proto.RegisterAuthServiceServer(server_m.server, &handler.AuthService{})
 	proto.RegisterListenerServiceServer(server_m.server, &handler.ListenerService{})
 	proto.RegisterTeamServiceServer(server_m.server, &handler.TeamService{})
-	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{})
+	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{PluginManager: pluginManager})
 	if err := server_m.server.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

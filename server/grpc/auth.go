@@ -1,7 +1,7 @@
 package grpc
 
 import (
-	context "context"
+	"context"
 	"fmt"
 
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"

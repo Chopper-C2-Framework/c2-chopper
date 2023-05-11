@@ -18,7 +18,7 @@ type Config struct {
 }
 
 var DefaultConfig = Config{
-	PluginsDir:    "~/.c2chopper/plugins",
+	PluginsDir:    "~/.c2-chopper/plugins",
 	ClientPort:    9001,
 	ServerPort:    9002,
 	Host:          "localhost",

@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"github.com/chopper-c2-framework/c2-chopper/proto"
+	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -6,18 +6,14 @@ import (
 
 	Cfg "github.com/chopper-c2-framework/c2-chopper/core/config"
 
-	"github.com/chopper-c2-framework/c2-chopper/server/domain/entity"
+	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
-type IORMConnection interface {
-	CreateDB(config *Cfg.Config) error
-}
-
 type ORMConnection struct {
-	db *gorm.DB
+	Db *gorm.DB
 }
 
 func checkMigrationError(err error) {
@@ -27,7 +23,7 @@ func checkMigrationError(err error) {
 
 }
 
-func (conn *ORMConnection) CreateDB(config *Cfg.Config) error {
+func CreateDB(config *Cfg.Config) (*ORMConnection, error) {
 	db, err := gorm.Open(sqlite.Open(config.ServerDb), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
@@ -43,6 +39,5 @@ func (conn *ORMConnection) CreateDB(config *Cfg.Config) error {
 
 	fmt.Println("[+] Migrated Models.")
 
-	conn.db = db
-	return nil
+	return &ORMConnection{Db: db}, nil
 }
