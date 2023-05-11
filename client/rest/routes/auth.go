@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"github.com/chopper-c2-framework/c2-chopper/client/api/handlers"
+	"github.com/chopper-c2-framework/c2-chopper/client/rest/handlers"
 	"github.com/gofiber/fiber/v2"
 )
 

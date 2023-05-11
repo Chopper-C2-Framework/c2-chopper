@@ -1,7 +1,7 @@
 package client
 
 import (
-	"github.com/chopper-c2-framework/c2-chopper/client/api"
+	api "github.com/chopper-c2-framework/c2-chopper/client/rest"
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/urfave/cli/v2"
 )
