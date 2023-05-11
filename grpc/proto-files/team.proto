@@ -6,13 +6,33 @@ import "types.proto";
 option go_package = "./proto";
 
 service TeamService {
-  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {}
-  rpc JoinTeam(JoinTeamRequest) returns (JoinTeamResponse) {}
+  rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
+    option (google.api.http) = {
+      post: "/v1/management/team"
+      body: "*"
+    };
+  }
+
+  rpc JoinTeam(JoinTeamRequest) returns (JoinTeamResponse) {
+    option (google.api.http) = {post: "/v1/management/team/join/team/{team_id}"};
+  }
+
   rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
     option (google.api.http) = {
       post: "/v1/management/team/{team_id}"
       body: "updated_team"
     };
+  }
+
+  rpc AddMemberToTeam(AddMemberRequest) returns (AddMemberResponse) {
+    option (google.api.http) = {
+      post: "/v1/management/team/members/{team_id}"
+      body: "member_id"
+    };
+  }
+
+  rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse) {
+    option (google.api.http) = {delete: "/v1/management/team/{team_id}"};
   }
 }
 
@@ -41,4 +61,21 @@ message UpdateTeamRequest {
 message UpdateTeamResponse {
   bool success = 1;
   Team data = 2;
+}
+
+message AddMemberRequest {
+  string team_id = 1;
+  string member_id = 2;
+}
+
+message AddMemberResponse {
+  Team team = 1;
+}
+
+message DeleteTeamRequest {
+  string team_id = 1;
+}
+
+message DeleteTeamResponse {
+  bool success = 1;
 }

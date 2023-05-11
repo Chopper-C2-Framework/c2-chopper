@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+// Placeholder for a cool featuer
+
+import "google/api/annotations.proto";
+// import "types.proto";
+
+option go_package = "./proto";
+
+service ProfileService {
+  rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse) {
+    option (google.api.http) = {
+      post: "/v1/management/profile"
+      body: "*"
+    };
+  }
+
+  rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse) {
+    option (google.api.http) = {
+      post: "/v1/management/profile/{profile_id}"
+      body: "updated_profile"
+    };
+  }
+}
+
+message CreateProfileRequest {
+  string tagname = 1;
+  string role = 2;
+}
+
+message CreateProfileResponse {}
+
+message UpdateProfileRequest {
+  string tagname = 1;
+  string role = 2;
+  string profile_id = 3;
+  string updated_profile = 4;
+}
+
+message UpdateProfileResponse {
+  string profile_id = 1;
+  string updated_profile = 2;
+}

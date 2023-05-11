@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "types.proto";
+
+option go_package = "./proto";
+
+service TrackingProto {
+  rpc GetsAllCreds(google.protobuf.Empty) returns (GetCredsResponse) {
+    option (google.api.http) = {get: "/v1/tracking/creds"};
+  }
+
+  rpc GetHostInfo(GetHostInfoRequest) returns (GetHostInfoResponse) {
+    option (google.api.http) = {get: "/v1/tracking/host/{host_id}"};
+  }
+
+  rpc GetHosts(google.protobuf.Empty) returns (GetHostsResponse) {
+    option (google.api.http) = {get: "/v1/tracking/host"};
+  }
+}
+
+message GetCredsResponse {
+  bool success = 1;
+  Cred creds = 2;
+}
+
+message GetHostInfoRequest {
+  string host_id = 1;
+}
+
+message GetHostInfoResponse {
+  bool success = 1;
+  Host host = 2;
+}
+
+message GetHostsResponse {
+  bool success = 1;
+  repeated Host hosts = 2;
+}

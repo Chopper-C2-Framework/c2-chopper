@@ -30,7 +30,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PluginServiceClient interface {
-	ListLoadedPlugins(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListPluginsResponse, error)
+	ListLoadedPlugins(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListLoadedPluginsResponse, error)
 	ListPlugins(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListPluginsResponse, error)
 	RunPlugin(ctx context.Context, in *RunPluginRequest, opts ...grpc.CallOption) (*RunPluginResponse, error)
 	LoadPlugin(ctx context.Context, in *LoadPluginRequest, opts ...grpc.CallOption) (*LoadPluginResponse, error)
@@ -44,8 +44,8 @@ func NewPluginServiceClient(cc grpc.ClientConnInterface) PluginServiceClient {
 	return &pluginServiceClient{cc}
 }
 
-func (c *pluginServiceClient) ListLoadedPlugins(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListPluginsResponse, error) {
-	out := new(ListPluginsResponse)
+func (c *pluginServiceClient) ListLoadedPlugins(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListLoadedPluginsResponse, error) {
+	out := new(ListLoadedPluginsResponse)
 	err := c.cc.Invoke(ctx, PluginService_ListLoadedPlugins_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -84,7 +84,7 @@ func (c *pluginServiceClient) LoadPlugin(ctx context.Context, in *LoadPluginRequ
 // All implementations must embed UnimplementedPluginServiceServer
 // for forward compatibility
 type PluginServiceServer interface {
-	ListLoadedPlugins(context.Context, *emptypb.Empty) (*ListPluginsResponse, error)
+	ListLoadedPlugins(context.Context, *emptypb.Empty) (*ListLoadedPluginsResponse, error)
 	ListPlugins(context.Context, *emptypb.Empty) (*ListPluginsResponse, error)
 	RunPlugin(context.Context, *RunPluginRequest) (*RunPluginResponse, error)
 	LoadPlugin(context.Context, *LoadPluginRequest) (*LoadPluginResponse, error)
@@ -95,7 +95,7 @@ type PluginServiceServer interface {
 type UnimplementedPluginServiceServer struct {
 }
 
-func (UnimplementedPluginServiceServer) ListLoadedPlugins(context.Context, *emptypb.Empty) (*ListPluginsResponse, error) {
+func (UnimplementedPluginServiceServer) ListLoadedPlugins(context.Context, *emptypb.Empty) (*ListLoadedPluginsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListLoadedPlugins not implemented")
 }
 func (UnimplementedPluginServiceServer) ListPlugins(context.Context, *emptypb.Empty) (*ListPluginsResponse, error) {

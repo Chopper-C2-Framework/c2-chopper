@@ -20,3 +20,24 @@ func (s *TeamService) JoinTeam(ctx context.Context, in *proto.JoinTeamRequest) (
 	fmt.Println("[gRPC] [TeamService] JoinTeam:", in.GetTeamId())
 	return &proto.JoinTeamResponse{Success: true}, nil
 }
+
+func (s *TeamService) AddMemberToTeam(ctx context.Context, in *proto.AddMemberRequest) (*proto.AddMemberResponse, error) {
+
+	fmt.Println("[gRPC] [TeamService] AddMemberToTeam:", in.GetTeamId())
+
+	return nil, nil
+}
+
+func (s *TeamService) UpdateTeam(ctx context.Context, in *proto.UpdateTeamRequest) (*proto.UpdateTeamResponse, error) {
+
+	fmt.Println("[gRPC] [TeamService] UpdateTeam:", in.GetTeamId())
+
+	return nil, nil
+}
+
+func (s *TeamService) DeleteTeam(ctx context.Context, in *proto.DeleteTeamRequest) (*proto.DeleteTeamResponse, error) {
+
+	fmt.Println("[gRPC] [TeamService] DeleteTeam:", in.GetTeamId())
+
+	return nil, nil
+}
