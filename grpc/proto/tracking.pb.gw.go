@@ -32,7 +32,7 @@ var _ = runtime.String
 var _ = utilities.NewDoubleArray
 var _ = metadata.Join
 
-func request_TrackingProto_GetsAllCreds_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingProtoClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TrackingService_GetsAllCreds_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
@@ -41,7 +41,7 @@ func request_TrackingProto_GetsAllCreds_0(ctx context.Context, marshaler runtime
 
 }
 
-func local_request_TrackingProto_GetsAllCreds_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingProtoServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TrackingService_GetsAllCreds_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
@@ -50,7 +50,7 @@ func local_request_TrackingProto_GetsAllCreds_0(ctx context.Context, marshaler r
 
 }
 
-func request_TrackingProto_GetHostInfo_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingProtoClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TrackingService_GetHostInfo_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetHostInfoRequest
 	var metadata runtime.ServerMetadata
 
@@ -76,7 +76,7 @@ func request_TrackingProto_GetHostInfo_0(ctx context.Context, marshaler runtime.
 
 }
 
-func local_request_TrackingProto_GetHostInfo_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingProtoServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TrackingService_GetHostInfo_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq GetHostInfoRequest
 	var metadata runtime.ServerMetadata
 
@@ -102,7 +102,7 @@ func local_request_TrackingProto_GetHostInfo_0(ctx context.Context, marshaler ru
 
 }
 
-func request_TrackingProto_GetHosts_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingProtoClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func request_TrackingService_GetHosts_0(ctx context.Context, marshaler runtime.Marshaler, client TrackingServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
@@ -111,7 +111,7 @@ func request_TrackingProto_GetHosts_0(ctx context.Context, marshaler runtime.Mar
 
 }
 
-func local_request_TrackingProto_GetHosts_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingProtoServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+func local_request_TrackingService_GetHosts_0(ctx context.Context, marshaler runtime.Marshaler, server TrackingServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var protoReq emptypb.Empty
 	var metadata runtime.ServerMetadata
 
@@ -120,13 +120,13 @@ func local_request_TrackingProto_GetHosts_0(ctx context.Context, marshaler runti
 
 }
 
-// RegisterTrackingProtoHandlerServer registers the http handlers for service TrackingProto to "mux".
-// UnaryRPC     :call TrackingProtoServer directly.
+// RegisterTrackingServiceHandlerServer registers the http handlers for service TrackingService to "mux".
+// UnaryRPC     :call TrackingServiceServer directly.
 // StreamingRPC :currently unsupported pending https://github.com/grpc/grpc-go/issues/906.
-// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTrackingProtoHandlerFromEndpoint instead.
-func RegisterTrackingProtoHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TrackingProtoServer) error {
+// Note that using this registration option will cause many gRPC library features to stop working. Consider using RegisterTrackingServiceHandlerFromEndpoint instead.
+func RegisterTrackingServiceHandlerServer(ctx context.Context, mux *runtime.ServeMux, server TrackingServiceServer) error {
 
-	mux.Handle("GET", pattern_TrackingProto_GetsAllCreds_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_GetsAllCreds_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -134,12 +134,12 @@ func RegisterTrackingProtoHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.TrackingProto/GetsAllCreds", runtime.WithHTTPPathPattern("/v1/tracking/creds"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.TrackingService/GetsAllCreds", runtime.WithHTTPPathPattern("/v1/tracking/creds"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_TrackingProto_GetsAllCreds_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TrackingService_GetsAllCreds_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -147,11 +147,11 @@ func RegisterTrackingProtoHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 
-		forward_TrackingProto_GetsAllCreds_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_GetsAllCreds_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_TrackingProto_GetHostInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_GetHostInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -159,12 +159,12 @@ func RegisterTrackingProtoHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.TrackingProto/GetHostInfo", runtime.WithHTTPPathPattern("/v1/tracking/host/{host_id}"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.TrackingService/GetHostInfo", runtime.WithHTTPPathPattern("/v1/tracking/host/{host_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_TrackingProto_GetHostInfo_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TrackingService_GetHostInfo_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -172,11 +172,11 @@ func RegisterTrackingProtoHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 
-		forward_TrackingProto_GetHostInfo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_GetHostInfo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_TrackingProto_GetHosts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_GetHosts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -184,12 +184,12 @@ func RegisterTrackingProtoHandlerServer(ctx context.Context, mux *runtime.ServeM
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.TrackingProto/GetHosts", runtime.WithHTTPPathPattern("/v1/tracking/host"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/.TrackingService/GetHosts", runtime.WithHTTPPathPattern("/v1/tracking/host"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_TrackingProto_GetHosts_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_TrackingService_GetHosts_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -197,16 +197,16 @@ func RegisterTrackingProtoHandlerServer(ctx context.Context, mux *runtime.ServeM
 			return
 		}
 
-		forward_TrackingProto_GetHosts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_GetHosts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
 	return nil
 }
 
-// RegisterTrackingProtoHandlerFromEndpoint is same as RegisterTrackingProtoHandler but
+// RegisterTrackingServiceHandlerFromEndpoint is same as RegisterTrackingServiceHandler but
 // automatically dials to "endpoint" and closes the connection when "ctx" gets done.
-func RegisterTrackingProtoHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
+func RegisterTrackingServiceHandlerFromEndpoint(ctx context.Context, mux *runtime.ServeMux, endpoint string, opts []grpc.DialOption) (err error) {
 	conn, err := grpc.DialContext(ctx, endpoint, opts...)
 	if err != nil {
 		return err
@@ -226,85 +226,85 @@ func RegisterTrackingProtoHandlerFromEndpoint(ctx context.Context, mux *runtime.
 		}()
 	}()
 
-	return RegisterTrackingProtoHandler(ctx, mux, conn)
+	return RegisterTrackingServiceHandler(ctx, mux, conn)
 }
 
-// RegisterTrackingProtoHandler registers the http handlers for service TrackingProto to "mux".
+// RegisterTrackingServiceHandler registers the http handlers for service TrackingService to "mux".
 // The handlers forward requests to the grpc endpoint over "conn".
-func RegisterTrackingProtoHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
-	return RegisterTrackingProtoHandlerClient(ctx, mux, NewTrackingProtoClient(conn))
+func RegisterTrackingServiceHandler(ctx context.Context, mux *runtime.ServeMux, conn *grpc.ClientConn) error {
+	return RegisterTrackingServiceHandlerClient(ctx, mux, NewTrackingServiceClient(conn))
 }
 
-// RegisterTrackingProtoHandlerClient registers the http handlers for service TrackingProto
-// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "TrackingProtoClient".
-// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "TrackingProtoClient"
+// RegisterTrackingServiceHandlerClient registers the http handlers for service TrackingService
+// to "mux". The handlers forward requests to the grpc endpoint over the given implementation of "TrackingServiceClient".
+// Note: the gRPC framework executes interceptors within the gRPC handler. If the passed in "TrackingServiceClient"
 // doesn't go through the normal gRPC flow (creating a gRPC client etc.) then it will be up to the passed in
-// "TrackingProtoClient" to call the correct interceptors.
-func RegisterTrackingProtoHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TrackingProtoClient) error {
+// "TrackingServiceClient" to call the correct interceptors.
+func RegisterTrackingServiceHandlerClient(ctx context.Context, mux *runtime.ServeMux, client TrackingServiceClient) error {
 
-	mux.Handle("GET", pattern_TrackingProto_GetsAllCreds_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_GetsAllCreds_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.TrackingProto/GetsAllCreds", runtime.WithHTTPPathPattern("/v1/tracking/creds"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.TrackingService/GetsAllCreds", runtime.WithHTTPPathPattern("/v1/tracking/creds"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TrackingProto_GetsAllCreds_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TrackingService_GetsAllCreds_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TrackingProto_GetsAllCreds_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_GetsAllCreds_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_TrackingProto_GetHostInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_GetHostInfo_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.TrackingProto/GetHostInfo", runtime.WithHTTPPathPattern("/v1/tracking/host/{host_id}"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.TrackingService/GetHostInfo", runtime.WithHTTPPathPattern("/v1/tracking/host/{host_id}"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TrackingProto_GetHostInfo_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TrackingService_GetHostInfo_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TrackingProto_GetHostInfo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_GetHostInfo_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_TrackingProto_GetHosts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_TrackingService_GetHosts_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.TrackingProto/GetHosts", runtime.WithHTTPPathPattern("/v1/tracking/host"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/.TrackingService/GetHosts", runtime.WithHTTPPathPattern("/v1/tracking/host"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_TrackingProto_GetHosts_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_TrackingService_GetHosts_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_TrackingProto_GetHosts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_TrackingService_GetHosts_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -312,17 +312,17 @@ func RegisterTrackingProtoHandlerClient(ctx context.Context, mux *runtime.ServeM
 }
 
 var (
-	pattern_TrackingProto_GetsAllCreds_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "tracking", "creds"}, ""))
+	pattern_TrackingService_GetsAllCreds_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "tracking", "creds"}, ""))
 
-	pattern_TrackingProto_GetHostInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "tracking", "host", "host_id"}, ""))
+	pattern_TrackingService_GetHostInfo_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 1, 0, 4, 1, 5, 3}, []string{"v1", "tracking", "host", "host_id"}, ""))
 
-	pattern_TrackingProto_GetHosts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "tracking", "host"}, ""))
+	pattern_TrackingService_GetHosts_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2}, []string{"v1", "tracking", "host"}, ""))
 )
 
 var (
-	forward_TrackingProto_GetsAllCreds_0 = runtime.ForwardResponseMessage
+	forward_TrackingService_GetsAllCreds_0 = runtime.ForwardResponseMessage
 
-	forward_TrackingProto_GetHostInfo_0 = runtime.ForwardResponseMessage
+	forward_TrackingService_GetHostInfo_0 = runtime.ForwardResponseMessage
 
-	forward_TrackingProto_GetHosts_0 = runtime.ForwardResponseMessage
+	forward_TrackingService_GetHosts_0 = runtime.ForwardResponseMessage
 )

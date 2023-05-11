@@ -88,6 +88,9 @@ func (server_m *gRPCServer) NewgRPCServer(
 	proto.RegisterListenerServiceServer(server_m.server, &handler.ListenerService{})
 	proto.RegisterTeamServiceServer(server_m.server, &handler.TeamService{})
 	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{PluginManager: pluginManager})
+	proto.RegisterProfileServiceServer(server_m.server, &handler.ProfileService{})
+	proto.RegisterTrackingServiceServer(server_m.server, &handler.TrackingService{})
+
 	if err := server_m.server.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}

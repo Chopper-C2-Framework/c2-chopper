@@ -6,7 +6,7 @@ import "types.proto";
 
 option go_package = "./proto";
 
-service TrackingProto {
+service TrackingService {
   rpc GetsAllCreds(google.protobuf.Empty) returns (GetCredsResponse) {
     option (google.api.http) = {get: "/v1/tracking/creds"};
   }

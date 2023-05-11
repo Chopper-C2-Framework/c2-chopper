@@ -20,163 +20,163 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	TrackingProto_GetsAllCreds_FullMethodName = "/TrackingProto/GetsAllCreds"
-	TrackingProto_GetHostInfo_FullMethodName  = "/TrackingProto/GetHostInfo"
-	TrackingProto_GetHosts_FullMethodName     = "/TrackingProto/GetHosts"
+	TrackingService_GetsAllCreds_FullMethodName = "/TrackingService/GetsAllCreds"
+	TrackingService_GetHostInfo_FullMethodName  = "/TrackingService/GetHostInfo"
+	TrackingService_GetHosts_FullMethodName     = "/TrackingService/GetHosts"
 )
 
-// TrackingProtoClient is the client API for TrackingProto service.
+// TrackingServiceClient is the client API for TrackingService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type TrackingProtoClient interface {
+type TrackingServiceClient interface {
 	GetsAllCreds(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetCredsResponse, error)
 	GetHostInfo(ctx context.Context, in *GetHostInfoRequest, opts ...grpc.CallOption) (*GetHostInfoResponse, error)
 	GetHosts(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetHostsResponse, error)
 }
 
-type trackingProtoClient struct {
+type trackingServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewTrackingProtoClient(cc grpc.ClientConnInterface) TrackingProtoClient {
-	return &trackingProtoClient{cc}
+func NewTrackingServiceClient(cc grpc.ClientConnInterface) TrackingServiceClient {
+	return &trackingServiceClient{cc}
 }
 
-func (c *trackingProtoClient) GetsAllCreds(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetCredsResponse, error) {
+func (c *trackingServiceClient) GetsAllCreds(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetCredsResponse, error) {
 	out := new(GetCredsResponse)
-	err := c.cc.Invoke(ctx, TrackingProto_GetsAllCreds_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, TrackingService_GetsAllCreds_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *trackingProtoClient) GetHostInfo(ctx context.Context, in *GetHostInfoRequest, opts ...grpc.CallOption) (*GetHostInfoResponse, error) {
+func (c *trackingServiceClient) GetHostInfo(ctx context.Context, in *GetHostInfoRequest, opts ...grpc.CallOption) (*GetHostInfoResponse, error) {
 	out := new(GetHostInfoResponse)
-	err := c.cc.Invoke(ctx, TrackingProto_GetHostInfo_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, TrackingService_GetHostInfo_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *trackingProtoClient) GetHosts(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetHostsResponse, error) {
+func (c *trackingServiceClient) GetHosts(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetHostsResponse, error) {
 	out := new(GetHostsResponse)
-	err := c.cc.Invoke(ctx, TrackingProto_GetHosts_FullMethodName, in, out, opts...)
+	err := c.cc.Invoke(ctx, TrackingService_GetHosts_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// TrackingProtoServer is the server API for TrackingProto service.
-// All implementations must embed UnimplementedTrackingProtoServer
+// TrackingServiceServer is the server API for TrackingService service.
+// All implementations must embed UnimplementedTrackingServiceServer
 // for forward compatibility
-type TrackingProtoServer interface {
+type TrackingServiceServer interface {
 	GetsAllCreds(context.Context, *emptypb.Empty) (*GetCredsResponse, error)
 	GetHostInfo(context.Context, *GetHostInfoRequest) (*GetHostInfoResponse, error)
 	GetHosts(context.Context, *emptypb.Empty) (*GetHostsResponse, error)
-	mustEmbedUnimplementedTrackingProtoServer()
+	mustEmbedUnimplementedTrackingServiceServer()
 }
 
-// UnimplementedTrackingProtoServer must be embedded to have forward compatible implementations.
-type UnimplementedTrackingProtoServer struct {
+// UnimplementedTrackingServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedTrackingServiceServer struct {
 }
 
-func (UnimplementedTrackingProtoServer) GetsAllCreds(context.Context, *emptypb.Empty) (*GetCredsResponse, error) {
+func (UnimplementedTrackingServiceServer) GetsAllCreds(context.Context, *emptypb.Empty) (*GetCredsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetsAllCreds not implemented")
 }
-func (UnimplementedTrackingProtoServer) GetHostInfo(context.Context, *GetHostInfoRequest) (*GetHostInfoResponse, error) {
+func (UnimplementedTrackingServiceServer) GetHostInfo(context.Context, *GetHostInfoRequest) (*GetHostInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHostInfo not implemented")
 }
-func (UnimplementedTrackingProtoServer) GetHosts(context.Context, *emptypb.Empty) (*GetHostsResponse, error) {
+func (UnimplementedTrackingServiceServer) GetHosts(context.Context, *emptypb.Empty) (*GetHostsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetHosts not implemented")
 }
-func (UnimplementedTrackingProtoServer) mustEmbedUnimplementedTrackingProtoServer() {}
+func (UnimplementedTrackingServiceServer) mustEmbedUnimplementedTrackingServiceServer() {}
 
-// UnsafeTrackingProtoServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to TrackingProtoServer will
+// UnsafeTrackingServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TrackingServiceServer will
 // result in compilation errors.
-type UnsafeTrackingProtoServer interface {
-	mustEmbedUnimplementedTrackingProtoServer()
+type UnsafeTrackingServiceServer interface {
+	mustEmbedUnimplementedTrackingServiceServer()
 }
 
-func RegisterTrackingProtoServer(s grpc.ServiceRegistrar, srv TrackingProtoServer) {
-	s.RegisterService(&TrackingProto_ServiceDesc, srv)
+func RegisterTrackingServiceServer(s grpc.ServiceRegistrar, srv TrackingServiceServer) {
+	s.RegisterService(&TrackingService_ServiceDesc, srv)
 }
 
-func _TrackingProto_GetsAllCreds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TrackingService_GetsAllCreds_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TrackingProtoServer).GetsAllCreds(ctx, in)
+		return srv.(TrackingServiceServer).GetsAllCreds(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TrackingProto_GetsAllCreds_FullMethodName,
+		FullMethod: TrackingService_GetsAllCreds_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TrackingProtoServer).GetsAllCreds(ctx, req.(*emptypb.Empty))
+		return srv.(TrackingServiceServer).GetsAllCreds(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TrackingProto_GetHostInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TrackingService_GetHostInfo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetHostInfoRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TrackingProtoServer).GetHostInfo(ctx, in)
+		return srv.(TrackingServiceServer).GetHostInfo(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TrackingProto_GetHostInfo_FullMethodName,
+		FullMethod: TrackingService_GetHostInfo_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TrackingProtoServer).GetHostInfo(ctx, req.(*GetHostInfoRequest))
+		return srv.(TrackingServiceServer).GetHostInfo(ctx, req.(*GetHostInfoRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TrackingProto_GetHosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TrackingService_GetHosts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(emptypb.Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TrackingProtoServer).GetHosts(ctx, in)
+		return srv.(TrackingServiceServer).GetHosts(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TrackingProto_GetHosts_FullMethodName,
+		FullMethod: TrackingService_GetHosts_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TrackingProtoServer).GetHosts(ctx, req.(*emptypb.Empty))
+		return srv.(TrackingServiceServer).GetHosts(ctx, req.(*emptypb.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// TrackingProto_ServiceDesc is the grpc.ServiceDesc for TrackingProto service.
+// TrackingService_ServiceDesc is the grpc.ServiceDesc for TrackingService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var TrackingProto_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "TrackingProto",
-	HandlerType: (*TrackingProtoServer)(nil),
+var TrackingService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "TrackingService",
+	HandlerType: (*TrackingServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetsAllCreds",
-			Handler:    _TrackingProto_GetsAllCreds_Handler,
+			Handler:    _TrackingService_GetsAllCreds_Handler,
 		},
 		{
 			MethodName: "GetHostInfo",
-			Handler:    _TrackingProto_GetHostInfo_Handler,
+			Handler:    _TrackingService_GetHostInfo_Handler,
 		},
 		{
 			MethodName: "GetHosts",
-			Handler:    _TrackingProto_GetHosts_Handler,
+			Handler:    _TrackingService_GetHosts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
