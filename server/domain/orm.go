@@ -2,6 +2,7 @@ package orm
 
 import (
 	"fmt"
+	"log"
 
 	Cfg "github.com/chopper-c2-framework/c2-chopper/core/config"
 
@@ -19,6 +20,13 @@ type ORMConnection struct {
 	db *gorm.DB
 }
 
+func checkMigrationError(err error) {
+	if err != nil {
+		log.Panicln("Error migrating to database", err)
+	}
+
+}
+
 func (conn *ORMConnection) CreateDB(config *Cfg.Config) error {
 	db, err := gorm.Open(sqlite.Open(config.ServerDb), &gorm.Config{})
 	if err != nil {
@@ -27,11 +35,11 @@ func (conn *ORMConnection) CreateDB(config *Cfg.Config) error {
 	fmt.Println("[+] Created DB:", config.ServerDb)
 
 	// Migrate the schema
-	db.AutoMigrate(&entity.UserModel{})
-	db.AutoMigrate(&entity.TeamModel{})
-	db.AutoMigrate(&entity.TaskModel{})
-	db.AutoMigrate(&entity.TaskResultModel{})
-	db.AutoMigrate(&entity.ListenerModel{})
+	checkMigrationError(db.AutoMigrate(&entity.UserModel{}))
+	checkMigrationError(db.AutoMigrate(&entity.TeamModel{}))
+	checkMigrationError(db.AutoMigrate(&entity.TaskModel{}))
+	checkMigrationError(db.AutoMigrate(&entity.TaskResultModel{}))
+	checkMigrationError(db.AutoMigrate(&entity.ListenerModel{}))
 
 	fmt.Println("[+] Migrated Models.")
 

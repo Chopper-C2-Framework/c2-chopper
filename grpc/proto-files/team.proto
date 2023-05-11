@@ -1,27 +1,37 @@
 syntax = "proto3";
 
-option go_package = "./proto";
-
 import "types.proto";
 
+option go_package = "./proto";
+
 service TeamService {
-    rpc CreateTeam (CreateTeamRequest) returns (CreateTeamResponse) {}
-    rpc JoinTeam (JoinTeamRequest) returns (JoinTeamResponse) {}
+  rpc CreateTeam (CreateTeamRequest) returns (CreateTeamResponse) {}
+  rpc JoinTeam (JoinTeamRequest) returns (JoinTeamResponse) {}
+  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse){}
 }
 
 message CreateTeamRequest {
-    Team data = 2;
-}
-
-message JoinTeamRequest {
-    string teamId = 2;
+  Team data = 1;
 }
 
 message CreateTeamResponse {
-    bool success = 1;
-    Team data = 2;
+  bool success = 1;
+  Team data = 2;
+}
+
+message JoinTeamRequest {
+  string team_id = 1;
 }
 
 message JoinTeamResponse {
-    bool success = 1;
+  bool success = 1;
+}
+
+message UpdateTeamRequest {
+  Team data = 1;
+}
+
+message UpdateTeamResponse {
+  bool success = 1;
+  Team data = 2;
 }
