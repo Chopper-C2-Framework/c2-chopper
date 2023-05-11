@@ -5,6 +5,8 @@ import (
 
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/urfave/cli/v2"
+
+	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 )
 
 func GetCommands() []*cli.Command {
@@ -14,7 +16,6 @@ func GetCommands() []*cli.Command {
 		Aliases: []string{"server"},
 		Usage:   "Control the C2 server state and functionalities.",
 		Action: func(cCtx *cli.Context) error {
-
 			frameworkConfig := cCtx.Context.Value("config").(*config.Config)
 			ormConnection := cCtx.Context.Value("dbConnection").(*orm.ORMConnection)
 
@@ -22,8 +23,9 @@ func GetCommands() []*cli.Command {
 				return nil
 			}
 
+			var pluginManager = plugins.CreatePluginManager(frameworkConfig)
 			var serverManager IgRPCServer = &gRPCServer{}
-			err := serverManager.NewgRPCServer(frameworkConfig, ormConnection)
+			err := serverManager.NewgRPCServer(frameworkConfig, ormConnection, &pluginManager)
 			if err != nil {
 				return err
 			}
