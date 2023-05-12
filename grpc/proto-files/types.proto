@@ -3,13 +3,13 @@ syntax = "proto3";
 option go_package = "./proto";
 
 message Listener {
-    string id = 1;
-    string nickname = 2;
+  string id = 1;
+  string nickname = 2;
 }
 
 message Team {
-    string id = 1;
-    string name = 2;
+  string id = 1;
+  string name = 2;
 }
 
 message Plugin {
@@ -18,13 +18,13 @@ message Plugin {
 }
 
 message PluginMetadata {
-	string Version = 1;
-	string Author = 2;
-	repeated string Tags = 3;
-	string ReleaseDate = 4;
-	int32 Type = 5;
-	string SourceLink = 6;
-	string Description = 7;
+  string version = 1;
+  string author = 2;
+  repeated string tags = 3;
+  string release_date = 4;
+  int32 type = 5;
+  string source_link = 6;
+  string description = 7;
 }
 
 message PluginInfo {
@@ -32,3 +32,27 @@ message PluginInfo {
 	map<string, string> Options = 2;
 	string ReturnType = 3;
 }
+
+message Cred {
+  string username = 1;
+  string password = 2;
+}
+
+// Placeholder for the real task thing which should be used in the plugins too or partially.
+message Task {
+  string name = 1;
+  string type = 2;
+  string result = 3;
+}
+
+message Host {
+  string hostname = 1;
+  string ip_address = 2;
+  repeated string users = 3;
+  repeated Cred creds = 4;
+  repeated Task tasks = 5;
+  repeated string used_plugins = 6;
+
+  // Notes related to the host. Can be left by the team.
+  string note = 7;
+  }

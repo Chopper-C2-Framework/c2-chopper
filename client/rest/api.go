@@ -16,6 +16,7 @@ type IClientManager interface {
 type ClientManager struct{}
 
 func (c ClientManager) LaunchClient(frameworkConfig *config.Config) error {
+	// Serve front from public file
 	app := fiber.New()
 
 	app.Use(cors.New())
@@ -23,14 +24,6 @@ func (c ClientManager) LaunchClient(frameworkConfig *config.Config) error {
 	app.Use(
 		logger.New(),
 	)
-
-	// Uncomment when this is done
-	// api := app.Group("/api")
-	// routes.AuthRouter(api,AuthService)
-	// routes.UserRouter(api, UserService)
-	// routes.ManagementRouter(api, UserService)
-	// routes.ReportRouter(api, UserService)
-	// routes.AgentRouter(api,AgentService)
 
 	err := app.Listen(fmt.Sprintf(":%d", frameworkConfig.ClientPort))
 

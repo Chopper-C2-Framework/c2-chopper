@@ -11,6 +11,8 @@
 # Db files
 *.db
 
+grpc/proto
+
 # Test binary, built with `go test -c`
 *.test
 

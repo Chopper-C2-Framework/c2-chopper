@@ -1,12 +1,12 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+import "types.proto";
+
 option go_package = "./proto";
 
-import "types.proto";
-import "google/protobuf/empty.proto";
-
 service PluginService {
-    rpc ListLoadedPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {}
+    rpc ListLoadedPlugins (google.protobuf.Empty) returns (ListLoadedPluginsResponse) {}
     rpc ListPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {}
     rpc RunPlugin (RunPluginRequest) returns (RunPluginResponse) {}
     rpc LoadPlugin (LoadPluginRequest) returns (LoadPluginResponse) {}
@@ -37,12 +37,17 @@ message RunPluginRequest {
 }
 
 message LoadPluginRequest {
-    string FileName = 1;
+  string file_name = 1;
 }
 
 message ListPluginsResponse {
-    bool success = 1;
-    repeated string names = 2;
+  bool success = 1;
+  repeated string names = 2;
+}
+
+message ListLoadedPluginsResponse {
+  bool success = 1;
+  repeated string names = 2;
 }
 
 message RunPluginResponse {
@@ -51,6 +56,6 @@ message RunPluginResponse {
 }
 
 message LoadPluginResponse {
-    bool success = 1;
-    Plugin data = 2;
+  bool success = 1;
+  Plugin data = 2;
 }

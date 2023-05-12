@@ -15,10 +15,10 @@ type PluginService struct {
 	PluginManager plugins.IPluginManager
 }
 
-func (s *PluginService) ListLoadedPlugins(ctx context.Context, in *emptypb.Empty) (*proto.ListPluginsResponse, error) {
+func (s *PluginService) ListLoadedPlugins(ctx context.Context, in *emptypb.Empty) (*proto.ListLoadedPluginsResponse, error) {
 	fmt.Println("[gRPC] [PluginService] ListLoadedPlugins")
 	plugins := s.PluginManager.ListLoadedPlugins()
-	return &proto.ListPluginsResponse{Success: true, Names: plugins}, nil
+	return &proto.ListLoadedPluginsResponse{Success: true, Names: plugins}, nil
 }
 
 func (s *PluginService) ListPlugins(ctx context.Context, in *emptypb.Empty) (*proto.ListPluginsResponse, error) {

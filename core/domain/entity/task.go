@@ -1,11 +1,7 @@
 package entity
 
-import (
-	"gorm.io/gorm"
-)
-
 type TaskModel struct {
-	gorm.Model
+	UUIDModel
 	Name       string
 	Repeat     bool
 	ListenerId int
