@@ -91,14 +91,13 @@ func (s *PluginService) GetPluginInfo(plugin plugins.IPlugin) *proto.Plugin {
 }
 
 func GetValue(val *proto.ArgValue) interface{} {
-	fmt.Println(val.Type)
 	if val.Type == "string_value" {
 		return val.GetStringValue()
 	}
 	if val.Type == "bool_value" {
 		return val.GetBoolValue()
 	}
-	if val.Type == "int_value" {
+	if val.Type == "number_value" {
 		return val.GetNumberValue()
 	}
 	if val.Type == "map_value" {
@@ -129,7 +128,6 @@ func GetValue(val *proto.ArgValue) interface{} {
 		for _, item := range mapItems {
 			mapVariable[item.GetKey()] = GetValue(item.GetValue())
 		}
-		fmt.Println(mapVariable)
 		return mapVariable
 	}
 	return nil
