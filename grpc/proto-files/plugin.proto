@@ -10,11 +10,22 @@ service PluginService {
     rpc ListPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {}
     rpc RunPlugin (RunPluginRequest) returns (RunPluginResponse) {}
     rpc LoadPlugin (LoadPluginRequest) returns (LoadPluginResponse) {}
+    rpc GetPluginDetails (LoadPluginRequest) returns (LoadPluginResponse) {}
+}
+
+message MultiValue {
+  string Type = 1;
+  oneof Value {
+    double number_value = 2;
+    string string_value = 3;
+    bool bool_value = 4;
+    MultiValue nested_value = 5;
+  }
 }
 
 message RunPluginRequest {
     string FileName = 1;
-    map<string, string> params = 2;
+    map<string, MultiValue> Args = 2;
 }
 
 message LoadPluginRequest {
@@ -28,6 +39,7 @@ message ListPluginsResponse {
 
 message RunPluginResponse {
     bool success = 1;
+    string message = 2;
 }
 
 message LoadPluginResponse {

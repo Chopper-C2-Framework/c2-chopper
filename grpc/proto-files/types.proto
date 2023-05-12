@@ -13,7 +13,6 @@ message Team {
 }
 
 message Plugin {
-	string Name = 1;      
 	PluginMetadata Metadata = 2;
 	PluginInfo info = 3;
 }
@@ -29,6 +28,7 @@ message PluginMetadata {
 }
 
 message PluginInfo {
-	map<string, string> Options = 1;
-	string ReturnType = 2;
+	string Name = 1;      
+	map<string, string> Options = 2;
+	string ReturnType = 3;
 }

@@ -27,6 +27,7 @@ type PluginServiceClient interface {
 	ListPlugins(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*ListPluginsResponse, error)
 	RunPlugin(ctx context.Context, in *RunPluginRequest, opts ...grpc.CallOption) (*RunPluginResponse, error)
 	LoadPlugin(ctx context.Context, in *LoadPluginRequest, opts ...grpc.CallOption) (*LoadPluginResponse, error)
+	GetPluginDetails(ctx context.Context, in *LoadPluginRequest, opts ...grpc.CallOption) (*LoadPluginResponse, error)
 }
 
 type pluginServiceClient struct {
@@ -73,6 +74,15 @@ func (c *pluginServiceClient) LoadPlugin(ctx context.Context, in *LoadPluginRequ
 	return out, nil
 }
 
+func (c *pluginServiceClient) GetPluginDetails(ctx context.Context, in *LoadPluginRequest, opts ...grpc.CallOption) (*LoadPluginResponse, error) {
+	out := new(LoadPluginResponse)
+	err := c.cc.Invoke(ctx, "/PluginService/GetPluginDetails", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PluginServiceServer is the server API for PluginService service.
 // All implementations must embed UnimplementedPluginServiceServer
 // for forward compatibility
@@ -81,6 +91,7 @@ type PluginServiceServer interface {
 	ListPlugins(context.Context, *emptypb.Empty) (*ListPluginsResponse, error)
 	RunPlugin(context.Context, *RunPluginRequest) (*RunPluginResponse, error)
 	LoadPlugin(context.Context, *LoadPluginRequest) (*LoadPluginResponse, error)
+	GetPluginDetails(context.Context, *LoadPluginRequest) (*LoadPluginResponse, error)
 	mustEmbedUnimplementedPluginServiceServer()
 }
 
@@ -99,6 +110,9 @@ func (UnimplementedPluginServiceServer) RunPlugin(context.Context, *RunPluginReq
 }
 func (UnimplementedPluginServiceServer) LoadPlugin(context.Context, *LoadPluginRequest) (*LoadPluginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoadPlugin not implemented")
+}
+func (UnimplementedPluginServiceServer) GetPluginDetails(context.Context, *LoadPluginRequest) (*LoadPluginResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPluginDetails not implemented")
 }
 func (UnimplementedPluginServiceServer) mustEmbedUnimplementedPluginServiceServer() {}
 
@@ -185,6 +199,24 @@ func _PluginService_LoadPlugin_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PluginService_GetPluginDetails_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoadPluginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PluginServiceServer).GetPluginDetails(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/PluginService/GetPluginDetails",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PluginServiceServer).GetPluginDetails(ctx, req.(*LoadPluginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PluginService_ServiceDesc is the grpc.ServiceDesc for PluginService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -207,6 +239,10 @@ var PluginService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LoadPlugin",
 			Handler:    _PluginService_LoadPlugin_Handler,
+		},
+		{
+			MethodName: "GetPluginDetails",
+			Handler:    _PluginService_GetPluginDetails_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

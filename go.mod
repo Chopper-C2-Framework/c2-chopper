@@ -3,6 +3,7 @@ module github.com/chopper-c2-framework/c2-chopper
 go 1.20
 
 require (
+	github.com/gofiber/fiber/v2 v2.45.0
 	github.com/urfave/cli/v2 v2.25.3
 	google.golang.org/grpc v1.54.0
 	google.golang.org/protobuf v1.28.1
@@ -14,9 +15,6 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
-	github.com/gofiber/fiber/v2 v2.45.0 // indirect
-	github.com/gofiber/jwt/v3 v3.3.9 // indirect
-	github.com/golang-jwt/jwt/v4 v4.5.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
@@ -32,7 +30,6 @@ require (
 	github.com/savsgio/dictpool v0.0.0-20221023140959-7bf2e61cea94 // indirect
 	github.com/savsgio/gotils v0.0.0-20230208104028-c358bd845dee // indirect
 	github.com/tinylib/msgp v1.1.8 // indirect
-	github.com/urfave/cli/v2 v2.25.3 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasthttp v1.47.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect

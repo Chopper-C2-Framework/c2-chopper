@@ -36,9 +36,19 @@ func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginReques
 	if err != nil {
 		return &proto.RunPluginResponse{Success: false}, err
 	}
+
+	var args []interface{}
+	for _, v := range in.Args {
+		args = append(args, GetValue(v))
+	}
+
 	// Run plugin & return result
-	fmt.Println("[gRPC] [PluginService] RunPlugin ", plugin.Name)
-	return &proto.RunPluginResponse{Success: true}, nil
+	err = plugin.SetArgs(args...)
+	if err != nil {
+		return &proto.RunPluginResponse{Success: false}, err
+	}
+	result := plugin.Exploit()
+	return &proto.RunPluginResponse{Success: true, Message: string(result)}, nil
 }
 
 func (s *PluginService) LoadPlugin(ctx context.Context, in *proto.LoadPluginRequest) (*proto.LoadPluginResponse, error) {
@@ -50,19 +60,49 @@ func (s *PluginService) LoadPlugin(ctx context.Context, in *proto.LoadPluginRequ
 	return &proto.LoadPluginResponse{Success: true, Data: s.GetPluginInfo(plugin)}, nil
 }
 
-func (s *PluginService) GetPluginInfo(plugin *plugins.Plugin) *proto.Plugin {
+func (s *PluginService) GetPluginDetails(ctx context.Context, in *proto.LoadPluginRequest) (*proto.LoadPluginResponse, error) {
+	fmt.Println("[gRPC] [PluginService] GetPluginDetails")
+	plugin, err := s.PluginManager.GetPlugin(in.FileName)
+	if err != nil {
+		return &proto.LoadPluginResponse{Success: false}, err
+	}
+	return &proto.LoadPluginResponse{Success: true, Data: s.GetPluginInfo(plugin)}, nil
+}
+
+func (s *PluginService) GetPluginInfo(plugin plugins.IPlugin) *proto.Plugin {
+	pluginInfo := plugin.Info()
+	pluginMeta := plugin.MetaInfo()
+
 	info := &proto.PluginInfo{
-		Options:    plugin.PluginInfo.Options,
-		ReturnType: plugin.PluginInfo.ReturnType,
+		Name:       pluginInfo.Name,
+		Options:    pluginInfo.Options,
+		ReturnType: pluginInfo.ReturnType,
 	}
 	metadata := &proto.PluginMetadata{
-		Version:     plugin.Version,
-		Author:      plugin.Author,
-		Tags:        plugin.Tags,
-		ReleaseDate: plugin.ReleaseDate,
-		Type:        int32(plugin.Type),
-		SourceLink:  plugin.SourceLink,
-		Description: plugin.Description,
+		Version:     pluginMeta.Version,
+		Author:      pluginMeta.Author,
+		Tags:        pluginMeta.Tags,
+		ReleaseDate: pluginMeta.ReleaseDate,
+		Type:        int32(pluginMeta.Type),
+		SourceLink:  pluginMeta.SourceLink,
+		Description: pluginMeta.Description,
 	}
-	return &proto.Plugin{Name: plugin.Name, Info: info, Metadata: metadata}
+	return &proto.Plugin{Info: info, Metadata: metadata}
+}
+
+func GetValue(val *proto.MultiValue) interface{} {
+	fmt.Println(val.Type)
+	if val.Type == "string_value" {
+		return val.GetStringValue()
+	}
+	if val.Type == "bool_value" {
+		return val.GetBoolValue()
+	}
+	if val.Type == "int_value" {
+		return val.GetNumberValue()
+	}
+	if val.Type == "nested_value" {
+		return GetValue(val.GetNestedValue())
+	}
+	return nil
 }

@@ -23,13 +23,13 @@ type Metadata struct {
 // ReturnType returns the type of returned data so we can parse it
 // Options is a map where the key is the args name and string is the plugin's type which can be either bytes/rune/int/bool/string
 type PluginInfo struct {
+	Name       string            `json:"name"`
 	Options    map[string]string `json:"options"`
 	ReturnType string            `json:"returnType"`
 }
 
 // Plugin have a Name which is defined by the author.
 type Plugin struct {
-	Name       string `json:"name"`
 	Metadata   `json:"metdata"`
 	PluginInfo `json:"pluginInfo"`
 }
@@ -37,10 +37,9 @@ type Plugin struct {
 // IPlugin is the interface that all plugins should implement.
 // The CLI will generate a scaffold and it will make sure that it add this interface on the top
 type IPlugin interface {
-	New() Plugin
 	MetaInfo() *Metadata
 	Info() *PluginInfo
 	Options() map[string]string
 	Exploit(...interface{}) []byte
-	SetArgs(...interface{})
+	SetArgs(...interface{}) error
 }

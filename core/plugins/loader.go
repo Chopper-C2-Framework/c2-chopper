@@ -15,20 +15,20 @@ import (
 type IPluginManager interface {
 	ListAllPlugins() ([]string, error)
 	ListLoadedPlugins() []string
-	LoadAllPlugins() ([]*Plugin, error)
-	LoadPlugin(filePath string) (*Plugin, error)
-	GetPlugin(filePath string) (*Plugin, error)
+	LoadAllPlugins() ([]IPlugin, error)
+	LoadPlugin(filePath string) (IPlugin, error)
+	GetPlugin(filePath string) (IPlugin, error)
 }
 
 type PluginManager struct {
 	config        *Cfg.Config
-	loadedPlugins map[string]*Plugin
+	loadedPlugins map[string]IPlugin
 }
 
 func CreatePluginManager(cfg *Cfg.Config) PluginManager {
 	return PluginManager{
 		config:        cfg,
-		loadedPlugins: make(map[string]*Plugin)}
+		loadedPlugins: make(map[string]IPlugin)}
 }
 
 func lookupError(currErr error, errorMsg string) error {
@@ -39,7 +39,7 @@ func reflectionError(currErr error, errorMsg string) error {
 	return errors.Join(currErr, errors.New(fmt.Sprintln("[-] Error: type reflection error in plugin", errorMsg)))
 }
 
-func (manager PluginManager) GetPlugin(filePath string) (*Plugin, error) {
+func (manager PluginManager) GetPlugin(filePath string) (IPlugin, error) {
 	loadedPlugin, ok := manager.loadedPlugins[filePath]
 	if !ok {
 		return nil, errors.New("Plugin not loaded")
@@ -78,7 +78,7 @@ func (manager PluginManager) ListAllPlugins() ([]string, error) {
 	return plugins, nil
 }
 
-func (manager PluginManager) LoadPlugin(filePath string) (*Plugin, error) {
+func (manager PluginManager) LoadPlugin(filePath string) (IPlugin, error) {
 	loadedPlugin, ok := manager.loadedPlugins[filePath]
 	if ok {
 		fmt.Println("[+] Plugin already loaded:", filePath)
@@ -104,30 +104,26 @@ func (manager PluginManager) LoadPlugin(filePath string) (*Plugin, error) {
 		return nil, err
 	}
 
-	n, err := p.Lookup("New")
+	instance, err := p.Lookup("Instance")
 	if err != nil {
 		err = lookupError(err, filePath)
 		// log.Panicln(err)
 		return nil, err
 	}
 
-	fmt.Println(n)
-
-	newPlugin, ok := n.(func() Plugin)
+	pluginInstance, ok := instance.(IPlugin)
 	if !ok {
-		err = reflectionError(err, fmt.Sprintf("New function for plugin %s", filePath))
-		return nil, err
+		return nil, errors.New("Does not implement interface")
 	}
 
-	nPlugin := newPlugin()
-	log.Println("[+] Loaded plugin ", nPlugin.Author, nPlugin.Name)
-	manager.loadedPlugins[filePath] = &nPlugin
-	return &nPlugin, nil
+	log.Println("[+] Loaded plugin ", pluginInstance.Info().Name)
+	manager.loadedPlugins[filePath] = pluginInstance
+	return pluginInstance, nil
 }
 
-func (manager PluginManager) LoadAllPlugins() ([]*Plugin, error) {
+func (manager PluginManager) LoadAllPlugins() ([]IPlugin, error) {
 	var (
-		plugins []*Plugin
+		plugins []IPlugin
 	)
 
 	files, err := manager.ListAllPlugins()
