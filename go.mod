@@ -5,6 +5,7 @@ go 1.20
 require (
 	github.com/gofiber/fiber/v2 v2.45.0
 	github.com/golang/glog v1.0.0
+	github.com/google/uuid v1.3.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2
 	github.com/sirupsen/logrus v1.9.0
 	github.com/urfave/cli/v2 v2.25.3
@@ -21,7 +22,6 @@ require (
 	github.com/andybalholm/brotli v1.0.5 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
-	github.com/google/uuid v1.3.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect

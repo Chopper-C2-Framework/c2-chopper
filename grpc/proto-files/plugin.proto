@@ -6,15 +6,34 @@ import "types.proto";
 option go_package = "./proto";
 
 service PluginService {
-  rpc ListLoadedPlugins(google.protobuf.Empty) returns (ListLoadedPluginsResponse) {}
-  rpc ListPlugins(google.protobuf.Empty) returns (ListPluginsResponse) {}
-  rpc RunPlugin(RunPluginRequest) returns (RunPluginResponse) {}
-  rpc LoadPlugin(LoadPluginRequest) returns (LoadPluginResponse) {}
+    rpc ListLoadedPlugins (google.protobuf.Empty) returns (ListLoadedPluginsResponse) {}
+    rpc ListPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {}
+    rpc RunPlugin (RunPluginRequest) returns (RunPluginResponse) {}
+    rpc LoadPlugin (LoadPluginRequest) returns (LoadPluginResponse) {}
+    rpc GetPluginDetails (LoadPluginRequest) returns (LoadPluginResponse) {}
+}
+
+message MapItem {
+    string key = 1;
+    ArgValue value = 2;
+}
+message MapValue {
+    repeated MapItem items = 1;
+}
+
+message ArgValue{
+    string type = 1;
+    oneof V {
+        double number_value = 3;
+        string string_value = 4;
+        bool bool_value = 5;
+        MapValue map_value = 6;
+    }
 }
 
 message RunPluginRequest {
-  string file_name = 1;
-  map<string, string> params = 2;
+    string FileName = 1;
+    map<string, ArgValue> Args = 2;
 }
 
 message LoadPluginRequest {
@@ -32,7 +51,8 @@ message ListLoadedPluginsResponse {
 }
 
 message RunPluginResponse {
-  bool success = 1;
+    bool success = 1;
+    string message = 2;
 }
 
 message LoadPluginResponse {
