@@ -13,19 +13,27 @@ service PluginService {
     rpc GetPluginDetails (LoadPluginRequest) returns (LoadPluginResponse) {}
 }
 
-message MultiValue {
-  string Type = 1;
-  oneof Value {
-    double number_value = 2;
-    string string_value = 3;
-    bool bool_value = 4;
-    MultiValue nested_value = 5;
-  }
+message MapItem {
+    string key = 1;
+    ArgValue value = 2;
+}
+message MapValue {
+    repeated MapItem items = 1;
+}
+
+message ArgValue{
+    string type = 1;
+    oneof V {
+        double number_value = 3;
+        string string_value = 4;
+        bool bool_value = 5;
+        MapValue map_value = 6;
+    }
 }
 
 message RunPluginRequest {
     string FileName = 1;
-    map<string, MultiValue> Args = 2;
+    map<string, ArgValue> Args = 2;
 }
 
 message LoadPluginRequest {

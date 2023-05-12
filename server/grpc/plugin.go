@@ -90,7 +90,7 @@ func (s *PluginService) GetPluginInfo(plugin plugins.IPlugin) *proto.Plugin {
 	return &proto.Plugin{Info: info, Metadata: metadata}
 }
 
-func GetValue(val *proto.MultiValue) interface{} {
+func GetValue(val *proto.ArgValue) interface{} {
 	fmt.Println(val.Type)
 	if val.Type == "string_value" {
 		return val.GetStringValue()
@@ -101,8 +101,36 @@ func GetValue(val *proto.MultiValue) interface{} {
 	if val.Type == "int_value" {
 		return val.GetNumberValue()
 	}
-	if val.Type == "nested_value" {
-		return GetValue(val.GetNestedValue())
+	if val.Type == "map_value" {
+		/*
+			{
+				"arg0": {
+					"type": "string_value",
+					"string_value": "value 1"
+				},
+				"arg1": {
+					"type": "map_value",
+					"map_value": {
+						"items": [
+							{
+								"key": "key1",
+								"value": {
+									"type": "string_value",
+									"string_value": "Hello world"
+								}
+							}
+						]
+					}
+				}
+			}
+		*/
+		var mapVariable map[string]interface{} = make(map[string]interface{})
+		mapItems := val.GetMapValue().GetItems()
+		for _, item := range mapItems {
+			mapVariable[item.GetKey()] = GetValue(item.GetValue())
+		}
+		fmt.Println(mapVariable)
+		return mapVariable
 	}
 	return nil
 }
