@@ -6,6 +6,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.45.0
 	github.com/golang/glog v1.0.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2
+	github.com/sirupsen/logrus v1.9.0
 	github.com/urfave/cli/v2 v2.25.3
 	google.golang.org/genproto v0.0.0-20230223222841-637eb2293923
 	google.golang.org/grpc v1.54.0
