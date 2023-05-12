@@ -104,17 +104,19 @@ func (manager PluginManager) LoadPlugin(filePath string) (IPlugin, error) {
 		return nil, err
 	}
 
-	instance, err := p.Lookup("Instance")
+	NewFnSymb, err := p.Lookup("New")
 	if err != nil {
 		err = lookupError(err, filePath)
 		// log.Panicln(err)
 		return nil, err
 	}
 
-	pluginInstance, ok := instance.(IPlugin)
+	NewFn, ok := NewFnSymb.(func() IPlugin)
 	if !ok {
-		return nil, errors.New("Does not implement interface")
+		return nil, errors.New("New function is not defined.")
 	}
+
+	pluginInstance := NewFn()
 
 	log.Println("[+] Loaded plugin ", pluginInstance.Info().Name)
 	manager.loadedPlugins[filePath] = pluginInstance
