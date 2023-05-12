@@ -1,8 +1,23 @@
 package entity
 
 import (
+	"time"
+
+	"github.com/google/uuid"
 	"gorm.io/gorm"
 )
+
+type UUIDModel struct {
+	ID        uuid.UUID `gorm:"type:uuid;primaryKey"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+}
+
+func (b *UUIDModel) BeforeCreate(tx *gorm.DB) (err error) {
+	b.ID = uuid.New()
+	return nil
+}
 
 // Repository is a generic DB handler that cares about default error handling
 type Repository interface {

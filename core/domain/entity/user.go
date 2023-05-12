@@ -1,11 +1,7 @@
 package entity
 
-import (
-	"gorm.io/gorm"
-)
-
 type UserModel struct {
-	gorm.Model
+	UUIDModel
 	Username string
 	Password string
 	Teams    []*TeamModel `gorm:"many2many:user_team_membership;"`
