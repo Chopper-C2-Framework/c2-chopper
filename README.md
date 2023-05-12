@@ -10,7 +10,13 @@
     $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
     ```
 
-    2. Update your PATH so that the protoc compiler can find the plugins:
+    2. Install gRPC-Gateway plugin:
+    ```
+    $ go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway
+    $ go install github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2
+    ```
+
+    3. Update your PATH so that the protoc compiler can find the plugins:
     ```
     $ export PATH="$PATH:$(go env GOPATH)/bin"
     ```
