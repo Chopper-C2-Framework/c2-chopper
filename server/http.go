@@ -3,19 +3,42 @@ package server
 import (
 	"context"
 	"flag"
+	"fmt"
+	"log"
 	"net/http"
 
-	"github.com/golang/glog"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+
+	"github.com/chopper-c2-framework/c2-chopper/core/config"
+	gw "github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 )
+
+type IgRPCServerHTTPGateway interface {
+	// TODO This function will be launched thro a go routine, and no return is expected from now on
+	// We will gracefully terminate it when the main thread is done!
+	NewgRPCServerHTTPGateway(*config.Config) error
+}
+
+type gRPCServerHTTPGateway struct {
+}
 
 var (
 	// command-line options:
 	// gRPC server endpoint
-	grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:9090", "gRPC server endpoint")
+	grpcServerEndpoint = flag.String("grpc-server-endpoint", "localhost:9002", "gRPC server endpoint")
 )
 
-func run() error {
+func handleSvcRegError(err error) {
+	if err != nil {
+		log.Panicln("Error while registering service: ", err)
+	}
+}
+
+func (g *gRPCServerHTTPGateway) NewgRPCServerHTTPGateway(config *config.Config) error {
+	fmt.Println("Heeere")
+
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()
@@ -23,21 +46,33 @@ func run() error {
 	// Register gRPC server endpoint
 	// Note: Make sure the gRPC server is running properly and accessible
 	mux := runtime.NewServeMux()
-	// opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
-	// err := gw.RegisterYourServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
-	// if err != nil {
-	// 	return err
-	// }
 
-	// Start HTTP server (and proxy calls to gRPC server endpoint)
-	return http.ListenAndServe(":8081", mux)
-}
+	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-func main() {
-	flag.Parse()
-	defer glog.Flush()
+	err := gw.RegisterAuthServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	handleSvcRegError(err)
 
-	if err := run(); err != nil {
-		glog.Fatal(err)
+	err = gw.RegisterTeamServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	handleSvcRegError(err)
+
+	err = gw.RegisterTrackingServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	handleSvcRegError(err)
+
+	err = gw.RegisterAuthServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	handleSvcRegError(err)
+
+	err = gw.RegisterHelloServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	handleSvcRegError(err)
+
+	fmt.Printf("[+] HTTP Gateway on on %d\n", config.ServerHTTPPort)
+	err = http.ListenAndServe(fmt.Sprintf(":%d", config.ServerHTTPPort), mux)
+
+	if err != nil {
+		log.Fatalf("failed to serve: %v\n", err)
+		return err
 	}
+
+	fmt.Printf("HTTP server started on port %d", config.ServerHTTPPort)
+
+	return nil
 }

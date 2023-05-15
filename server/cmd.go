@@ -9,6 +9,11 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 )
 
+// A channel to block the main thread. Well TODO: CHANGE IT IN A MORE PROPER WAY OF DOING THINGS
+var (
+	c = make(chan int)
+)
+
 func GetCommands() []*cli.Command {
 
 	startServerCommand := &cli.Command{
@@ -24,11 +29,21 @@ func GetCommands() []*cli.Command {
 			}
 
 			var pluginManager = plugins.CreatePluginManager(frameworkConfig)
-			var serverManager IgRPCServer = &gRPCServer{}
-			err := serverManager.NewgRPCServer(frameworkConfig, ormConnection, &pluginManager)
-			if err != nil {
-				return err
-			}
+			var serverManager IServerManager = &ServerManager{}
+
+			go serverManager.NewgRPCServer(frameworkConfig, ormConnection, &pluginManager)
+			// if err != nil {
+			// 	log.Panicln("Error launching server", err)
+			// 	return err
+			// }
+
+			go serverManager.NewgRPCServerHTTPGateway(frameworkConfig)
+			// if err != nil {
+			// 	log.Panicln("Error while starting gRPC server HTTP gateway: ", err)
+			// 	return nil
+			// }
+			c <- 1
+
 			return nil
 		},
 	}

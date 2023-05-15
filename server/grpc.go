@@ -22,6 +22,10 @@ import (
 )
 
 type IgRPCServer interface {
+	// TODO This function will be launched thro a go routine, and no return is expected from now on
+	// we need to handle error case and inform the main thread
+	// > we need to make sure the grpc gateway is only open when this succeeds
+	// we will gracefully terminate it when the main thread is done
 	NewgRPCServer(
 		config *Cfg.Config,
 		ormConnection *orm.ORMConnection,
@@ -54,11 +58,11 @@ func (server_m *gRPCServer) NewgRPCServer(
 	ormConnection *orm.ORMConnection,
 	pluginManager *plugins.PluginManager,
 ) error {
-	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServerPort))
+	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServergRPCPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	fmt.Println("[+] Created listener on port", config.ServerPort)
+	fmt.Println("[+] Created listener on port", config.ServergRPCPort)
 
 	AuthInterceptor := interceptor.AuthInterceptor{}
 	ORMInjector := interceptor.ORMInjectorInterceptor{DbConnection: ormConnection}
@@ -90,9 +94,12 @@ func (server_m *gRPCServer) NewgRPCServer(
 	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{PluginManager: pluginManager})
 	proto.RegisterProfileServiceServer(server_m.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(server_m.server, &handler.TrackingService{})
+	proto.RegisterHelloServiceServer(server_m.server, &handler.HelloService{})
 
 	if err := server_m.server.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+
+	log.Println("gRPC server started on port", config.ServergRPCPort)
 	return nil
 }
