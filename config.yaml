@@ -1,6 +1,7 @@
 plugins_path: ~/.c2-chopper/plugins/
 client_port: 9001
 server_port:  9002
+server_http_port: 9003
 host: localhost
 server_cert_path: cert/server-cert.pem
 sever_cert_key_path: cert/server-key.pem
