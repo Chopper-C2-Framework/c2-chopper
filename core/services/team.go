@@ -7,43 +7,43 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-type TeamManager struct {
+type TeamService struct {
 	ORMConnection *orm.ORMConnection
 	repo          entity.TransactionRepository
 }
 
-func NewTeamService(db *orm.ORMConnection) *TeamManager {
+func NewTeamService(db *orm.ORMConnection) *TeamService {
 	logger := log.New()
-	repo := entity.NewGormRepository(db.Db, logger, "")
+	repo := entity.NewGormRepository(db.Db, logger, "User")
 	instance := &entity.TeamModel{}
 
 	if err := repo.Create(instance); err != nil {
 		logger.Fatalf("failed to create cache instance: %v", err)
 	}
-	return &TeamManager{
+	return &TeamService{
 		repo: repo,
 	}
 }
 
 // Impelementation of the TeamManager interface with the orm package
-func (t *TeamManager) CreateTeam(newTeam *entity.TeamModel) error {
+func (t *TeamService) CreateTeam(newTeam *entity.TeamModel) error {
 
 	err := t.repo.Create(newTeam)
 
 	if err != nil {
-		log.Debugf("failed to create team: %v", err)
+		log.Debugf("failed to create team: %v\n", err)
 		return err
 	}
 
 	return nil
 }
 
-func (t *TeamManager) AddMemberToTeam(teamId string, user_id string) error {
+func (t *TeamService) AddMemberToTeam(teamId string, user_id string) error {
 	var targetTeam *entity.TeamModel
 	err := t.repo.GetOneByID(targetTeam, teamId)
 
 	if err != nil {
-		log.Debugf("failed to get team: %v", err)
+		log.Debugf("failed to get team: %v\n", err)
 		return err
 	}
 
@@ -52,7 +52,7 @@ func (t *TeamManager) AddMemberToTeam(teamId string, user_id string) error {
 	err = t.repo.GetOneByID(&currentUser, user_id)
 
 	if err != nil {
-		log.Debugf("failed to get user: %v", err)
+		log.Debugf("failed to get user: %v\n", err)
 		return err
 	}
 
@@ -60,10 +60,15 @@ func (t *TeamManager) AddMemberToTeam(teamId string, user_id string) error {
 
 	err = t.repo.Save(targetTeam)
 
+	if err != nil {
+		log.Debugf("Error updating team %v", err)
+		return err
+	}
+
 	return nil
 }
 
-func (t *TeamManager) UpdateTeam(toUpdateTeamId string, toUpdateTeam *entity.TeamModel) error {
+func (t *TeamService) UpdateTeam(toUpdateTeamId string, toUpdateTeam *entity.TeamModel) error {
 	var targetTeam *entity.TeamModel
 	err := t.repo.GetOneByID(targetTeam, toUpdateTeamId)
 
@@ -85,7 +90,7 @@ func (t *TeamManager) UpdateTeam(toUpdateTeamId string, toUpdateTeam *entity.Tea
 
 }
 
-func (t *TeamManager) DeleteTeam(team_id string) error {
+func (t *TeamService) DeleteTeam(team_id string) error {
 
 	err := t.repo.Delete(&entity.TeamModel{
 		UUIDModel: entity.UUIDModel{ID: uuid.MustParse(team_id)},

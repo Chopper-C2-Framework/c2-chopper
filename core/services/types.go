@@ -9,7 +9,13 @@ type ITeamService interface {
 	DeleteTeam(teamId string) error
 }
 
-type IUserService interface{}
+type IUserService interface {
+	CreateUser(newUser *entity.UserModel) error
+	UpdateUser(id string, updatedUser *entity.UserModel) error
+	UpdateUserPassword(id string, newPassword string) error
+	FindUserOrError(id string) (*entity.UserModel, error)
+	FindAll() ([]entity.UserModel, error)
+}
 
 type IListenerService interface{}
 
