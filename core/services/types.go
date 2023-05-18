@@ -1,12 +1,22 @@
 package services
 
-import entity "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
+import "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
+
+type Services struct {
+	TeamService     ITeamService
+	UserService     IUserService
+	ListenerService IListenerService
+	HostService     IHostService
+	TaskService     ITaskService
+	ReportService   IReportService
+}
 
 type ITeamService interface {
 	CreateTeam(newTeam *entity.TeamModel) error
-	AddMemberToTeam(teamId string, user_id string) error
-	UpdateTeam(teamId string, newTeam *entity.TeamModel) error
+	AddMemberToTeam(teamId string, userId string) error
 	DeleteTeam(teamId string) error
+	FindOne(id string) (*entity.TeamModel, error)
+	UpdateTeam(toUpdateTeamId string, toUpdateTeam *entity.TeamModel) (*entity.TeamModel, error)
 }
 
 type IUserService interface {

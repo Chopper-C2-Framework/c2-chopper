@@ -2,6 +2,7 @@ package server
 
 import (
 	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
+	"log"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/urfave/cli/v2"
@@ -29,15 +30,27 @@ func GetCommands() []*cli.Command {
 			}
 
 			var pluginManager = plugins.CreatePluginManager(frameworkConfig)
-			var serverManager IServerManager = &ServerManager{}
+			var serverManager IServerManager = &Manager{}
 
-			go serverManager.NewgRPCServer(frameworkConfig, ormConnection, &pluginManager)
+			go func() {
+				err := serverManager.NewgRPCServer(frameworkConfig, ormConnection, &pluginManager)
+				if err != nil {
+					log.Println("Error launching GRPC server")
+					return
+				}
+			}()
 			// if err != nil {
 			// 	log.Panicln("Error launching server", err)
 			// 	return err
 			// }
 
-			go serverManager.NewgRPCServerHTTPGateway(frameworkConfig)
+			go func() {
+				err := serverManager.NewgRPCServerHTTPGateway(frameworkConfig)
+				if err != nil {
+					log.Println("Error launching HTTP Gateway server")
+					return
+				}
+			}()
 			// if err != nil {
 			// 	log.Panicln("Error while starting gRPC server HTTP gateway: ", err)
 			// 	return nil

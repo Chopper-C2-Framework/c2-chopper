@@ -22,6 +22,6 @@ func main() {
 
 	err := framework.Run(os.Args)
 	if err != nil {
-		log.Panicln("Error occured while launching the framework", err)
+		log.Panicln("Error occurred while launching the framework", err)
 	}
 }

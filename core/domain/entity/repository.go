@@ -201,7 +201,7 @@ func (r *gormRepository) DeleteTx(target interface{}, tx *gorm.DB) error {
 
 func (r *gormRepository) HandleError(res *gorm.DB) error {
 	if res.Error != nil && res.Error != gorm.ErrRecordNotFound {
-		err := fmt.Errorf("Error: %w", res.Error)
+		err := fmt.Errorf("error: %w", res.Error)
 		r.logger.Error(err)
 		return err
 	}

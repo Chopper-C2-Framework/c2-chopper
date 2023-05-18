@@ -17,12 +17,7 @@ type UserService struct {
 func NewUserService(db *orm.ORMConnection) *UserService {
 	logger := log.New()
 
-	repo := entity.NewGormRepository(db.Db, logger, "User")
-	instance := &entity.UserModel{}
-
-	if err := repo.Create(instance); err != nil {
-		logger.Fatalf("failed to create cache instance %v", err)
-	}
+	repo := entity.NewGormRepository(db.Db, logger, "Teams")
 
 	return &UserService{
 		repo: repo,

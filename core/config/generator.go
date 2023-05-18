@@ -10,7 +10,7 @@ import (
 
 func CheckIfConfigExistsInPath() (bool, error) {
 
-	_, err := os.ReadFile(CONFIG_DEFAULT_PATH)
+	_, err := os.ReadFile(defaultPath)
 
 	if err != nil {
 		// if err == os.ErrInvalid {
@@ -22,8 +22,6 @@ func CheckIfConfigExistsInPath() (bool, error) {
 
 	return true, nil
 }
-
-
 
 func GenerateConfigIfNotExists() error {
 
@@ -47,10 +45,9 @@ func createDefaultConfigs() {
 		log.Fatalln("Error getting user home directory")
 	}
 
-	configDirPath := path.Join(currentUserHomeDirectory, CONFIG_DEFAULT_DIR)
+	configDirPath := path.Join(currentUserHomeDirectory, defaultDir)
 
 	_, err = os.ReadDir(configDirPath)
-
 
 	if err != nil {
 		err := os.Mkdir(configDirPath, 0777)
@@ -59,7 +56,7 @@ func createDefaultConfigs() {
 		}
 	}
 
-	configFilePath := path.Join(currentUserHomeDirectory, CONFIG_DEFAULT_PATH)
+	configFilePath := path.Join(currentUserHomeDirectory, defaultPath)
 	config := CreateDefaultConfig()
 	err = writeConfigToPath(config, configFilePath)
 

@@ -26,3 +26,5 @@ grpc/proto
 go.work
 
 node_modules
+
+.idea

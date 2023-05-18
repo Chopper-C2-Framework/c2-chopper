@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/chopper-c2-framework/c2-chopper/core"
 	Cfg "github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 	handler "github.com/chopper-c2-framework/c2-chopper/server/grpc"
@@ -22,7 +23,7 @@ import (
 )
 
 type IgRPCServer interface {
-	// TODO This function will be launched thro a go routine, and no return is expected from now on
+	// NewgRPCServer TODO This function will be launched thro a go routine, and no return is expected from now on
 	// we need to handle error case and inform the main thread
 	// > we need to make sure the grpc gateway is only open when this succeeds
 	// we will gracefully terminate it when the main thread is done
@@ -53,7 +54,7 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 	return credentials.NewTLS(tlsCfg), nil
 }
 
-func (server_m *gRPCServer) NewgRPCServer(
+func (Server *gRPCServer) NewgRPCServer(
 	config *Cfg.Config,
 	ormConnection *orm.ORMConnection,
 	pluginManager *plugins.PluginManager,
@@ -78,25 +79,33 @@ func (server_m *gRPCServer) NewgRPCServer(
 			log.Fatal("cannot load TLS credentials: ", err)
 		}
 		fmt.Println("[+] Loaded certificates.")
-		server_m.server = grpc.NewServer(
+		Server.server = grpc.NewServer(
 			grpc.Creds(tlsCredentials),
 			UnaryInterceptors,
 		)
 	} else {
-		server_m.server = grpc.NewServer(
+		Server.server = grpc.NewServer(
 			UnaryInterceptors,
 		)
 	}
 
-	proto.RegisterAuthServiceServer(server_m.server, &handler.AuthService{})
-	proto.RegisterListenerServiceServer(server_m.server, &handler.ListenerService{})
-	proto.RegisterTeamServiceServer(server_m.server, &handler.TeamService{})
-	proto.RegisterPluginServiceServer(server_m.server, &handler.PluginService{PluginManager: pluginManager})
-	proto.RegisterProfileServiceServer(server_m.server, &handler.ProfileService{})
-	proto.RegisterTrackingServiceServer(server_m.server, &handler.TrackingService{})
-	proto.RegisterHelloServiceServer(server_m.server, &handler.HelloService{})
+	dbConnection, _ := orm.CreateDB(config)
 
-	if err := server_m.server.Serve(listener); err != nil {
+	coreServices := core.InitServices(dbConnection)
+
+	proto.RegisterAuthServiceServer(Server.server, &handler.AuthService{
+		UserService: coreServices.UserService,
+	})
+	proto.RegisterListenerServiceServer(Server.server, &handler.ListenerService{})
+	proto.RegisterTeamServiceServer(Server.server, &handler.TeamService{
+		TeamService: coreServices.TeamService,
+	})
+	proto.RegisterPluginServiceServer(Server.server, &handler.PluginService{PluginManager: pluginManager})
+	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
+	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
+	proto.RegisterHelloServiceServer(Server.server, &handler.HelloService{})
+
+	if err := Server.server.Serve(listener); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 

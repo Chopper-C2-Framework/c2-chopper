@@ -17,17 +17,17 @@ type PluginService struct {
 
 func (s *PluginService) ListLoadedPlugins(ctx context.Context, in *emptypb.Empty) (*proto.ListLoadedPluginsResponse, error) {
 	fmt.Println("[gRPC] [PluginService] ListLoadedPlugins")
-	plugins := s.PluginManager.ListLoadedPlugins()
-	return &proto.ListLoadedPluginsResponse{Success: true, Names: plugins}, nil
+	allLoadedPlugins := s.PluginManager.ListLoadedPlugins()
+	return &proto.ListLoadedPluginsResponse{Success: true, Names: allLoadedPlugins}, nil
 }
 
 func (s *PluginService) ListPlugins(ctx context.Context, in *emptypb.Empty) (*proto.ListPluginsResponse, error) {
 	fmt.Println("[gRPC] [PluginService] ListPlugins")
-	plugins, err := s.PluginManager.ListAllPlugins()
+	allPlugins, err := s.PluginManager.ListAllPlugins()
 	if err != nil {
 		return &proto.ListPluginsResponse{Success: false}, err
 	}
-	return &proto.ListPluginsResponse{Success: true, Names: plugins}, nil
+	return &proto.ListPluginsResponse{Success: true, Names: allPlugins}, nil
 }
 
 func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginRequest) (*proto.RunPluginResponse, error) {

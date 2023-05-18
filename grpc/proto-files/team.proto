@@ -19,15 +19,15 @@ service TeamService {
 
   rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
     option (google.api.http) = {
-      post: "/v1/management/team/{team_id}"
+      patch: "/v1/management/team/{team_id}"
       body: "updated_team"
     };
   }
 
-  rpc AddMemberToTeam(AddMemberRequest) returns (AddMemberResponse) {
+  rpc AddMemberToTeam(AddMemberToTeamRequest) returns (AddMemberToTeamResponse) {
     option (google.api.http) = {
       post: "/v1/management/team/members/{team_id}"
-      body: "member_id"
+      body: "user_id"
     };
   }
 
@@ -63,13 +63,14 @@ message UpdateTeamResponse {
   Team data = 2;
 }
 
-message AddMemberRequest {
+message AddMemberToTeamRequest {
   string team_id = 1;
-  string member_id = 2;
+  string user_id = 2;
 }
 
-message AddMemberResponse {
-  Team team = 1;
+message AddMemberToTeamResponse {
+  bool success = 1;
+  Team team = 2;
 }
 
 message DeleteTeamRequest {

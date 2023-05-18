@@ -1,10 +1,10 @@
 package config
 
 import (
+	"errors"
 	"fmt"
-	"os"
-
 	"github.com/urfave/cli/v2"
+	"log"
 )
 
 func GetCommands() []*cli.Command {
@@ -16,7 +16,8 @@ func GetCommands() []*cli.Command {
 		Action: func(cCtx *cli.Context) error {
 			err := GenerateConfigIfNotExists()
 			if err != nil {
-				fmt.Fprintln(os.Stderr, err)
+				log.Println(err)
+				return err
 			}
 			return nil
 		},
@@ -38,14 +39,15 @@ func GetCommands() []*cli.Command {
 		Action: func(cCtx *cli.Context) error {
 			file := cCtx.String("file")
 			if file == "default" {
-				fmt.Fprintln(os.Stderr, "No configuration file was passed.")
+				log.Println("No configuration file was passed.")
+				return errors.New("no configuration file was passed")
 			}
 
 			config, err := ParseConfigFromFile(file)
 
 			if err != nil {
-				fmt.Fprintln(os.Stderr, "Error occured while parsing configuration file.", err)
-				return nil
+				log.Println("Error occurred while parsing configuration file.", err)
+				return err
 			}
 
 			fmt.Println(config)

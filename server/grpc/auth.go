@@ -5,10 +5,13 @@ import (
 	"fmt"
 
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
+
+	services "github.com/chopper-c2-framework/c2-chopper/core/services"
 )
 
 type AuthService struct {
 	proto.UnimplementedAuthServiceServer
+	UserService services.IUserService
 }
 
 func (s *AuthService) Login(ctx context.Context, in *proto.LoginRequest) (*proto.LoginResponse, error) {

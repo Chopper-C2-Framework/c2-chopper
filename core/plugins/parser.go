@@ -6,7 +6,7 @@ import (
 )
 
 func checkPluginType(pluginType int) {
-	if pluginType < INFO_RETRIEVER || pluginType > SESSION_OPENER {
+	if pluginType < InfoRetriever || pluginType > SessionOpener {
 		pParseError("Invalid Login Type")
 	}
 }
