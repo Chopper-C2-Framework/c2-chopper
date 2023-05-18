@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/core/services"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
@@ -77,17 +76,23 @@ func (s *TeamService) AddMemberToTeam(ctx context.Context, in *proto.AddMemberTo
 
 func (s *TeamService) UpdateTeam(ctx context.Context, in *proto.UpdateTeamRequest) (*proto.UpdateTeamResponse, error) {
 
-	fmt.Println("[gRPC] [TeamService] UpdateTeam:", in.GetTeamId())
+	fmt.Println("[gRPC] [TeamService] UpdateTeam:", in.GetTeamId(), in.GetUpdatedTeam())
 
 	teamId := in.GetTeamId()
+	updatedTeamProto := in.GetUpdatedTeam()
+
+	if updatedTeamProto == nil {
+		return &proto.UpdateTeamResponse{Success: false}, errors.New("please pass valid data")
+	}
 
 	updatedTeam := &entity.TeamModel{
-		Name: in.UpdatedTeam.Name,
+		Name: updatedTeamProto.GetName(),
 	}
 
 	updatedTeam, err := s.TeamService.UpdateTeam(teamId, updatedTeam)
 
 	if err != nil {
+		fmt.Println("error here", updatedTeam)
 		return &proto.UpdateTeamResponse{Success: false}, err
 	}
 
@@ -97,6 +102,7 @@ func (s *TeamService) UpdateTeam(ctx context.Context, in *proto.UpdateTeamReques
 
 func (s *TeamService) DeleteTeam(ctx context.Context, in *proto.DeleteTeamRequest) (*proto.DeleteTeamResponse, error) {
 
+	fmt.Println("teamId", in.GetTeamId())
 	err := s.TeamService.DeleteTeam(in.GetTeamId())
 
 	if err != nil {
@@ -106,4 +112,23 @@ func (s *TeamService) DeleteTeam(ctx context.Context, in *proto.DeleteTeamReques
 	fmt.Println("[gRPC] [TeamService] DeleteTeam:", in.GetTeamId())
 
 	return &proto.DeleteTeamResponse{Success: true}, nil
+}
+
+func (s *TeamService) GetTeams(_ context.Context, in *proto.GetTeamsRequest) (*proto.GetTeamsResponse, error) {
+
+	teams, err := s.TeamService.GetAll()
+	if err != nil {
+		return &proto.GetTeamsResponse{Success: false}, err
+	}
+
+	var teamsProto []*proto.Team
+	for _, team := range teams {
+		teamsProto = append(teamsProto, ConvertTeamToProto(&team))
+	}
+
+	return &proto.GetTeamsResponse{
+		Success: true,
+		Teams:   teamsProto,
+	}, nil
+
 }

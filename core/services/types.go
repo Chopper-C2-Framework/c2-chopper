@@ -12,6 +12,7 @@ type Services struct {
 }
 
 type ITeamService interface {
+	GetAll() ([]entity.TeamModel, error)
 	CreateTeam(newTeam *entity.TeamModel) error
 	AddMemberToTeam(teamId string, userId string) error
 	DeleteTeam(teamId string) error

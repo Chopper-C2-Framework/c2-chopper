@@ -9,7 +9,7 @@ service TeamService {
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
     option (google.api.http) = {
       post: "/v1/management/team"
-      body: "*"
+      body: "data"
     };
   }
 
@@ -30,6 +30,12 @@ service TeamService {
       body: "user_id"
     };
   }
+
+  rpc GetTeams(GetTeamsRequest) returns(GetTeamsResponse){
+    option(google.api.http) = {
+      get: "/v1/management/team"
+    };
+  };
 
   rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse) {
     option (google.api.http) = {delete: "/v1/management/team/{team_id}"};
@@ -79,4 +85,12 @@ message DeleteTeamRequest {
 
 message DeleteTeamResponse {
   bool success = 1;
+}
+
+message GetTeamsRequest{
+}
+
+message GetTeamsResponse{
+  bool success = 1;
+  repeated Team teams = 2;
 }

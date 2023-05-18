@@ -33,9 +33,7 @@ func (r *gormRepository) DB() *gorm.DB {
 func (r *gormRepository) GetAll(target interface{}, preloads ...string) error {
 	r.logger.Debugf("Executing GetAll on %T", target)
 
-	res := r.DBWithPreloads(preloads).
-		Unscoped().
-		Find(target)
+	res := r.DBWithPreloads(preloads).Find(target)
 
 	return r.HandleError(res)
 }

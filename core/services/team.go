@@ -83,8 +83,8 @@ func (t TeamService) AddMemberToTeam(teamId string, userId string) error {
 }
 
 func (t TeamService) UpdateTeam(toUpdateTeamId string, toUpdateTeam *entity.TeamModel) (*entity.TeamModel, error) {
-	var targetTeam *entity.TeamModel
-	err := t.repo.GetOneByID(targetTeam, toUpdateTeamId)
+	var targetTeam entity.TeamModel
+	err := t.repo.GetOneByID(&targetTeam, toUpdateTeamId)
 
 	if err != nil {
 		log.Debugf("failed to get team for update: %v", err)
@@ -94,13 +94,13 @@ func (t TeamService) UpdateTeam(toUpdateTeamId string, toUpdateTeam *entity.Team
 	targetTeam.Name = toUpdateTeam.Name
 	targetTeam.Members = toUpdateTeam.Members
 
-	err = t.repo.Save(targetTeam)
+	err = t.repo.Save(&targetTeam)
 	if err != nil {
 		log.Debugf("failed to update team: %v", err)
 		return nil, err
 	}
 
-	return targetTeam, nil
+	return &targetTeam, nil
 
 }
 
@@ -112,8 +112,17 @@ func (t TeamService) DeleteTeam(teamId string) error {
 
 	if err != nil {
 		return err
-
 	}
 
 	return nil
+}
+
+func (t TeamService) GetAll() ([]entity.TeamModel, error) {
+	var teams []entity.TeamModel
+	err := t.repo.GetAll(&teams)
+	if err != nil {
+		return teams, err
+	}
+
+	return teams, nil
 }
