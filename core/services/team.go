@@ -3,7 +3,6 @@ package services
 import (
 	"fmt"
 
-	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
 	entity "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/google/uuid"
@@ -18,8 +17,7 @@ type TeamService struct {
 func NewTeamService(db *orm.ORMConnection) TeamService {
 	logger := log.New()
 
-	frameworkConfig := config.ParseConfigFromPath()
-	repo := entity.NewGormRepository(db, logger)
+	repo := entity.NewGormRepository(db.Db, logger)
 
 	return TeamService{
 		repo: repo,
