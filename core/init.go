@@ -8,11 +8,11 @@ import (
 func InitServices(db *orm.ORMConnection) services.Services {
 
 	return services.Services{
-		TeamService:     services.NewTeamService(db),
-		UserService:     services.NewUserService(db),
-		ListenerService: services.NewListenerService(db),
-		HostService:     services.NewHostService(db),
-		TaskService:     services.NewTaskService(db),
-		ReportService:   services.NewReportService(db),
+		TeamService:   services.NewTeamService(db),
+		UserService:   services.NewUserService(db),
+		AgentService:  services.NewAgentService(db),
+		HostService:   services.NewHostService(db),
+		TaskService:   services.NewTaskService(db),
+		ReportService: services.NewReportService(db),
 	}
 }

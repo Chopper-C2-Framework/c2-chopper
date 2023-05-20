@@ -3,12 +3,12 @@ package services
 import "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 
 type Services struct {
-	TeamService     ITeamService
-	UserService     IUserService
-	ListenerService IListenerService
-	HostService     IHostService
-	TaskService     ITaskService
-	ReportService   IReportService
+	TeamService   ITeamService
+	UserService   IUserService
+	AgentService  IAgentService
+	HostService   IHostService
+	TaskService   ITaskService
+	ReportService IReportService
 }
 
 type ITeamService interface {
@@ -28,7 +28,7 @@ type IUserService interface {
 	FindAll() ([]entity.UserModel, error)
 }
 
-type IListenerService interface{}
+type IAgentService interface{}
 
 type IHostService interface{}
 

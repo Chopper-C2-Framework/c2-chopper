@@ -1,6 +1,6 @@
 package entity
 
-type ListenerModel struct {
+type AgentModel struct {
 	UUIDModel
 	Ip       string
 	Port     int32

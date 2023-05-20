@@ -59,11 +59,11 @@ func (Server *gRPCServer) NewgRPCServer(
 	ormConnection *orm.ORMConnection,
 	pluginManager *plugins.PluginManager,
 ) error {
-	listener, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServergRPCPort))
+	Agent, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServergRPCPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	fmt.Println("[+] Created listener on port", config.ServergRPCPort)
+	fmt.Println("[+] Created Agent on port", config.ServergRPCPort)
 
 	AuthInterceptor := interceptor.AuthInterceptor{}
 	ORMInjector := interceptor.ORMInjectorInterceptor{DbConnection: ormConnection}
@@ -96,7 +96,7 @@ func (Server *gRPCServer) NewgRPCServer(
 	proto.RegisterAuthServiceServer(Server.server, &handler.AuthService{
 		UserService: coreServices.UserService,
 	})
-	proto.RegisterListenerServiceServer(Server.server, &handler.ListenerService{})
+	proto.RegisterAgentServiceServer(Server.server, &handler.AgentService{})
 	proto.RegisterTeamServiceServer(Server.server, &handler.TeamService{
 		TeamService: coreServices.TeamService,
 	})
@@ -105,7 +105,7 @@ func (Server *gRPCServer) NewgRPCServer(
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
 	proto.RegisterHelloServiceServer(Server.server, &handler.HelloService{})
 
-	if err := Server.server.Serve(listener); err != nil {
+	if err := Server.server.Serve(Agent); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
 

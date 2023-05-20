@@ -2,7 +2,7 @@ syntax = "proto3";
 
 option go_package = "./proto";
 
-message Listener {
+message Agent {
   string id = 1;
   string nickname = 2;
 }
