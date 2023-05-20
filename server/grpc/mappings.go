@@ -3,6 +3,8 @@ package grpc
 import (
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
+	"github.com/google/uuid"
+	log "github.com/sirupsen/logrus"
 )
 
 func ConvertTeamToProto(team *entity.TeamModel) *proto.Team {
@@ -25,4 +27,16 @@ func ConvertUserToProto(user *entity.UserModel) *proto.User {
 		Username: user.Username,
 		Id:       user.ID.String(),
 	}
+}
+
+func ConvertProtoToUser(user *proto.User) (*entity.UserModel, error) {
+	parsedUuid, err := uuid.Parse(user.Id)
+	if err != nil {
+		log.Debugf("ConvertProtoToUser: error parsing uuid %v\n", err)
+		return nil, err
+	}
+	return &entity.UserModel{
+		UUIDModel: entity.UUIDModel{ID: parsedUuid},
+		Username:  user.Username,
+	}, nil
 }

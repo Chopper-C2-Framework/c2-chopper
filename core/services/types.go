@@ -4,7 +4,7 @@ import "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 
 type Services struct {
 	TeamService   ITeamService
-	UserService   IUserService
+	AuthService   IAuthService
 	AgentService  IAgentService
 	HostService   IHostService
 	TaskService   ITaskService
@@ -24,8 +24,14 @@ type IUserService interface {
 	CreateUser(newUser *entity.UserModel) error
 	UpdateUser(id string, updatedUser *entity.UserModel) error
 	UpdateUserPassword(id string, newPassword string) error
-	FindUserOrError(id string) (*entity.UserModel, error)
+	FindUserByIdOrError(id string) (*entity.UserModel, error)
+	FindUserByUsernameOrError(username string) (*entity.UserModel, error)
 	FindAll() ([]entity.UserModel, error)
+}
+
+type IAuthService interface {
+	Login(username string, password string) (string, error)
+	Register(username string, password string) (string, error)
 }
 
 type IAgentService interface{}

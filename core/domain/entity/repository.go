@@ -2,7 +2,6 @@ package entity
 
 import (
 	"fmt"
-
 	"gorm.io/gorm"
 )
 

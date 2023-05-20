@@ -94,7 +94,7 @@ func (Server *gRPCServer) NewgRPCServer(
 	coreServices := core.InitServices(dbConnection)
 
 	proto.RegisterAuthServiceServer(Server.server, &handler.AuthService{
-		UserService: coreServices.UserService,
+		AuthService: coreServices.AuthService,
 	})
 	proto.RegisterAgentServiceServer(Server.server, &handler.AgentService{})
 	proto.RegisterTeamServiceServer(Server.server, &handler.TeamService{
