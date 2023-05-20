@@ -5,28 +5,28 @@ import "types.proto";
 
 option go_package = "./proto";
 
-service ListenerService {
-  rpc ListListeners(google.protobuf.Empty) returns (ListenerListResponse) {}
-  rpc GetListenerInfo(GetListenerInfoRequest) returns (GetListenerInfoResponse) {}
+service AgentService {
+  rpc ListAgents(google.protobuf.Empty) returns (AgentListResponse) {}
+  rpc GetAgentInfo(GetAgentInfoRequest) returns (GetAgentInfoResponse) {}
   rpc ExecuteCmd(ExecuteCmdRequest) returns (ExecuteCmdResponse) {}
 }
 
-message ListenerListResponse {
+message AgentListResponse {
   bool success = 1;
-  repeated Listener data = 2;
+  repeated Agent data = 2;
 }
 
-message GetListenerInfoRequest {
+message GetAgentInfoRequest {
   string id = 1;
 }
 
-message GetListenerInfoResponse {
+message GetAgentInfoResponse {
   bool success = 1;
-  Listener data = 2;
+  Agent data = 2;
 }
 
 message ExecuteCmdRequest {
-  string listener_id = 1;
+  string Agent_id = 1;
   string cmd = 2;
 }
 
