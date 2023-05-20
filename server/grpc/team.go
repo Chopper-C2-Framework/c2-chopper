@@ -71,6 +71,10 @@ func (s *TeamService) AddMemberToTeam(ctx context.Context, in *proto.AddMemberTo
 
 	team, err := s.TeamService.FindOne(in.GetTeamId())
 
+	if err != nil {
+		return &proto.AddMemberToTeamResponse{Success: false, Team: nil}, err
+	}
+
 	return &proto.AddMemberToTeamResponse{Success: true, Team: ConvertTeamToProto(team)}, nil
 }
 
