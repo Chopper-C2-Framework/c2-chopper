@@ -5,11 +5,11 @@ import (
 	entity "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 )
 
-type ListenerService struct {
+type AgentService struct {
 	ORMConnection *orm.ORMConnection
 	repo          entity.TransactionRepository
 }
 
-func NewListenerService(db *orm.ORMConnection) *ListenerService {
-	return &ListenerService{}
+func NewAgentService(db *orm.ORMConnection) *AgentService {
+	return &AgentService{}
 }
