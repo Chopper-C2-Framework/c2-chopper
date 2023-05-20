@@ -33,9 +33,7 @@ func (r *gormRepository) DB() *gorm.DB {
 func (r *gormRepository) GetAll(target interface{}, preloads ...string) error {
 	r.logger.Debugf("Executing GetAll on %T", target)
 
-	res := r.DBWithPreloads(preloads).
-		Unscoped().
-		Find(target)
+	res := r.DBWithPreloads(preloads).Find(target)
 
 	return r.HandleError(res)
 }
@@ -201,7 +199,7 @@ func (r *gormRepository) DeleteTx(target interface{}, tx *gorm.DB) error {
 
 func (r *gormRepository) HandleError(res *gorm.DB) error {
 	if res.Error != nil && res.Error != gorm.ErrRecordNotFound {
-		err := fmt.Errorf("Error: %w", res.Error)
+		err := fmt.Errorf("error: %w", res.Error)
 		r.logger.Error(err)
 		return err
 	}

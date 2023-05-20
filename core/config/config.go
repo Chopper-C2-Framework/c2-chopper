@@ -1,9 +1,9 @@
 package config
 
 const (
-	CONFIG_DEFAULT_DIR  = ".c2-chopper"
-	CONFIG_DEFAULT_FILE = "config.yaml"
-	CONFIG_DEFAULT_PATH = ".c2-chopper/config.yaml"
+	defaultDir  = ".c2-chopper"
+	defaultFile = "config.yaml"
+	defaultPath = ".c2-chopper/config.yaml"
 )
 
 type Config struct {

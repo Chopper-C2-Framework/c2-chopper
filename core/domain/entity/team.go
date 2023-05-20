@@ -1,14 +1,11 @@
 package entity
 
-
 type TeamModel struct {
 	UUIDModel
 	Name    string
 	Members []*UserModel `gorm:"many2many:user_team;"`
 	// Hosts   []*HostModel `gorm:"many2many:host_team;"`
 }
-
-
 
 // All operations that can be performed on the TeamModel
 // type TeamRepository struct {

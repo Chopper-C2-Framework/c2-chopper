@@ -16,12 +16,12 @@ func TestParseConfigFile(t *testing.T) {
 	defer deleteConfigFile(configFilePath)
 	generateConfigFile(configFilePath)
 
-	sconfig, err := config.ParseConfigFromFile(configFilePath)
+	file, err := config.ParseConfigFromFile(configFilePath)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if !reflect.DeepEqual(sconfig, config.DefaultConfig) {
+	if !reflect.DeepEqual(file, config.DefaultConfig) {
 		t.Fatalf("Error the configuration wasn't as intended")
 	}
 
@@ -29,12 +29,12 @@ func TestParseConfigFile(t *testing.T) {
 
 func generateConfigFile(filePath string) {
 
-	config := config.CreateDefaultConfig()
+	frameworkConfig := config.CreateDefaultConfig()
 
-	b, err := yaml.Marshal(config)
+	b, err := yaml.Marshal(frameworkConfig)
 
 	if err != nil {
-		log.Fatalln("Error marshelling config struct")
+		log.Fatalln("Error marshelling frameworkConfig struct")
 	}
 
 	f, err := os.Create(filePath)
@@ -43,7 +43,12 @@ func generateConfigFile(filePath string) {
 		log.Panicln("Error creating file")
 	}
 
-	defer f.Close()
+	defer func(f *os.File) {
+		err := f.Close()
+		if err != nil {
+			log.Panicln("Error loading config in test")
+		}
+	}(f)
 
 	if err != nil {
 		log.Panicln("Error creating file")

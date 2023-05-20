@@ -42,7 +42,7 @@ func reflectionError(currErr error, errorMsg string) error {
 func (manager PluginManager) GetPlugin(filePath string) (IPlugin, error) {
 	loadedPlugin, ok := manager.loadedPlugins[filePath]
 	if !ok {
-		return nil, errors.New("Plugin not loaded")
+		return nil, errors.New("plugin not loaded")
 	}
 	return loadedPlugin, nil
 }
@@ -95,7 +95,7 @@ func (manager PluginManager) LoadPlugin(filePath string) (IPlugin, error) {
 	}
 
 	if info.IsDir() {
-		return nil, errors.New("Bad file path, path is a directory.")
+		return nil, errors.New("bad file path, path is a directory")
 	}
 
 	p, err := plugin.Open(fullPath)
@@ -113,7 +113,7 @@ func (manager PluginManager) LoadPlugin(filePath string) (IPlugin, error) {
 
 	NewFn, ok := NewFnSymb.(func() IPlugin)
 	if !ok {
-		return nil, errors.New("New function is not defined.")
+		return nil, errors.New("new function is not defined")
 	}
 
 	pluginInstance := NewFn()

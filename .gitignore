@@ -24,3 +24,7 @@ grpc/proto
 
 # Go workspace file
 go.work
+
+node_modules
+
+.idea

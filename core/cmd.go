@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	CLI_NAME = "c2-chopper"
+	CliName = "c2-chopper"
 )
 
 func CreateApp(cmds ...[]*cli.Command) *cli.App {
@@ -21,13 +21,12 @@ func CreateApp(cmds ...[]*cli.Command) *cli.App {
 	}
 
 	app := &cli.App{
-		Name: CLI_NAME,
+		Name: CliName,
 		Before: func(ctx *cli.Context) error {
 
-			config := config.ParseConfigFromPath()
-			ctx.Context = context.WithValue(ctx.Context, "config", config)
-
-			dbConnection, _ := orm.CreateDB(config)
+			frameworkConfig := config.ParseConfigFromPath()
+			ctx.Context = context.WithValue(ctx.Context, "config", frameworkConfig)
+			dbConnection, _ := orm.CreateDB(frameworkConfig)
 			ctx.Context = context.WithValue(ctx.Context, "dbConnection", dbConnection)
 			return nil
 

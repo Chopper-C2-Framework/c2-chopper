@@ -1,14 +1,14 @@
 // Package plugins defines how to load and interact with the framework plugins.
 package plugins
 
-// INFO_RETRIEVER:  it will only return its output.
-// SESSION_OPENER in this case the framework has to prepare an agent and save the connection infos upons success.
+// InfoRetriever:  it will only return its output.
+// SessionOpener in this case the framework has to prepare an agent and save the connection infos upons success.
 const (
-	INFO_RETRIEVER int = 0
-	SESSION_OPENER int = 1
+	InfoRetriever int = 0
+	SessionOpener int = 1
 )
 
-// Type describes the metadata of the plugin
+// Metadata Type describes the metadata of the plugin
 // Version is the current version of the plugin
 type Metadata struct {
 	Version     string   `json:"version"`
@@ -20,7 +20,7 @@ type Metadata struct {
 	Description string   `json:"description"`
 }
 
-// ReturnType returns the type of returned data so we can parse it
+// PluginInfo ReturnType returns the type of returned data, so we can parse it
 // Options is a map where the key is the args name and string is the plugin's type which can be either bytes/rune/int/bool/string
 type PluginInfo struct {
 	Name       string            `json:"name"`
@@ -35,7 +35,7 @@ type Plugin struct {
 }
 
 // IPlugin is the interface that all plugins should implement.
-// The CLI will generate a scaffold and it will make sure that it add this interface on the top
+// The CLI will generate a scaffold, and it will make sure that it add this interface on the top
 type IPlugin interface {
 	MetaInfo() *Metadata
 	Info() *PluginInfo

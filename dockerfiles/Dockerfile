@@ -3,9 +3,9 @@ FROM golang:1.20-alpine
 
 EXPOSE 9000
 
-RUN apk update \ 
-  && apk add --no-cache \ 
-  mysql-client \ 
+RUN apk update \
+  && apk add --no-cache \
+  mysql-client \
   build-base 
 
 RUN mkdir /app

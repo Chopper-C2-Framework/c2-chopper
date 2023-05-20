@@ -10,6 +10,7 @@ message Listener {
 message Team {
   string id = 1;
   string name = 2;
+  repeated User members = 3;
 }
 
 message Plugin {
@@ -55,4 +56,9 @@ message Host {
 
   // Notes related to the host. Can be left by the team.
   string note = 7;
-  }
+}
+
+message User {
+  string id = 1;
+  string username = 2;
+}

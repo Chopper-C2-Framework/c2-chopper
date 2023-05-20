@@ -16,7 +16,7 @@ import (
 )
 
 type IgRPCServerHTTPGateway interface {
-	// TODO This function will be launched thro a go routine, and no return is expected from now on
+	// NewgRPCServerHTTPGateway TODO This function will be launched thro a go routine, and no return is expected from now on
 	// We will gracefully terminate it when the main thread is done!
 	NewgRPCServerHTTPGateway(*config.Config) error
 }
@@ -37,8 +37,6 @@ func handleSvcRegError(err error) {
 }
 
 func (g *gRPCServerHTTPGateway) NewgRPCServerHTTPGateway(config *config.Config) error {
-	fmt.Println("Heeere")
-
 	ctx := context.Background()
 	ctx, cancel := context.WithCancel(ctx)
 	defer cancel()

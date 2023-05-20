@@ -5,7 +5,7 @@ type IServerManager interface {
 	IgRPCServerHTTPGateway
 }
 
-type ServerManager struct {
+type Manager struct {
 	gRPCServer
 	gRPCServerHTTPGateway
 }
