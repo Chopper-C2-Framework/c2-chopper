@@ -19,8 +19,7 @@ func NewTeamService(db *orm.ORMConnection) TeamService {
 	logger := log.New()
 
 	frameworkConfig := config.ParseConfigFromPath()
-	dbConnection, _ := orm.CreateDB(frameworkConfig)
-	repo := entity.NewGormRepository(dbConnection.Db, logger)
+	repo := entity.NewGormRepository(db, logger)
 
 	return TeamService{
 		repo: repo,
