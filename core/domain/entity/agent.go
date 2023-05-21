@@ -1,8 +1,14 @@
 package entity
 
+import (
+	"time"
+)
+
 type AgentModel struct {
 	UUIDModel
-	Ip       string
-	Port     int32
 	Nickname string
+	LastSeen time.Time
+	Username string
+	Uid      string
+	Hostname string
 }

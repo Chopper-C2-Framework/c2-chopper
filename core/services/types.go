@@ -28,7 +28,13 @@ type IUserService interface {
 	FindAll() ([]entity.UserModel, error)
 }
 
-type IAgentService interface{}
+type IAgentService interface {
+	CreateAgent(agent *entity.AgentModel) error
+	FindAgentOrError(id string) (*entity.AgentModel, error)
+	ConnectAgent(id string) (*entity.AgentModel, error)
+
+	UpdateAgent(agent *entity.AgentModel) error
+}
 
 type IHostService interface{}
 

@@ -9,6 +9,16 @@ service AgentService {
   rpc ListAgents(google.protobuf.Empty) returns (AgentListResponse) {}
   rpc GetAgentInfo(GetAgentInfoRequest) returns (GetAgentInfoResponse) {}
   rpc ExecuteCmd(ExecuteCmdRequest) returns (ExecuteCmdResponse) {}
+
+  rpc Connect(AgentConnectionRequest) returns (AgentConnectionResponse) {}
+}
+
+message AgentConnectionRequest {
+  Agent data = 1;
+}
+
+message AgentConnectionResponse {
+  string uuid = 1;
 }
 
 message AgentListResponse {

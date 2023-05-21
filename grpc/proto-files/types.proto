@@ -5,6 +5,9 @@ option go_package = "./proto";
 message Agent {
   string id = 1;
   string nickname = 2;
+  string hostname = 3;
+  string username = 4;
+  string user_id = 5;
 }
 
 message Team {

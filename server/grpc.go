@@ -96,11 +96,15 @@ func (Server *gRPCServer) NewgRPCServer(
 	proto.RegisterAuthServiceServer(Server.server, &handler.AuthService{
 		UserService: coreServices.UserService,
 	})
-	proto.RegisterAgentServiceServer(Server.server, &handler.AgentService{})
+	proto.RegisterAgentServiceServer(Server.server, &handler.AgentService{
+		AgentService: coreServices.AgentService,
+	})
 	proto.RegisterTeamServiceServer(Server.server, &handler.TeamService{
 		TeamService: coreServices.TeamService,
 	})
-	proto.RegisterPluginServiceServer(Server.server, &handler.PluginService{PluginManager: pluginManager})
+	proto.RegisterPluginServiceServer(Server.server, &handler.PluginService{
+		PluginManager: pluginManager,
+	})
 	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
 	proto.RegisterHelloServiceServer(Server.server, &handler.HelloService{})
