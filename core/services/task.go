@@ -3,6 +3,7 @@ package services
 import (
 	"fmt"
 
+	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 
 	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
@@ -54,17 +55,23 @@ func (s *TaskService) FindTaskOrError(taskId string) (*entity.TaskModel, error) 
 }
 
 func (s *TaskService) FindTasksForAgent(agentId string) ([]entity.TaskModel, error) {
-	var task []entity.TaskModel
+	var tasks []entity.TaskModel
 
 	// TODO: fix this
 	fmt.Println(agentId)
 
-	err := s.repo.GetByField(&task, "agent_id", agentId)
+	x, err := uuid.Parse(agentId)
+	if err != nil {
+		log.Debugf("[-] failed to parse uuid")
+		return nil, err
+	}
+	err = s.repo.DB().Find(&tasks).Where("agent_id = ?", x).Error
+
 	if err != nil {
 		log.Debugf("[-] failed to find task by agentid")
 		return nil, err
 	}
-	fmt.Println(task)
+	fmt.Println(tasks)
 
-	return task, nil
+	return tasks, nil
 }

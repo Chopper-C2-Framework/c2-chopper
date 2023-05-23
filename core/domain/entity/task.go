@@ -1,7 +1,7 @@
 package entity
 
 import (
-	"database/sql/driver"
+	// "database/sql/driver"
 
 	"github.com/google/uuid"
 )
@@ -18,17 +18,17 @@ type TaskModel struct {
 	Name      string
 	Type      TaskType `json:"type" sql:"type:ENUM('ping', 'shell')"`
 	Args      string
-	AgentId   uuid.UUID
+	AgentId   uuid.UUID `type:"uuid"`
 	Agent     AgentModel
-	CreatorId uuid.UUID
+	CreatorId uuid.UUID `type:"uuid"`
 	Creator   UserModel `gorm:"foreignKey:CreatorId"`
 }
 
-func (e *TaskType) Scan(value interface{}) error {
-	*e = TaskType(value.([]byte))
-	return nil
-}
+// func (e *TaskType) Scan(value interface{}) error {
+// 	*e = TaskType(value.([]byte))
+// 	return nil
+// }
 
-func (e TaskType) Value() (driver.Value, error) {
-	return string(e), nil
-}
+// func (e TaskType) Value() (driver.Value, error) {
+// 	return string(e), nil
+// }
