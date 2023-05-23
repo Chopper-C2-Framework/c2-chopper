@@ -2,6 +2,8 @@ syntax = "proto3";
 
 option go_package = "./proto";
 
+import "google/protobuf/descriptor.proto";
+
 message Agent {
   string id = 1;
   string nickname = 2;
@@ -42,11 +44,25 @@ message Cred {
   string password = 2;
 }
 
+// Custom option definition
+extend google.protobuf.EnumValueOptions {
+  string string_value = 1000;
+}
+
 // Placeholder for the real task thing which should be used in the plugins too or partially.
+enum TaskType {
+  UNKNOWN = 0 [(string_value) = "unknown"];
+  PING = 1 [(string_value) = "ping"];
+  SHELL = 2 [(string_value) = "shell"];
+}
+
 message Task {
   string name = 1;
-  string type = 2;
+  TaskType type = 2;
   string result = 3;
+  string args = 4;
+  string agent_id = 5;
+  string creator_id = 6;
 }
 
 message Host {

@@ -48,3 +48,23 @@ func ConvertPluginToProto(plugin plugins.IPlugin) *proto.Plugin {
 	}
 	return &proto.Plugin{Info: info, Metadata: metadata}
 }
+
+func ConvertTaskTypeToProto(task *entity.TaskModel) proto.TaskType {
+	if task.Type == entity.Ping {
+		return proto.TaskType_PING
+	}
+	if task.Type == entity.Shell {
+		return proto.TaskType_SHELL
+	}
+	return proto.TaskType_UNKNOWN
+}
+
+func ConvertTaskToProto(task *entity.TaskModel) *proto.Task {
+	// TODO: Add user id
+	return &proto.Task{
+		Name:    task.Name,
+		Args:    task.Args,
+		Type:    ConvertTaskTypeToProto(task),
+		AgentId: task.AgentId.String(),
+	}
+}

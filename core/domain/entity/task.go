@@ -1,22 +1,26 @@
 package entity
 
-import "database/sql/driver"
+import (
+	"database/sql/driver"
+
+	"github.com/google/uuid"
+)
 
 type TaskType string
 
 const (
-	Ping      TaskType = "ping"
-	Shell     TaskType = "shell"
-	LiveShell TaskType = "live-shell"
+	Ping  TaskType = "ping"
+	Shell TaskType = "shell"
 )
 
 type TaskModel struct {
 	UUIDModel
 	Name      string
 	Type      TaskType `json:"type" sql:"type:ENUM('ping', 'shell', 'live-shell')"`
-	AgentId   int
+	Args      string
+	AgentId   uuid.UUID
 	Agent     AgentModel
-	CreatorId int
+	CreatorId uuid.UUID
 	Creator   UserModel `gorm:"foreignKey:CreatorId"`
 }
 

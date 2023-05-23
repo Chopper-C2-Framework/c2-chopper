@@ -38,6 +38,12 @@ type IAgentService interface {
 
 type IHostService interface{}
 
-type ITaskService interface{}
+type ITaskService interface {
+	CreateTask(task *entity.TaskModel) error
+	DeleteTask(task *entity.TaskModel) error
+
+	FindTaskForAgent(agentId string) (*entity.TaskModel, error)
+	FindTaskOrError(taskId string) (*entity.TaskModel, error)
+}
 
 type IReportService interface{}

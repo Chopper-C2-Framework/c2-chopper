@@ -105,6 +105,9 @@ func (Server *gRPCServer) NewgRPCServer(
 	proto.RegisterPluginServiceServer(Server.server, &handler.PluginService{
 		PluginManager: pluginManager,
 	})
+	proto.RegisterTaskServiceServer(Server.server, &handler.TaskService{
+		TaskService: coreServices.TaskService,
+	})
 	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
 	proto.RegisterHelloServiceServer(Server.server, &handler.HelloService{})
