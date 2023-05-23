@@ -68,3 +68,13 @@ func ConvertTaskToProto(task *entity.TaskModel) *proto.Task {
 		AgentId: task.AgentId.String(),
 	}
 }
+
+func ConvertAgentToProto(agent *entity.AgentModel) *proto.Agent {
+	return &proto.Agent{
+		Id:       agent.ID.String(),
+		Nickname: agent.Nickname,
+		Hostname: agent.Hostname,
+		Username: agent.Username,
+		UserId:   agent.Uid,
+	}
+}

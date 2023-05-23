@@ -17,17 +17,22 @@ type AgentService struct {
 
 func (s *AgentService) ListAgents(ctx context.Context, in *emptypb.Empty) (*proto.AgentListResponse, error) {
 	fmt.Println("[gRPC] [AgentService] ListAgents")
-	return &proto.AgentListResponse{Success: true}, nil
+	return &proto.AgentListResponse{}, nil
 }
 
 func (s *AgentService) GetAgentInfo(ctx context.Context, in *proto.GetAgentInfoRequest) (*proto.GetAgentInfoResponse, error) {
-	fmt.Println("[gRPC] [AgentService] GetAgentInfo:", in.Id)
-	return &proto.GetAgentInfoResponse{Success: true}, nil
-}
+	fmt.Println("[gRPC] [AgentService] GetAgentInfo:", in.GetAgentId())
+	if len(in.GetAgentId()) == 0 {
+		return &proto.GetAgentInfoResponse{}, errors.New("Agent id is required")
+	}
+	agent, err := s.AgentService.FindAgentOrError(in.GetAgentId())
+	if err != nil {
+		return &proto.GetAgentInfoResponse{}, err
+	}
 
-func (s *AgentService) ExecuteCmd(ctx context.Context, in *proto.ExecuteCmdRequest) (*proto.ExecuteCmdResponse, error) {
-	fmt.Println("[gRPC] [AgentService] ExecuteCmd:", in.AgentId, "Cmd:", in.Cmd)
-	return &proto.ExecuteCmdResponse{Success: true}, nil
+	return &proto.GetAgentInfoResponse{
+		Agent: ConvertAgentToProto(agent),
+	}, nil
 }
 
 func (s *AgentService) Connect(ctx context.Context, in *proto.AgentConnectionRequest) (*proto.AgentConnectionResponse, error) {
