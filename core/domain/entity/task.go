@@ -16,7 +16,7 @@ const (
 type TaskModel struct {
 	UUIDModel
 	Name      string
-	Type      TaskType `json:"type" sql:"type:ENUM('ping', 'shell', 'live-shell')"`
+	Type      TaskType `json:"type" sql:"type:ENUM('ping', 'shell')"`
 	Args      string
 	AgentId   uuid.UUID
 	Agent     AgentModel

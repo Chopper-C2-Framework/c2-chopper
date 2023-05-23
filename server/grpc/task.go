@@ -75,3 +75,21 @@ func (s *TaskService) CreateTask(ctx context.Context, in *proto.CreateTaskReques
 
 	return &proto.CreateTaskResponse{}, nil
 }
+
+func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasksRequest) (*proto.GetAgentTasksResponse, error) {
+	if len(in.GetAgentId()) == 0 {
+		return &proto.GetAgentTasksResponse{}, errors.New("Agent id required")
+	}
+
+	tasks, err := s.TaskService.FindTasksForAgent(in.GetAgentId())
+	if err != nil {
+		return &proto.GetAgentTasksResponse{}, err
+	}
+
+	protoList := make([]*proto.Task, len(tasks))
+	for i, user := range tasks {
+		protoList[i] = ConvertTaskToProto(&user)
+	}
+
+	return &proto.GetAgentTasksResponse{Tasks: protoList}, nil
+}

@@ -1,6 +1,8 @@
 package services
 
 import (
+	"fmt"
+
 	log "github.com/sirupsen/logrus"
 
 	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
@@ -51,14 +53,18 @@ func (s *TaskService) FindTaskOrError(taskId string) (*entity.TaskModel, error) 
 	return &task, nil
 }
 
-func (s *TaskService) FindTaskForAgent(agentId string) (*entity.TaskModel, error) {
-	var task entity.TaskModel
+func (s *TaskService) FindTasksForAgent(agentId string) ([]entity.TaskModel, error) {
+	var task []entity.TaskModel
 
-	err := s.repo.GetByField(&task, "AgentId", agentId)
+	// TODO: fix this
+	fmt.Println(agentId)
+
+	err := s.repo.GetByField(&task, "agent_id", agentId)
 	if err != nil {
 		log.Debugf("[-] failed to find task by agentid")
 		return nil, err
 	}
+	fmt.Println(task)
 
-	return &task, nil
+	return task, nil
 }

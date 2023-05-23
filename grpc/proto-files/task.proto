@@ -21,6 +21,12 @@ service TaskService {
     };
   }
 
+  rpc GetAgentTasks(GetAgentTasksRequest) returns (GetAgentTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/agent/{agent_id}"
+    };
+  }
+
   rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
     option (google.api.http) = {
       get: "/v1/task/{task_id}"
@@ -47,4 +53,12 @@ message DeleteTaskResponse {}
 
 message GetTaskResponse {
   Task task = 1;
+}
+
+message GetAgentTasksRequest {
+  string agent_id = 1;
+}
+
+message GetAgentTasksResponse {
+  repeated Task tasks = 1;
 }
