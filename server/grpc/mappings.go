@@ -50,10 +50,10 @@ func ConvertPluginToProto(plugin plugins.IPlugin) *proto.Plugin {
 }
 
 func ConvertTaskTypeToProto(task *entity.TaskModel) proto.TaskType {
-	if task.Type == entity.Ping {
+	if task.Type == entity.TASK_TYPE_PING {
 		return proto.TaskType_PING
 	}
-	if task.Type == entity.Shell {
+	if task.Type == entity.TASK_TYPE_SHELL {
 		return proto.TaskType_SHELL
 	}
 	return proto.TaskType_UNKNOWN

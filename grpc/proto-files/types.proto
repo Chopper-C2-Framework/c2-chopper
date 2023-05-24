@@ -51,9 +51,9 @@ extend google.protobuf.EnumValueOptions {
 
 // Placeholder for the real task thing which should be used in the plugins too or partially.
 enum TaskType {
-  UNKNOWN = 0 [(string_value) = "unknown"];
-  PING = 1 [(string_value) = "ping"];
-  SHELL = 2 [(string_value) = "shell"];
+  UNKNOWN = 0 [(string_value) = "UNKNOWN"];
+  PING = 1 [(string_value) = "PING"];
+  SHELL = 2 [(string_value) = "SHELL"];
 }
 
 message Task {

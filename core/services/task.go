@@ -1,8 +1,6 @@
 package services
 
 import (
-	"fmt"
-
 	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 
@@ -57,9 +55,6 @@ func (s *TaskService) FindTaskOrError(taskId string) (*entity.TaskModel, error) 
 func (s *TaskService) FindTasksForAgent(agentId string) ([]entity.TaskModel, error) {
 	var tasks []entity.TaskModel
 
-	// TODO: fix this
-	fmt.Println(agentId)
-
 	x, err := uuid.Parse(agentId)
 	if err != nil {
 		log.Debugf("[-] failed to parse uuid")
@@ -71,7 +66,5 @@ func (s *TaskService) FindTasksForAgent(agentId string) ([]entity.TaskModel, err
 		log.Debugf("[-] failed to find task by agentid")
 		return nil, err
 	}
-	fmt.Println(tasks)
-
 	return tasks, nil
 }

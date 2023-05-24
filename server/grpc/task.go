@@ -87,8 +87,8 @@ func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasks
 	}
 
 	protoList := make([]*proto.Task, len(tasks))
-	for i, user := range tasks {
-		protoList[i] = ConvertTaskToProto(&user)
+	for i, task := range tasks {
+		protoList[i] = ConvertTaskToProto(&task)
 	}
 
 	return &proto.GetAgentTasksResponse{Tasks: protoList}, nil
