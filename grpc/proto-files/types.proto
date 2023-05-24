@@ -65,6 +65,14 @@ message Task {
   string creator_id = 6;
 }
 
+message TaskResult {
+  // ExecutedAt
+  int32 Status = 1;
+  string TaskID = 2;
+  string Output = 3;
+  bool Seen = 4;
+}
+
 message Host {
   string hostname = 1;
   string ip_address = 2;

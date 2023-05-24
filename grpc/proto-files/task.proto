@@ -27,12 +27,26 @@ service TaskService {
     };
   }
 
+  rpc AddTaskResult(AddTaskResultRequest) returns (AddTaskResultResponse) {
+    option (google.api.http) = {
+      post: "/v1/task/result/{task_id}",
+      body: "task_result"
+    };
+  }
+
   rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
     option (google.api.http) = {
       get: "/v1/task/{task_id}"
     };
   }
 }
+
+message AddTaskResultRequest {
+  string task_id = 1;
+  TaskResult task_result = 2;
+}
+
+message AddTaskResultResponse {}
 
 message CreateTaskRequest {
   string agent_id = 1;

@@ -93,3 +93,10 @@ func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasks
 
 	return &proto.GetAgentTasksResponse{Tasks: protoList}, nil
 }
+
+func (s *TaskService) AddTaskResult(ctx context.Context, in *proto.AddTaskResultRequest) (*proto.AddTaskResultResponse, error) {
+	if len(in.GetTaskId()) == 0 {
+		return &proto.AddTaskResultResponse{}, errors.New("Task id required")
+	}
+	return &proto.AddTaskResultResponse{}, nil
+}
