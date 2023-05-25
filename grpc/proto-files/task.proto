@@ -27,6 +27,12 @@ service TaskService {
     };
   }
 
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/{task_id}"
+    };
+  }
+
   rpc CreateTaskResult(CreateTaskResultRequest) returns (CreateTaskResultResponse) {
     option (google.api.http) = {
       post: "/v1/task/result/{task_result.task_id}",
@@ -37,12 +43,6 @@ service TaskService {
   rpc GetTaskResults(GetTaskResultsRequest) returns (GetTaskResultsResponse) {
     option (google.api.http) = {
       get: "/v1/task/result/{task_id}",
-    };
-  }
-
-  rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
-    option (google.api.http) = {
-      get: "/v1/task/{task_id}"
     };
   }
 }
