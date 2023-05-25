@@ -6,9 +6,10 @@ import (
 
 type AgentModel struct {
 	UUIDModel
-	Nickname string
-	LastSeen time.Time
-	Username string
-	Uid      string
-	Hostname string
+	Nickname  string
+	LastSeen  time.Time
+	Username  string
+	Uid       string
+	Hostname  string
+	SleepTime uint32 `gorm:"default:3"`
 }
