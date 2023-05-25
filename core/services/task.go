@@ -82,3 +82,23 @@ func (s *TaskService) FindTaskResults(taskId string) ([]*entity.TaskResultModel,
 	}
 	return res, nil
 }
+
+func (s *TaskService) FindTaskResultOrError(resultId string) (*entity.TaskResultModel, error) {
+	var taskRes entity.TaskResultModel
+	err := s.repo.GetOneByID(&taskRes, resultId)
+
+	if err != nil {
+		return nil, err
+	}
+	return &taskRes, nil
+}
+
+func (s *TaskService) MarkTaskResultSeen(resultId string) error {
+	taskRes, err := s.FindTaskResultOrError(resultId)
+	if err != nil {
+		return err
+	}
+
+	taskRes.Seen = true
+	return s.repo.Save(taskRes)
+}

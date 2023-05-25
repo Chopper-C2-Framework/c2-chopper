@@ -135,3 +135,18 @@ func (s *TaskService) GetTaskResults(ctx context.Context, in *proto.GetTaskResul
 		Results: protoList,
 	}, nil
 }
+
+func (s *TaskService) SetTaskResultsSeen(ctx context.Context, in *proto.SetTaskResultsSeenRequest) (*proto.SetTaskResultsSeenResponse, error) {
+	resultIds := in.GetResultIds()
+	if resultIds == nil {
+		return &proto.SetTaskResultsSeenResponse{}, errors.New("At least 1 id is required in result_ids")
+	}
+
+	for _, id := range resultIds {
+		err := s.TaskService.MarkTaskResultSeen(id)
+		if err != nil {
+			return &proto.SetTaskResultsSeenResponse{}, err
+		}
+	}
+	return &proto.SetTaskResultsSeenResponse{}, nil
+}

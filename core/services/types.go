@@ -47,6 +47,8 @@ type ITaskService interface {
 
 	CreateTaskResult(taskResult *entity.TaskResultModel) error
 	FindTaskResults(taskId string) ([]*entity.TaskResultModel, error)
+	FindTaskResultOrError(resultId string) (*entity.TaskResultModel, error)
+	MarkTaskResultSeen(resultId string) error
 }
 
 type IReportService interface{}

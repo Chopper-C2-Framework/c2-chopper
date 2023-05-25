@@ -45,7 +45,19 @@ service TaskService {
       get: "/v1/task/result/{task_id}",
     };
   }
+
+  rpc SetTaskResultsSeen(SetTaskResultsSeenRequest) returns (SetTaskResultsSeenResponse) {
+    option (google.api.http) = {
+      patch: "/v1/task/result/seen",
+    };
+  }
 }
+
+message SetTaskResultsSeenRequest {
+  repeated string result_ids = 1;
+}
+
+message SetTaskResultsSeenResponse {}
 
 message CreateTaskResultRequest {
   TaskResult task_result = 1;
