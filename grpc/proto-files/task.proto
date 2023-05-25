@@ -27,10 +27,16 @@ service TaskService {
     };
   }
 
-  rpc AddTaskResult(AddTaskResultRequest) returns (AddTaskResultResponse) {
+  rpc CreateTaskResult(CreateTaskResultRequest) returns (CreateTaskResultResponse) {
     option (google.api.http) = {
-      post: "/v1/task/result/{task_id}",
+      post: "/v1/task/result/{task_result.task_id}",
       body: "task_result"
+    };
+  }
+
+  rpc GetTaskResults(GetTaskResultsRequest) returns (GetTaskResultsResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/result/{task_id}",
     };
   }
 
@@ -41,12 +47,19 @@ service TaskService {
   }
 }
 
-message AddTaskResultRequest {
-  string task_id = 1;
-  TaskResult task_result = 2;
+message CreateTaskResultRequest {
+  TaskResult task_result = 1;
 }
 
-message AddTaskResultResponse {}
+message CreateTaskResultResponse {}
+
+message GetTaskResultsRequest {
+  string task_id = 1;
+}
+
+message GetTaskResultsResponse {
+  repeated TaskResult results = 1;
+}
 
 message CreateTaskRequest {
   string agent_id = 1;

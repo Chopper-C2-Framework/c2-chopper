@@ -88,15 +88,50 @@ func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasks
 
 	protoList := make([]*proto.Task, len(tasks))
 	for i, task := range tasks {
-		protoList[i] = ConvertTaskToProto(&task)
+		protoList[i] = ConvertTaskToProto(task)
 	}
 
 	return &proto.GetAgentTasksResponse{Tasks: protoList}, nil
 }
 
-func (s *TaskService) AddTaskResult(ctx context.Context, in *proto.AddTaskResultRequest) (*proto.AddTaskResultResponse, error) {
-	if len(in.GetTaskId()) == 0 {
-		return &proto.AddTaskResultResponse{}, errors.New("Task id required")
+func (s *TaskService) CreateTaskResult(ctx context.Context, in *proto.CreateTaskResultRequest) (*proto.CreateTaskResultResponse, error) {
+	taskResProto := in.GetTaskResult()
+	err := ValidateTaskResultProto(taskResProto)
+	if err != nil {
+		return &proto.CreateTaskResultResponse{}, err
 	}
-	return &proto.AddTaskResultResponse{}, nil
+
+	taskUUID := uuid.MustParse(taskResProto.GetTaskId())
+	taskResult := &entity.TaskResultModel{
+		Status: taskResProto.GetStatus(),
+		Output: taskResProto.GetOutput(),
+		TaskID: taskUUID,
+	}
+
+	err = s.TaskService.CreateTaskResult(taskResult)
+	if err != nil {
+		return &proto.CreateTaskResultResponse{}, err
+	}
+
+	return &proto.CreateTaskResultResponse{}, nil
+}
+
+func (s *TaskService) GetTaskResults(ctx context.Context, in *proto.GetTaskResultsRequest) (*proto.GetTaskResultsResponse, error) {
+	if len(in.GetTaskId()) == 0 {
+		return &proto.GetTaskResultsResponse{}, errors.New("Task id required")
+	}
+
+	taskResults, err := s.TaskService.FindTaskResults(in.GetTaskId())
+	if err != nil {
+		return &proto.GetTaskResultsResponse{}, err
+	}
+
+	protoList := make([]*proto.TaskResult, len(taskResults))
+	for i, taskRes := range taskResults {
+		protoList[i] = ConvertTaskResultToProto(taskRes)
+	}
+
+	return &proto.GetTaskResultsResponse{
+		Results: protoList,
+	}, nil
 }

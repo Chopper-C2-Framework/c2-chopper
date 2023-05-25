@@ -42,8 +42,11 @@ type ITaskService interface {
 	CreateTask(task *entity.TaskModel) error
 	DeleteTask(task *entity.TaskModel) error
 
-	FindTasksForAgent(agentId string) ([]entity.TaskModel, error)
+	FindTasksForAgent(agentId string) ([]*entity.TaskModel, error)
 	FindTaskOrError(taskId string) (*entity.TaskModel, error)
+
+	CreateTaskResult(taskResult *entity.TaskResultModel) error
+	FindTaskResults(taskId string) ([]*entity.TaskResultModel, error)
 }
 
 type IReportService interface{}

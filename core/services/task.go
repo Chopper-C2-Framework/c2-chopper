@@ -51,8 +51,8 @@ func (s *TaskService) FindTaskOrError(taskId string) (*entity.TaskModel, error) 
 	return &task, nil
 }
 
-func (s *TaskService) FindTasksForAgent(agentId string) ([]entity.TaskModel, error) {
-	var tasks []entity.TaskModel
+func (s *TaskService) FindTasksForAgent(agentId string) ([]*entity.TaskModel, error) {
+	var tasks []*entity.TaskModel
 
 	err := s.repo.GetByField(&tasks, "agent_id", agentId)
 	if err != nil {
@@ -60,4 +60,25 @@ func (s *TaskService) FindTasksForAgent(agentId string) ([]entity.TaskModel, err
 		return nil, err
 	}
 	return tasks, nil
+}
+
+func (s *TaskService) CreateTaskResult(taskResult *entity.TaskResultModel) error {
+	err := s.repo.Create(taskResult)
+	if err != nil {
+		log.Debugf("[-] failed to create task")
+		return err
+	}
+
+	return nil
+}
+
+func (s *TaskService) FindTaskResults(taskId string) ([]*entity.TaskResultModel, error) {
+	var res []*entity.TaskResultModel
+
+	err := s.repo.GetByField(&res, "task_id", taskId)
+	if err != nil {
+		log.Debugf("[-] failed to find task results by taskid")
+		return nil, err
+	}
+	return res, nil
 }

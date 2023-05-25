@@ -57,20 +57,22 @@ enum TaskType {
 }
 
 message Task {
-  string name = 1;
-  TaskType type = 2;
-  string result = 3;
-  string args = 4;
-  string agent_id = 5;
-  string creator_id = 6;
+  string task_id = 1;
+  string name = 2;
+  TaskType type = 3;
+  string result = 4;
+  string args = 5;
+  string agent_id = 6;
+  string creator_id = 7;
 }
 
 message TaskResult {
   // ExecutedAt
-  int32 Status = 1;
-  string TaskID = 2;
-  string Output = 3;
-  bool Seen = 4;
+  string id = 1;
+  int32 status = 2;
+  string task_id = 3;
+  string output = 4;
+  bool seen = 5;
 }
 
 message Host {
