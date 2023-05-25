@@ -100,4 +100,5 @@ message GetAgentTasksRequest {
 
 message GetAgentTasksResponse {
   repeated Task tasks = 1;
+  uint32 sleep_time = 2;
 }

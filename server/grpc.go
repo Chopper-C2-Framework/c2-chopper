@@ -103,7 +103,8 @@ func (Server *gRPCServer) NewgRPCServer(
 	})
 
 	proto.RegisterTaskServiceServer(Server.server, &handler.TaskService{
-		TaskService: coreServices.TaskService,
+		TaskService:  coreServices.TaskService,
+		AgentService: coreServices.AgentService,
 	})
 	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})

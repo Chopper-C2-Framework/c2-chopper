@@ -13,7 +13,8 @@ import (
 
 type TaskService struct {
 	proto.UnimplementedTaskServiceServer
-	TaskService services.ITaskService
+	TaskService  services.ITaskService
+	AgentService services.IAgentService
 }
 
 func (s *TaskService) GetTask(ctx context.Context, in *proto.GetTaskRequest) (*proto.GetTaskResponse, error) {
@@ -77,11 +78,17 @@ func (s *TaskService) CreateTask(ctx context.Context, in *proto.CreateTaskReques
 }
 
 func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasksRequest) (*proto.GetAgentTasksResponse, error) {
-	if len(in.GetAgentId()) == 0 {
+	agentId := in.GetAgentId()
+	if len(agentId) == 0 {
 		return &proto.GetAgentTasksResponse{}, errors.New("Agent id required")
 	}
 
-	tasks, err := s.TaskService.FindTasksForAgent(in.GetAgentId())
+	agent, err := s.AgentService.FindAgentOrError(agentId)
+	if err != nil {
+		return &proto.GetAgentTasksResponse{}, errors.New("Agent not found")
+	}
+
+	tasks, err := s.TaskService.FindTasksForAgent(agentId)
 	if err != nil {
 		return &proto.GetAgentTasksResponse{}, err
 	}
@@ -91,7 +98,10 @@ func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasks
 		protoList[i] = ConvertTaskToProto(task)
 	}
 
-	return &proto.GetAgentTasksResponse{Tasks: protoList}, nil
+	return &proto.GetAgentTasksResponse{
+		Tasks:     protoList,
+		SleepTime: agent.SleepTime,
+	}, nil
 }
 
 func (s *TaskService) CreateTaskResult(ctx context.Context, in *proto.CreateTaskResultRequest) (*proto.CreateTaskResultResponse, error) {
