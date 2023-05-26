@@ -31,6 +31,7 @@ type IUserService interface {
 type IAgentService interface {
 	CreateAgent(agent *entity.AgentModel) error
 	FindAgentOrError(id string) (*entity.AgentModel, error)
+	FindAllAgents() ([]*entity.AgentModel, error)
 	ConnectAgent(id string) (*entity.AgentModel, error)
 
 	UpdateAgent(agent *entity.AgentModel) error

@@ -10,6 +10,7 @@ message Agent {
   string hostname = 3;
   string username = 4;
   string user_id = 5;
+  uint32 sleep_time = 6;
 }
 
 message Team {

@@ -71,3 +71,14 @@ func (s *AgentService) ConnectAgent(id string) (*entity.AgentModel, error) {
 func (s *AgentService) UpdateAgent(agent *entity.AgentModel) error {
 	return s.repo.Save(agent)
 }
+
+func (s *AgentService) FindAllAgents() ([]*entity.AgentModel, error) {
+	var res []*entity.AgentModel
+
+	err := s.repo.GetAll(&res)
+	if err != nil {
+		log.Debugf("[-] failed to fetch agents")
+		return nil, err
+	}
+	return res, nil
+}

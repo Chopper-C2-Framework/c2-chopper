@@ -17,7 +17,19 @@ type AgentService struct {
 
 func (s *AgentService) ListAgents(ctx context.Context, in *emptypb.Empty) (*proto.AgentListResponse, error) {
 	fmt.Println("[gRPC] [AgentService] ListAgents")
-	return &proto.AgentListResponse{}, nil
+	agents, err := s.AgentService.FindAllAgents()
+	if err != nil {
+		return &proto.AgentListResponse{}, err
+	}
+
+	protoList := make([]*proto.Agent, len(agents))
+	for i, agent := range agents {
+		protoList[i] = ConvertAgentToProto(agent)
+	}
+
+	return &proto.AgentListResponse{
+		Data: protoList,
+	}, nil
 }
 
 func (s *AgentService) GetAgentInfo(ctx context.Context, in *proto.GetAgentInfoRequest) (*proto.GetAgentInfoResponse, error) {
