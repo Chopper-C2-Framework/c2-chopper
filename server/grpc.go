@@ -29,7 +29,6 @@ type IgRPCServer interface {
 	// we will gracefully terminate it when the main thread is done
 	NewgRPCServer(
 		config *Cfg.Config,
-		ormConnection *orm.ORMConnection,
 		pluginManager *plugins.PluginManager,
 	) error
 }
@@ -56,7 +55,6 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 
 func (Server *gRPCServer) NewgRPCServer(
 	config *Cfg.Config,
-	ormConnection *orm.ORMConnection,
 	pluginManager *plugins.PluginManager,
 ) error {
 	Agent, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServergRPCPort))
@@ -66,10 +64,8 @@ func (Server *gRPCServer) NewgRPCServer(
 	fmt.Println("[+] Created Agent on port", config.ServergRPCPort)
 
 	AuthInterceptor := interceptor.AuthInterceptor{}
-	ORMInjector := interceptor.ORMInjectorInterceptor{DbConnection: ormConnection}
 
 	UnaryInterceptors := grpc.ChainUnaryInterceptor(
-		ORMInjector.UnaryServerInterceptor,
 		AuthInterceptor.UnaryServerInterceptor,
 	)
 
@@ -96,11 +92,21 @@ func (Server *gRPCServer) NewgRPCServer(
 	proto.RegisterAuthServiceServer(Server.server, &handler.AuthService{
 		UserService: coreServices.UserService,
 	})
-	proto.RegisterAgentServiceServer(Server.server, &handler.AgentService{})
+	proto.RegisterAgentServiceServer(Server.server, &handler.AgentService{
+		AgentService: coreServices.AgentService,
+	})
+
 	proto.RegisterTeamServiceServer(Server.server, &handler.TeamService{
 		TeamService: coreServices.TeamService,
 	})
-	proto.RegisterPluginServiceServer(Server.server, &handler.PluginService{PluginManager: pluginManager})
+	proto.RegisterPluginServiceServer(Server.server, &handler.PluginService{
+		PluginManager: pluginManager,
+	})
+
+	proto.RegisterTaskServiceServer(Server.server, &handler.TaskService{
+		TaskService:  coreServices.TaskService,
+		AgentService: coreServices.AgentService,
+	})
 	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
 	proto.RegisterHelloServiceServer(Server.server, &handler.HelloService{})

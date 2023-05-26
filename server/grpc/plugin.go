@@ -57,7 +57,7 @@ func (s *PluginService) LoadPlugin(ctx context.Context, in *proto.LoadPluginRequ
 	if err != nil {
 		return &proto.LoadPluginResponse{Success: false}, err
 	}
-	return &proto.LoadPluginResponse{Success: true, Data: s.GetPluginInfo(plugin)}, nil
+	return &proto.LoadPluginResponse{Success: true, Data: ConvertPluginToProto(plugin)}, nil
 }
 
 func (s *PluginService) GetPluginDetails(ctx context.Context, in *proto.LoadPluginRequest) (*proto.LoadPluginResponse, error) {
@@ -66,28 +66,7 @@ func (s *PluginService) GetPluginDetails(ctx context.Context, in *proto.LoadPlug
 	if err != nil {
 		return &proto.LoadPluginResponse{Success: false}, err
 	}
-	return &proto.LoadPluginResponse{Success: true, Data: s.GetPluginInfo(plugin)}, nil
-}
-
-func (s *PluginService) GetPluginInfo(plugin plugins.IPlugin) *proto.Plugin {
-	pluginInfo := plugin.Info()
-	pluginMeta := plugin.MetaInfo()
-
-	info := &proto.PluginInfo{
-		Name:       pluginInfo.Name,
-		Options:    pluginInfo.Options,
-		ReturnType: pluginInfo.ReturnType,
-	}
-	metadata := &proto.PluginMetadata{
-		Version:     pluginMeta.Version,
-		Author:      pluginMeta.Author,
-		Tags:        pluginMeta.Tags,
-		ReleaseDate: pluginMeta.ReleaseDate,
-		Type:        int32(pluginMeta.Type),
-		SourceLink:  pluginMeta.SourceLink,
-		Description: pluginMeta.Description,
-	}
-	return &proto.Plugin{Info: info, Metadata: metadata}
+	return &proto.LoadPluginResponse{Success: true, Data: ConvertPluginToProto(plugin)}, nil
 }
 
 func GetValue(val *proto.ArgValue) interface{} {

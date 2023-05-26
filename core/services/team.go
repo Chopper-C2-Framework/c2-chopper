@@ -18,7 +18,6 @@ func NewTeamService(db *orm.ORMConnection) TeamService {
 	logger := log.New()
 
 	repo := entity.NewGormRepository(db.Db, logger)
-
 	return TeamService{
 		repo: repo,
 	}
