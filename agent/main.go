@@ -126,6 +126,7 @@ func InitServices(conn *grpc.ClientConn) *Services {
 }
 
 func FetchTasks(services *Services, info *AgentInfo) ([]*pb.Task, uint32, error) {
+	fmt.Println("Fetching tasks")
 	request := &pb.GetAgentTasksRequest{
 		AgentId: info.Uuid,
 	}
@@ -141,10 +142,13 @@ func FetchTasks(services *Services, info *AgentInfo) ([]*pb.Task, uint32, error)
 
 func ExecuteTask(task *pb.Task) (*pb.TaskResult, error) {
 	// Handle execution & stuff
+	fmt.Println("Executing task", task.Name)
 	return &pb.TaskResult{TaskId: task.TaskId}, nil
 }
 
 func SendResult(services *Services, result *pb.TaskResult) error {
+	fmt.Println("Sending result for task id", result.TaskId)
+
 	request := &pb.CreateTaskResultRequest{
 		TaskResult: result,
 	}
@@ -173,6 +177,8 @@ func main() {
 			log.Panic("Unable to fetch tasks")
 		}
 
+		fmt.Println("Fetched", len(tasks), "tasks")
+
 		for _, task := range tasks {
 			// This can become multithreaded in the future
 			// But will require sync between { SendResult, Sleep } blocks
@@ -188,6 +194,7 @@ func main() {
 
 			time.Sleep(time.Duration(sleep * uint32(time.Second)))
 		}
+		time.Sleep(time.Duration(sleep * uint32(time.Second)))
 
 	}
 }
