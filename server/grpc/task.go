@@ -88,7 +88,7 @@ func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasks
 		return &proto.GetAgentTasksResponse{}, errors.New("Agent not found")
 	}
 
-	tasks, err := s.TaskService.FindTasksForAgent(agentId)
+	tasks, err := s.TaskService.FindUnexecutedTasksForAgent(agentId)
 	if err != nil {
 		return &proto.GetAgentTasksResponse{}, err
 	}
