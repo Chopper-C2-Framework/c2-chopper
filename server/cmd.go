@@ -1,7 +1,6 @@
 package server
 
 import (
-	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
 	"log"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
@@ -23,7 +22,6 @@ func GetCommands() []*cli.Command {
 		Usage:   "Control the C2 server state and functionalities.",
 		Action: func(cCtx *cli.Context) error {
 			frameworkConfig := cCtx.Context.Value("config").(*config.Config)
-			ormConnection := cCtx.Context.Value("dbConnection").(*orm.ORMConnection)
 
 			if frameworkConfig == nil {
 				return nil
@@ -33,7 +31,7 @@ func GetCommands() []*cli.Command {
 			var serverManager IServerManager = &Manager{}
 
 			go func() {
-				err := serverManager.NewgRPCServer(frameworkConfig, ormConnection, &pluginManager)
+				err := serverManager.NewgRPCServer(frameworkConfig, &pluginManager)
 				if err != nil {
 					log.Println("Error launching GRPC server")
 					return

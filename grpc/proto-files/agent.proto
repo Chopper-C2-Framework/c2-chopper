@@ -8,29 +8,25 @@ option go_package = "./proto";
 service AgentService {
   rpc ListAgents(google.protobuf.Empty) returns (AgentListResponse) {}
   rpc GetAgentInfo(GetAgentInfoRequest) returns (GetAgentInfoResponse) {}
-  rpc ExecuteCmd(ExecuteCmdRequest) returns (ExecuteCmdResponse) {}
+  rpc Connect(AgentConnectionRequest) returns (AgentConnectionResponse) {}
+}
+
+message AgentConnectionRequest {
+  Agent data = 1;
+}
+
+message AgentConnectionResponse {
+  string uuid = 1;
 }
 
 message AgentListResponse {
-  bool success = 1;
-  repeated Agent data = 2;
+  repeated Agent data = 1;
 }
 
 message GetAgentInfoRequest {
-  string id = 1;
+  string agent_id = 1;
 }
 
 message GetAgentInfoResponse {
-  bool success = 1;
-  Agent data = 2;
-}
-
-message ExecuteCmdRequest {
-  string Agent_id = 1;
-  string cmd = 2;
-}
-
-message ExecuteCmdResponse {
-  bool success = 1;
-  string result = 2;
+  Agent agent = 1;
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
-	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
 
 	"github.com/urfave/cli/v2"
 )
@@ -26,8 +25,8 @@ func CreateApp(cmds ...[]*cli.Command) *cli.App {
 
 			frameworkConfig := config.ParseConfigFromPath()
 			ctx.Context = context.WithValue(ctx.Context, "config", frameworkConfig)
-			dbConnection, _ := orm.CreateDB(frameworkConfig)
-			ctx.Context = context.WithValue(ctx.Context, "dbConnection", dbConnection)
+			// dbConnection, _ := orm.CreateDB(frameworkConfig)
+			// ctx.Context = context.WithValue(ctx.Context, "dbConnection", dbConnection)
 			return nil
 
 		},
