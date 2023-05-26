@@ -8,7 +8,6 @@ option go_package = "./proto";
 service AgentService {
   rpc ListAgents(google.protobuf.Empty) returns (AgentListResponse) {}
   rpc GetAgentInfo(GetAgentInfoRequest) returns (GetAgentInfoResponse) {}
-
   rpc Connect(AgentConnectionRequest) returns (AgentConnectionResponse) {}
 }
 

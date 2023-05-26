@@ -95,6 +95,7 @@ func (Server *gRPCServer) NewgRPCServer(
 	proto.RegisterAgentServiceServer(Server.server, &handler.AgentService{
 		AgentService: coreServices.AgentService,
 	})
+
 	proto.RegisterTeamServiceServer(Server.server, &handler.TeamService{
 		TeamService: coreServices.TeamService,
 	})

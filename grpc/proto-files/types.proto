@@ -2,7 +2,9 @@ syntax = "proto3";
 
 option go_package = "./proto";
 
+
 import "google/protobuf/descriptor.proto";
+
 
 message Agent {
   string id = 1;

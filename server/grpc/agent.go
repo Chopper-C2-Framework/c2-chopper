@@ -12,7 +12,9 @@ import (
 
 type AgentService struct {
 	proto.UnimplementedAgentServiceServer
+
 	AgentService services.IAgentService
+
 }
 
 func (s *AgentService) ListAgents(ctx context.Context, in *emptypb.Empty) (*proto.AgentListResponse, error) {
@@ -68,4 +70,5 @@ func (s *AgentService) Connect(ctx context.Context, in *proto.AgentConnectionReq
 	}
 
 	return &proto.AgentConnectionResponse{Uuid: agent.ID.String()}, nil
+
 }
