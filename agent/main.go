@@ -127,13 +127,13 @@ func InitServices(conn *grpc.ClientConn) *Services {
 
 func FetchTasks(services *Services, info *AgentInfo) ([]*pb.Task, uint32, error) {
 	fmt.Println("Fetching tasks")
-	request := &pb.GetAgentTasksRequest{
+	request := &pb.GetAgentUnexecutedTasksRequest{
 		AgentId: info.Uuid,
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	resp, err := services.TaskService.GetAgentTasks(ctx, request)
+	resp, err := services.TaskService.GetAgentUnexecutedTasks(ctx, request)
 	if err != nil {
 		return nil, 0, err
 	}
