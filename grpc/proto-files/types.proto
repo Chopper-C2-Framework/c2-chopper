@@ -63,10 +63,9 @@ message Task {
   string task_id = 1;
   string name = 2;
   TaskType type = 3;
-  string result = 4;
-  string args = 5;
-  string agent_id = 6;
-  string creator_id = 7;
+  string args = 4;
+  string agent_id = 5;
+  string creator_id = 6;
 }
 
 message TaskResult {
