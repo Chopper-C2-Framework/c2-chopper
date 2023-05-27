@@ -409,6 +409,7 @@ message FileOptions {
   // This option does nothing.
   optional bool java_generate_equals_and_hash = 20 [deprecated = true];
 
+
   // If set true, then the Java2 code generator will generate code that
   // throws an exception whenever an attempt is made to assign a non-UTF-8
   // byte sequence to a string field.
@@ -420,7 +421,6 @@ message FileOptions {
   // Generated classes can be optimized for speed or code size.
   enum OptimizeMode {
     SPEED = 1;         // Generate complete code for parsing, serialization,
-    // etc.
     CODE_SIZE = 2;     // Use ReflectionOps to implement these methods.
     LITE_RUNTIME = 3;  // Generate code using MessageLite and the lite runtime.
   }
@@ -817,6 +817,7 @@ message MethodOptions {
   }
   optional IdempotencyLevel idempotency_level = 34
   [default = IDEMPOTENCY_UNKNOWN];
+
 
   // The parser stores options it doesn't recognize here. See above.
   repeated UninterpretedOption uninterpreted_option = 999;

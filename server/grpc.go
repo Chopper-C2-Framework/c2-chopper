@@ -54,13 +54,16 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 }
 
 func (Server *gRPCServer) NewgRPCServer(
+
 	frameworkConfig *Cfg.Config,
+
 	pluginManager *plugins.PluginManager,
 ) error {
 	Agent, err := net.Listen("tcp", fmt.Sprintf("%s:%d", frameworkConfig.Host, frameworkConfig.ServergRPCPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+
 
 	fmt.Println("[+] Created Agent on port", frameworkConfig.ServergRPCPort)
 
@@ -78,6 +81,7 @@ func (Server *gRPCServer) NewgRPCServer(
 
 	UnaryInterceptors := grpc.ChainUnaryInterceptor(
 		AuthInterceptor.IsAuthenticatedInterceptor,
+
 	)
 
 	if frameworkConfig.UseTLS {
