@@ -17,6 +17,12 @@ type AuthInterceptor struct {
 	AccessibleRoles map[string][]string
 }
 
+type ContextUser struct {
+	Username string `json:"username"`
+	Role     string `json:"role"`
+	Id       string `json:"id"`
+}
+
 func (i *AuthInterceptor) IsAuthenticatedInterceptor(
 	ctx context.Context,
 	req interface{},
@@ -30,43 +36,45 @@ func (i *AuthInterceptor) IsAuthenticatedInterceptor(
 		fmt.Printf("Interceptor called for service %v without metadata\n", info.FullMethod)
 	}
 
-	err := i.authorize(ctx, info.FullMethod)
+	user, err := i.authorize(ctx, info.FullMethod)
 	if err != nil {
 		return nil, err
 	}
 
+	ctx = metadata.AppendToOutgoingContext(ctx, "userId", user.Id)
+
 	return handler(ctx, req)
 }
 
-func (i *AuthInterceptor) authorize(ctx context.Context, method string) error {
+func (i *AuthInterceptor) authorize(ctx context.Context, method string) (*ContextUser, error) {
 	logrus.Println("AuthInterceptor.authorize", method)
 	accessibleRoles, ok := i.AccessibleRoles[method]
 	if !ok {
 		// everyone can access
-		return nil
+		return nil, nil
 	}
 
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {
-		return status.Errorf(codes.Unauthenticated, "metadata is not provided")
+		return nil, status.Errorf(codes.Unauthenticated, "metadata is not provided")
 	}
 
 	values := md["authorization"]
 	if len(values) == 0 {
-		return status.Errorf(codes.Unauthenticated, "authorization token is not provided")
+		return nil, status.Errorf(codes.Unauthenticated, "authorization token is not provided")
 	}
 
 	accessToken := values[0]
 	claims, err := i.AuthService.ParseToken(accessToken)
 	if err != nil {
-		return status.Errorf(codes.Unauthenticated, "access token is invalid: %v", err)
+		return nil, status.Errorf(codes.Unauthenticated, "access token is invalid: %v", err)
 	}
 
 	for _, role := range accessibleRoles {
 		if role == claims.Role {
-			return nil
+			return &ContextUser{Id: claims.Subject, Username: claims.Username, Role: claims.Role}, nil
 		}
 	}
 
-	return status.Error(codes.PermissionDenied, "no permission to access this RPC")
+	return nil, status.Error(codes.PermissionDenied, "no permission to access this RPC")
 }

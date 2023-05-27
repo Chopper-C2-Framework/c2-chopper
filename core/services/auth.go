@@ -101,13 +101,9 @@ func (s AuthService) ParseToken(token string) (*JWTData, error) {
 		return []byte(s.FrameworkConfig.SecretToken), nil
 	})
 
-	log.Println("parsedToken", parsedToken, err)
-
 	if err != nil {
 		return nil, err
 	}
-
-	log.Println("here", parsedToken, err)
 
 	if claims, ok := parsedToken.Claims.(*JWTData); ok && parsedToken.Valid {
 		return claims, nil

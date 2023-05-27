@@ -14,7 +14,6 @@ type AgentService struct {
 	proto.UnimplementedAgentServiceServer
 
 	AgentService services.IAgentService
-
 }
 
 func (s *AgentService) ListAgents(ctx context.Context, in *emptypb.Empty) (*proto.AgentListResponse, error) {
