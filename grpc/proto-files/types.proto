@@ -13,6 +13,7 @@ message Agent {
   string username = 4;
   string user_id = 5;
   uint32 sleep_time = 6;
+  string cwd = 7;
 }
 
 message Team {
@@ -63,10 +64,9 @@ message Task {
   string task_id = 1;
   string name = 2;
   TaskType type = 3;
-  string result = 4;
-  string args = 5;
-  string agent_id = 6;
-  string creator_id = 7;
+  repeated string args = 4;
+  string agent_id = 5;
+  string creator_id = 6;
 }
 
 message TaskResult {

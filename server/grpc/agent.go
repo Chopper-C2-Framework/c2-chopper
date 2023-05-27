@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/core/services"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 	"google.golang.org/protobuf/types/known/emptypb"
@@ -14,7 +15,6 @@ type AgentService struct {
 	proto.UnimplementedAgentServiceServer
 
 	AgentService services.IAgentService
-
 }
 
 func (s *AgentService) ListAgents(ctx context.Context, in *emptypb.Empty) (*proto.AgentListResponse, error) {
@@ -55,20 +55,18 @@ func (s *AgentService) Connect(ctx context.Context, in *proto.AgentConnectionReq
 		return &proto.AgentConnectionResponse{}, errors.New("Agent info missing")
 	}
 
-	agent, err := s.AgentService.ConnectAgent(agentInfo.GetId())
+	agent, err := s.AgentService.ConnectAgent(
+		agentInfo.GetId(),
+		&entity.AgentModel{
+			Username: agentInfo.GetUsername(),
+			Uid:      agentInfo.GetUserId(),
+			Hostname: agentInfo.GetHostname(),
+			Cwd:      agentInfo.GetCwd(),
+		},
+	)
 	if err != nil {
 		return &proto.AgentConnectionResponse{}, err
 	}
-
-	agent.Username = agentInfo.GetUsername()
-	agent.Uid = agentInfo.GetUserId()
-	agent.Hostname = agentInfo.GetHostname()
-
-	err = s.AgentService.UpdateAgent(agent)
-	if err != nil {
-		return &proto.AgentConnectionResponse{}, err
-	}
-
 	return &proto.AgentConnectionResponse{Uuid: agent.ID.String()}, nil
 
 }

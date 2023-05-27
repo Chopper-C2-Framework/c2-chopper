@@ -39,7 +39,7 @@ func (s *AgentService) CreateAgent(agent *entity.AgentModel) error {
 	return s.repo.Create(agent)
 }
 
-func (s *AgentService) ConnectAgent(id string) (*entity.AgentModel, error) {
+func (s *AgentService) ConnectAgent(id string, agentInfo *entity.AgentModel) (*entity.AgentModel, error) {
 	var (
 		agent *entity.AgentModel
 		err   error
@@ -58,8 +58,8 @@ func (s *AgentService) ConnectAgent(id string) (*entity.AgentModel, error) {
 	if err != nil {
 		return nil, err
 	}
-	agent.LastSeen = time.Now()
-	err = s.repo.Save(agent)
+	agentInfo.LastSeen = time.Now()
+	err = s.UpdateAgent(agent, agentInfo)
 	if err != nil {
 		return nil, err
 	}
@@ -67,8 +67,12 @@ func (s *AgentService) ConnectAgent(id string) (*entity.AgentModel, error) {
 	return agent, nil
 }
 
-func (s *AgentService) UpdateAgent(agent *entity.AgentModel) error {
+func (s *AgentService) SaveAgent(agent *entity.AgentModel) error {
 	return s.repo.Save(agent)
+}
+
+func (s *AgentService) UpdateAgent(target *entity.AgentModel, updates *entity.AgentModel) error {
+	return s.repo.Update(target, updates)
 }
 
 func (s *AgentService) FindAllAgents() ([]*entity.AgentModel, error) {

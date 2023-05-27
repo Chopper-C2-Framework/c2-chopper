@@ -4,8 +4,12 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
+
+	"github.com/mattn/go-shellwords"
+
 	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
+
 )
 
 func ConvertTeamToProto(team *entity.TeamModel) *proto.Team {
@@ -73,11 +77,18 @@ func ConvertTaskTypeToProto(task *entity.TaskModel) proto.TaskType {
 }
 
 func ConvertTaskToProto(task *entity.TaskModel) *proto.Task {
+	var args []string
+	if task.Type == entity.TASK_TYPE_SHELL {
+		args, _ = shellwords.Parse(task.Args)
+	} else {
+		args = make([]string, 1)
+		args[0] = task.Args
+	}
 	// TODO: Add user id
 	return &proto.Task{
 		TaskId:  task.ID.String(),
 		Name:    task.Name,
-		Args:    task.Args,
+		Args:    args,
 		Type:    ConvertTaskTypeToProto(task),
 		AgentId: task.AgentId.String(),
 	}
