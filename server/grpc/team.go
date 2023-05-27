@@ -24,7 +24,7 @@ func (s *TeamService) CreateTeam(ctx context.Context, in *proto.CreateTeamReques
 
 	newTeam := &entity.TeamModel{
 		Name:    in.GetData().Name,
-		Members: []*entity.UserModel{},
+		Members: []entity.UserModel{},
 	}
 
 	err := s.TeamService.CreateTeam(newTeam)

@@ -17,7 +17,7 @@ type UserService struct {
 func NewUserService(db *orm.ORMConnection) *UserService {
 	logger := log.New()
 
-	repo := entity.NewGormRepository(db.Db, logger, "Teams")
+	repo := entity.NewGormRepository(db.Db, logger)
 
 	return &UserService{
 		repo: repo,
@@ -29,6 +29,7 @@ func (u *UserService) CreateUser(newUser *entity.UserModel) error {
 	newPassword, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), 14)
 
 	if err != nil {
+		log.Debugf("Register error hashing password %v\n", err)
 		return err
 	}
 
@@ -97,8 +98,10 @@ func (u *UserService) FindUserByIdOrError(id string) (*entity.UserModel, error) 
 }
 
 func (u *UserService) FindUserByUsernameOrError(username string) (*entity.UserModel, error) {
+	log.Println("FindUserByUsernameOrError")
 	var user entity.UserModel
 	err := u.repo.GetOneByField(&user, "username", username)
+
 	if err != nil {
 		log.Debugf("error finding user %v\n", err)
 		return nil, err

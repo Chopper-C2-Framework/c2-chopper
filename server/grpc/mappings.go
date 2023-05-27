@@ -15,7 +15,7 @@ import (
 func ConvertTeamToProto(team *entity.TeamModel) *proto.Team {
 	var users []*proto.User
 	for _, m := range team.Members {
-		users = append(users, ConvertUserToProto(m))
+		users = append(users, ConvertUserToProto(&m))
 	}
 	protoTeam := &proto.Team{
 		Id:      team.ID.String(),
@@ -45,6 +45,7 @@ func ConvertProtoToUser(user *proto.User) (*entity.UserModel, error) {
 		Username:  user.Username,
 	}, nil
 }
+
 func ConvertPluginToProto(plugin plugins.IPlugin) *proto.Plugin {
 	pluginInfo := plugin.Info()
 	pluginMeta := plugin.MetaInfo()

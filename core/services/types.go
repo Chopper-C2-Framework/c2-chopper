@@ -32,6 +32,7 @@ type IUserService interface {
 type IAuthService interface {
 	Login(username string, password string) (string, error)
 	Register(username string, password string) (string, error)
+	ParseToken(token string) (*JWTData, error)
 }
 
 type IAgentService interface {
