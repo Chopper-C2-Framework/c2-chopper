@@ -118,7 +118,6 @@ func (Server *gRPCServer) NewgRPCServer(
 	})
 	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
-	proto.RegisterHelloServiceServer(Server.server, &handler.HelloService{})
 
 	if err := Server.server.Serve(Agent); err != nil {
 		log.Fatalf("failed to serve: %v", err)
