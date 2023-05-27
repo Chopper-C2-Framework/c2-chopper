@@ -16,6 +16,7 @@ type Config struct {
 	ServerCertKey  string `yaml:"sever_cert_key_path"`
 	UseTLS         bool   `yaml:"use_tls"`
 	ServerDb       string `yaml:"server_db_path"`
+	SecretToken    string `yaml:"secret_token"`
 }
 
 var DefaultConfig = Config{

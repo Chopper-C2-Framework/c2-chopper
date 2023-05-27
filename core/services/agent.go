@@ -6,8 +6,7 @@ import (
 	log "github.com/sirupsen/logrus"
 
 	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
-	entity "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
-
+	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"time"
 )
 

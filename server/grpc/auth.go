@@ -3,23 +3,34 @@ package grpc
 import (
 	"context"
 	"fmt"
-
+	"github.com/chopper-c2-framework/c2-chopper/core/services"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
-
-	services "github.com/chopper-c2-framework/c2-chopper/core/services"
 )
 
 type AuthService struct {
 	proto.UnimplementedAuthServiceServer
-	UserService services.IUserService
+	AuthService services.IAuthService
 }
 
-func (s *AuthService) Login(ctx context.Context, in *proto.LoginRequest) (*proto.LoginResponse, error) {
+func (a *AuthService) Login(ctx context.Context, in *proto.LoginRequest) (*proto.LoginResponse, error) {
 	fmt.Println("[gRPC] [AuthService] Login:", in.GetUsername())
-	return &proto.LoginResponse{Success: true}, nil
+
+	token, err := a.AuthService.Login(in.GetUsername(), in.GetPassword())
+	if err != nil {
+		return &proto.LoginResponse{Success: false}, err
+	}
+
+	return &proto.LoginResponse{Success: true, Token: token}, nil
 }
 
-func (s *AuthService) Register(ctx context.Context, in *proto.RegisterRequest) (*proto.RegisterResponse, error) {
+func (a *AuthService) Register(ctx context.Context, in *proto.RegisterRequest) (*proto.RegisterResponse, error) {
 	fmt.Println("[gRPC] [AuthService] Register:", in.GetUsername())
-	return &proto.RegisterResponse{Success: true}, nil
+
+	token, err := a.AuthService.Register(in.GetUsername(), in.GetPassword())
+
+	if err != nil {
+		return &proto.RegisterResponse{Success: false}, err
+	}
+
+	return &proto.RegisterResponse{Success: true, Token: token}, nil
 }

@@ -93,4 +93,5 @@ message Host {
 message User {
   string id = 1;
   string username = 2;
+
 }

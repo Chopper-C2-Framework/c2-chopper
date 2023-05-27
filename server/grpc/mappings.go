@@ -4,7 +4,12 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
+
 	"github.com/mattn/go-shellwords"
+
+	"github.com/google/uuid"
+	log "github.com/sirupsen/logrus"
+
 )
 
 func ConvertTeamToProto(team *entity.TeamModel) *proto.Team {
@@ -29,6 +34,17 @@ func ConvertUserToProto(user *entity.UserModel) *proto.User {
 	}
 }
 
+func ConvertProtoToUser(user *proto.User) (*entity.UserModel, error) {
+	parsedUuid, err := uuid.Parse(user.Id)
+	if err != nil {
+		log.Debugf("ConvertProtoToUser: error parsing uuid %v\n", err)
+		return nil, err
+	}
+	return &entity.UserModel{
+		UUIDModel: entity.UUIDModel{ID: parsedUuid},
+		Username:  user.Username,
+	}, nil
+}
 func ConvertPluginToProto(plugin plugins.IPlugin) *proto.Plugin {
 	pluginInfo := plugin.Info()
 	pluginMeta := plugin.MetaInfo()
