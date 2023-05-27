@@ -34,10 +34,29 @@ type IAuthService interface {
 	Register(username string, password string) (string, error)
 }
 
-type IAgentService interface{}
+type IAgentService interface {
+	CreateAgent(agent *entity.AgentModel) error
+	FindAgentOrError(id string) (*entity.AgentModel, error)
+	FindAllAgents() ([]*entity.AgentModel, error)
+	ConnectAgent(id string) (*entity.AgentModel, error)
+
+	UpdateAgent(agent *entity.AgentModel) error
+}
 
 type IHostService interface{}
 
-type ITaskService interface{}
+type ITaskService interface {
+	CreateTask(task *entity.TaskModel) error
+	DeleteTask(task *entity.TaskModel) error
+
+	FindTasksForAgent(agentId string) ([]*entity.TaskModel, error)
+	FindUnexecutedTasksForAgent(agentId string) ([]*entity.TaskModel, error)
+	FindTaskOrError(taskId string) (*entity.TaskModel, error)
+
+	CreateTaskResult(taskResult *entity.TaskResultModel) error
+	FindTaskResults(taskId string) ([]*entity.TaskResultModel, error)
+	FindTaskResultOrError(resultId string) (*entity.TaskResultModel, error)
+	MarkTaskResultSeen(resultId string) error
+}
 
 type IReportService interface{}

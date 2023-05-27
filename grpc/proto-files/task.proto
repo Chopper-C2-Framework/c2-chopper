@@ -1,0 +1,119 @@
+syntax = "proto3";
+
+// Placeholder for a cool featuer
+
+import "google/api/annotations.proto";
+import "types.proto";
+
+option go_package = "./proto";
+
+service TaskService {
+  rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse) {
+    option (google.api.http) = {
+      post: "/v1/task/{agent_id}"
+      body: "task"
+    };
+  }
+
+  rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse) {
+    option (google.api.http) = {
+      delete: "/v1/task/{task_id}"
+    };
+  }
+
+  rpc GetAgentUnexecutedTasks(GetAgentUnexecutedTasksRequest) returns (GetAgentUnexecutedTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/unexecuted/agent/{agent_id}"
+    };
+  }
+
+  rpc GetAgentTasks(GetAgentTasksRequest) returns (GetAgentTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/agent/{agent_id}"
+    };
+  }
+
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/{task_id}"
+    };
+  }
+
+  rpc CreateTaskResult(CreateTaskResultRequest) returns (CreateTaskResultResponse) {
+    option (google.api.http) = {
+      post: "/v1/task/result/{task_result.task_id}",
+      body: "task_result"
+    };
+  }
+
+  rpc GetTaskResults(GetTaskResultsRequest) returns (GetTaskResultsResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/result/{task_id}",
+    };
+  }
+
+  rpc SetTaskResultsSeen(SetTaskResultsSeenRequest) returns (SetTaskResultsSeenResponse) {
+    option (google.api.http) = {
+      patch: "/v1/task/result/seen",
+    };
+  }
+}
+
+message SetTaskResultsSeenRequest {
+  repeated string result_ids = 1;
+}
+
+message SetTaskResultsSeenResponse {}
+
+message CreateTaskResultRequest {
+  TaskResult task_result = 1;
+}
+
+message CreateTaskResultResponse {}
+
+message GetTaskResultsRequest {
+  string task_id = 1;
+}
+
+message GetTaskResultsResponse {
+  repeated TaskResult results = 1;
+}
+
+message CreateTaskRequest {
+  string agent_id = 1;
+  Task task = 2;
+}
+
+message DeleteTaskRequest {
+  string task_id = 1;
+}
+
+message GetTaskRequest {
+  string task_id = 1;
+}
+
+message CreateTaskResponse {}
+
+message DeleteTaskResponse {}
+
+message GetTaskResponse {
+  Task task = 1;
+}
+
+message GetAgentUnexecutedTasksRequest {
+  string agent_id = 1;
+}
+
+message GetAgentUnexecutedTasksResponse {
+  repeated Task tasks = 1;
+  uint32 sleep_time = 2;
+}
+
+message GetAgentTasksRequest {
+  string agent_id = 1;
+}
+
+message GetAgentTasksResponse {
+  repeated Task tasks = 1;
+  uint32 sleep_time = 2;
+}
