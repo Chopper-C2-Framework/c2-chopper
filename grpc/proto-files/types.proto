@@ -27,6 +27,14 @@ message Plugin {
   PluginInfo info = 3;
 }
 
+message PluginResult {
+  string id = 1;
+  string path = 2;
+  string output = 3;
+  string output_type = 4;
+  string created_at = 5;
+}
+
 message PluginMetadata {
   string version = 1;
   string author = 2;

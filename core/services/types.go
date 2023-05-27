@@ -3,12 +3,18 @@ package services
 import "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 
 type Services struct {
-	TeamService   ITeamService
-	AuthService   IAuthService
-	AgentService  IAgentService
-	HostService   IHostService
-	TaskService   ITaskService
-	ReportService IReportService
+	TeamService         ITeamService
+	AuthService         IAuthService
+	AgentService        IAgentService
+	HostService         IHostService
+	TaskService         ITaskService
+	ReportService       IReportService
+	PluginResultService IPluginResultService
+}
+
+type IPluginResultService interface {
+	CreatePluginResult(newRes *entity.PluginResultModel) error
+	GetPluginResultsOrError(path string) ([]*entity.PluginResultModel, error)
 }
 
 type ITeamService interface {
