@@ -1,9 +1,9 @@
 syntax = "proto3";
 
+option go_package = "./proto";
+
 import "google/api/annotations.proto";
 import "types.proto";
-
-option go_package = "./proto";
 
 service TeamService {
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {

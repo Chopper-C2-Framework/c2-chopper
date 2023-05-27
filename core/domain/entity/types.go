@@ -8,7 +8,7 @@ import (
 )
 
 type UUIDModel struct {
-	ID        uuid.UUID `gorm:"primaryKey,type:uuid"`
+	ID        uuid.UUID `gorm:"primaryKey,type:uuid" json:"id"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
