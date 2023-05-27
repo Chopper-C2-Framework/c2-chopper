@@ -40,9 +40,10 @@ func (i *AuthInterceptor) IsAuthenticatedInterceptor(
 	if err != nil {
 		return nil, err
 	}
-
+	if user!=nil{
 	ctx = metadata.AppendToOutgoingContext(ctx, "userId", user.Id)
-
+	}
+	
 	return handler(ctx, req)
 }
 
