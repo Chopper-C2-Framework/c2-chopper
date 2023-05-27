@@ -10,11 +10,12 @@ func InitServices(db *orm.ORMConnection, frameworkConfig config.Config) services
 
 	userService := services.NewUserService(db)
 	return services.Services{
-		TeamService:   services.NewTeamService(db),
-		AgentService:  services.NewAgentService(db),
-		HostService:   services.NewHostService(db),
-		TaskService:   services.NewTaskService(db),
-		ReportService: services.NewReportService(db),
-		AuthService:   services.NewAuthService(userService, frameworkConfig),
+		TeamService:         services.NewTeamService(db),
+		AgentService:        services.NewAgentService(db),
+		HostService:         services.NewHostService(db),
+		TaskService:         services.NewTaskService(db),
+		ReportService:       services.NewReportService(db),
+		PluginResultService: services.NewPluginResultService(db),
+		AuthService:         services.NewAuthService(userService, frameworkConfig),
 	}
 }

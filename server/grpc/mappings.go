@@ -9,7 +9,6 @@ import (
 
 	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
-
 )
 
 func ConvertTeamToProto(team *entity.TeamModel) *proto.Team {
@@ -65,6 +64,16 @@ func ConvertPluginToProto(plugin plugins.IPlugin) *proto.Plugin {
 		Description: pluginMeta.Description,
 	}
 	return &proto.Plugin{Info: info, Metadata: metadata}
+}
+
+func ConvertPluginResultToProto(res *entity.PluginResultModel) *proto.PluginResult {
+	return &proto.PluginResult{
+		Id:         res.ID.String(),
+		Path:       res.Path,
+		Output:     res.Output,
+		OutputType: res.OutputType,
+		CreatedAt:  res.CreatedAt.String(),
+	}
 }
 
 func ConvertTaskTypeToProto(task *entity.TaskModel) proto.TaskType {

@@ -29,7 +29,6 @@ type IgRPCServer interface {
 	// we will gracefully terminate it when the main thread is done
 	NewgRPCServer(
 		config *Cfg.Config,
-		pluginManager *plugins.PluginManager,
 	) error
 }
 
@@ -54,21 +53,19 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 }
 
 func (Server *gRPCServer) NewgRPCServer(
-
 	frameworkConfig *Cfg.Config,
-
-	pluginManager *plugins.PluginManager,
 ) error {
 	Agent, err := net.Listen("tcp", fmt.Sprintf("%s:%d", frameworkConfig.Host, frameworkConfig.ServergRPCPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
-
 	fmt.Println("[+] Created Agent on port", frameworkConfig.ServergRPCPort)
 
 	dbConnection, _ := orm.CreateDB(frameworkConfig)
 	coreServices := core.InitServices(dbConnection, *frameworkConfig)
+
+	var pluginManager = plugins.CreatePluginManager(frameworkConfig, coreServices.TaskService)
 
 	AuthInterceptor := interceptor.AuthInterceptor{
 		AuthService: coreServices.AuthService,
@@ -81,7 +78,6 @@ func (Server *gRPCServer) NewgRPCServer(
 
 	UnaryInterceptors := grpc.ChainUnaryInterceptor(
 		AuthInterceptor.IsAuthenticatedInterceptor,
-
 	)
 
 	if frameworkConfig.UseTLS {
@@ -111,12 +107,14 @@ func (Server *gRPCServer) NewgRPCServer(
 		TeamService: coreServices.TeamService,
 	})
 	proto.RegisterPluginServiceServer(Server.server, &handler.PluginService{
-		PluginManager: pluginManager,
+		PluginManager:       pluginManager,
+		PluginResultService: coreServices.PluginResultService,
 	})
 
 	proto.RegisterTaskServiceServer(Server.server, &handler.TaskService{
-		TaskService:  coreServices.TaskService,
-		AgentService: coreServices.AgentService,
+		TaskService:   coreServices.TaskService,
+		AgentService:  coreServices.AgentService,
+		PluginManager: pluginManager,
 	})
 	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
