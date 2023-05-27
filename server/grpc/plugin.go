@@ -50,8 +50,6 @@ func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginReques
 		args = append(args, GetValue(v))
 	}
 
-	loadedPlugin.Channel = make(chan *entity.TaskResultModel, 1)
-
 	// Set plugin arguments
 	err = plugin.SetArgs(args...)
 	if err != nil {
@@ -59,6 +57,7 @@ func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginReques
 	}
 
 	// Start execution in a new thread. Store in db when result is ready.
+	loadedPlugin.Channel = make(chan *entity.TaskResultModel, 1)
 	go func() {
 		result := plugin.Exploit(loadedPlugin.Channel)
 		s.PluginResultService.CreatePluginResult(&entity.PluginResultModel{
