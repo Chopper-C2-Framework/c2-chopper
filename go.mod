@@ -6,6 +6,7 @@ require (
 	github.com/gofiber/fiber/v2 v2.45.0
 	github.com/google/uuid v1.3.0
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.15.2
+	github.com/mattn/go-shellwords v1.0.12
 	github.com/sirupsen/logrus v1.9.0
 	github.com/urfave/cli/v2 v2.25.3
 	golang.org/x/crypto v0.9.0

@@ -32,9 +32,10 @@ type IAgentService interface {
 	CreateAgent(agent *entity.AgentModel) error
 	FindAgentOrError(id string) (*entity.AgentModel, error)
 	FindAllAgents() ([]*entity.AgentModel, error)
-	ConnectAgent(id string) (*entity.AgentModel, error)
+	ConnectAgent(id string, agentInfo *entity.AgentModel) (*entity.AgentModel, error)
 
-	UpdateAgent(agent *entity.AgentModel) error
+	UpdateAgent(target *entity.AgentModel, updates *entity.AgentModel) error
+	SaveAgent(agent *entity.AgentModel) error
 }
 
 type IHostService interface{}

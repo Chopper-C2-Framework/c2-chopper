@@ -41,6 +41,7 @@ type Repository interface {
 
 	Create(target interface{}) error
 	Save(target interface{}) error
+	Update(target interface{}, updates interface{}) error
 	Delete(target interface{}) error
 
 	DB() *gorm.DB

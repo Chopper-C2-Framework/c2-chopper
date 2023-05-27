@@ -60,10 +60,14 @@ func (s *TaskService) CreateTask(ctx context.Context, in *proto.CreateTaskReques
 		return &proto.CreateTaskResponse{}, err
 	}
 
+	args := ""
+	if len(taskProto.GetArgs()) != 0 {
+		args = taskProto.GetArgs()[0]
+	}
 	// TODO: Add user id
 	var task = entity.TaskModel{
 		Name:    taskProto.GetName(),
-		Args:    taskProto.GetArgs(),
+		Args:    args,
 		Type:    entity.TaskType(taskProto.GetType().String()),
 		AgentId: agentId,
 		// CreatorId: ,
@@ -132,6 +136,19 @@ func (s *TaskService) GetAgentUnexecutedTasks(ctx context.Context, in *proto.Get
 }
 
 func (s *TaskService) CreateTaskResult(ctx context.Context, in *proto.CreateTaskResultRequest) (*proto.CreateTaskResultResponse, error) {
+	agentInfo := in.GetInfo()
+	if agentInfo != nil {
+		s.AgentService.ConnectAgent(
+			agentInfo.Id,
+			&entity.AgentModel{
+				Username: agentInfo.GetUsername(),
+				Uid:      agentInfo.GetUserId(),
+				Hostname: agentInfo.GetHostname(),
+				Cwd:      agentInfo.GetCwd(),
+			},
+		)
+	}
+
 	taskResProto := in.GetTaskResult()
 	err := ValidateTaskResultProto(taskResProto)
 	if err != nil {
