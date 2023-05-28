@@ -29,8 +29,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({}) => {
           </div>
         </div>
       </div>{" "}
-     
-        {/* <Tabs defaultValue="overview" className="space-y-4">
+      {/* <Tabs defaultValue="overview" className="space-y-4">
           <TabsList>
             <TabsTrigger value="overview">Overview</TabsTrigger>
             <TabsTrigger value="analytics" disabled>
@@ -47,7 +46,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({}) => {
            
           </TabsContent>
         </Tabs> */}
-        <Outlet />
+      <Outlet />
     </>
   );
 };

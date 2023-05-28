@@ -1,12 +1,9 @@
-import React from 'react'
+import React from "react";
 
-interface FindingsProps {
-
-}
+interface FindingsProps {}
 
 export const Findings: React.FC<FindingsProps> = ({}) => {
-        return (<p>Findings</p>);
-}
+  return <p>Findings</p>;
+};
 
-
-export default Findings
+export default Findings;

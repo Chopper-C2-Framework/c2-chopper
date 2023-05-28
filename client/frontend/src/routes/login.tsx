@@ -1,8 +1,6 @@
 import { AuthForm } from "@components/auth-form";
 import { loginSchema, useLoginMutation } from "@hooks/mutations/auth/login";
 export default function Login() {
-  
-
   return (
     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
       <div className="flex flex-col space-y-2 text-center">

@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 export const useAllLoadedPlugins = () => {
   const isAuthenticated = checkIfAuth();
   return useQuery(
-    ["plugins","loaded"],
+    ["plugins", "loaded"],
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
@@ -23,4 +23,3 @@ export const useAllLoadedPlugins = () => {
     }
   );
 };
-

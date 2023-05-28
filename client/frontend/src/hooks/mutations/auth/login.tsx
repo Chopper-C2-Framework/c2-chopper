@@ -27,12 +27,12 @@ export const useLoginMutation = () => {
   return useMutation<LoginResponse, any, LoginRequest, any>(
     ["user"],
     async (data: LoginRequest) => {
-      return axios.post(getServerUrl() + "/login", data).then(r=>r.data);
+      return axios.post(getServerUrl() + "/login", data).then((r) => r.data);
     },
     {
       onSuccess: (data) => {
         if (data.token) {
-        SetAuthUser(data.token);
+          SetAuthUser(data.token);
           toast({
             title: "Successfully logged in.",
             description: "We are taking you to your dashboard.",

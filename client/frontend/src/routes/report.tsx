@@ -1,12 +1,9 @@
-import React from 'react'
+import React from "react";
 
-interface ReportProps {
-
-}
+interface ReportProps {}
 
 export const Report: React.FC<ReportProps> = ({}) => {
-        return (<p>Report</p>);
-}
+  return <p>Report</p>;
+};
 
-
-export default Report
+export default Report;

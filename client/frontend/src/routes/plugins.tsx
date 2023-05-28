@@ -1,12 +1,9 @@
-import React from 'react'
+import React from "react";
 
-interface PluginsProps {
-
-}
+interface PluginsProps {}
 
 export const Plugins: React.FC<PluginsProps> = ({}) => {
-        return (<p>plugins</p>);
-}
+  return <p>plugins</p>;
+};
 
-
-export default Plugins
+export default Plugins;

@@ -3,14 +3,14 @@ import { getServerUrl } from "@lib/get-server-url";
 import axios from "axios";
 import { useQuery } from "react-query";
 
-export const useAgentUnexectuedTasks = (agent_id:string) => {
+export const useAgentUnexectuedTasks = (agent_id: string) => {
   const isAuthenticated = checkIfAuth();
   return useQuery(
-    ["tasks","agent",agent_id],
+    ["tasks", "agent", agent_id],
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/v1/task/unexecuted/agent/"+agent_id, {
+        .get(getServerUrl() + "/v1/task/unexecuted/agent/" + agent_id, {
           headers: {
             Authorization: retrieveToken(),
           },
@@ -23,4 +23,3 @@ export const useAgentUnexectuedTasks = (agent_id:string) => {
     }
   );
 };
-

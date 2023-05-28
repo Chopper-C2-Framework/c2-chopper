@@ -1,4 +1,4 @@
-import {  ShieldAlert,LogOut, PlusCircle, Settings, User } from "lucide-react";
+import { ShieldAlert, LogOut, PlusCircle, Settings, User } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { Button } from "@components/ui/button";
@@ -16,19 +16,19 @@ import { useMeQuery } from "@hooks/queries/user/me";
 import { useLogout } from "@hooks/mutations/auth/useLogout";
 
 export function UserNav() {
-
-  const { data, isLoading } = useMeQuery()
+  const { data, isLoading } = useMeQuery();
   const mockData = {
     username: "shadcn",
     adminView: true,
-  }
+  };
 
-  const { logout }=useLogout()
+  const { logout } = useLogout();
 
-  console.log(data)
-   const username=!isLoading && data ?  data.user.username:mockData.username
-   const isAdmin=!isLoading && data ?  data.user.role === "Admin":mockData.adminView
-   const role= !isLoading && data ?  data.user.role:""
+  console.log(data);
+  const username = !isLoading && data ? data.user.username : mockData.username;
+  const isAdmin =
+    !isLoading && data ? data.user.role === "Admin" : mockData.adminView;
+  const role = !isLoading && data ? data.user.role : "";
 
   return (
     <DropdownMenu>
@@ -44,9 +44,7 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-medium leading-none">{username}</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {role}
-            </p>
+            <p className="text-xs leading-none text-muted-foreground">{role}</p>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -66,12 +64,12 @@ export function UserNav() {
             <span>Settings</span>
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
-          {isAdmin&&
+          {isAdmin && (
             <DropdownMenuItem>
               <PlusCircle className="mr-2 h-4 w-4" />
               <span>New Team</span>
             </DropdownMenuItem>
-          }
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={logout}>

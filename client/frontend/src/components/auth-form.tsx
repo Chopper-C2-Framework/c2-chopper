@@ -43,7 +43,6 @@ export function AuthForm({
     mutate({ username: data.username, password: data.password });
   }
 
-
   return (
     <div className={cn("grid gap-6", className)} {...props}>
       <Form {...form}>

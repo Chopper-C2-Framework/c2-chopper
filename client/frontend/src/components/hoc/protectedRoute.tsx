@@ -13,27 +13,23 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
 }) => {
   const [isHidden, setIsHidden] = useState<boolean>(true);
-const {data,isLoading,isError}=useMeQuery()
-  
+  const { data, isLoading, isError } = useMeQuery();
 
   const navigate = useNavigate();
 
   useEffect(() => {
-      if ((isError || !data)&&!reverseProtect) {
-          navigate("/login");
-      }
-      else if( (isError|| !data&&!isLoading)&&reverseProtect){
-        setIsHidden(false);
-      }
-      else if (data && reverseProtect) {
-        navigate("/app/dashboard")
-      }
-      else if (data&&!reverseProtect) {
-        setIsHidden(false);
-      }
+    if ((isError || !data) && !reverseProtect) {
+      navigate("/login");
+    } else if ((isError || (!data && !isLoading)) && reverseProtect) {
+      setIsHidden(false);
+    } else if (data && reverseProtect) {
+      navigate("/app/dashboard");
+    } else if (data && !reverseProtect) {
+      setIsHidden(false);
+    }
   }, [isError, data]);
 
-  if ( isHidden) {
+  if (isHidden) {
     return <LoadingPage />;
   }
 

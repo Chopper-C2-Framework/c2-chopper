@@ -6,12 +6,10 @@ import { useNavigate } from "react-router-dom";
 import { Task } from "types";
 
 interface CreateTaskRequest {
-    task:Task
-
+  task: Task;
 }
 
-interface CreateTaskResponse {
-}
+interface CreateTaskResponse {}
 export const useCreateTask = (agent_id: string) => {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -23,12 +21,9 @@ export const useCreateTask = (agent_id: string) => {
         .post(getServerUrl() + "/v1/task" + agent_id, data)
         .then((r) => r.data);
     },
-      {
-          onSuccess: (data) => {
-        
-          },
-          onError: (error) => {
-          }
-      }
+    {
+      onSuccess: (data) => {},
+      onError: (error) => {},
+    }
   );
 };

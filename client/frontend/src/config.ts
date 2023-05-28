@@ -16,7 +16,7 @@ const siteConfig = {
     {
       title: "Documentation",
       href: "/docs",
-    }
+    },
   ],
 };
 

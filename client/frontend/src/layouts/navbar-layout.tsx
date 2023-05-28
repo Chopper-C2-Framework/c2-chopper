@@ -8,7 +8,7 @@ import MainNav from "@components/main-nav.tsx";
 import { useMeQuery } from "@hooks/queries/user/me";
 
 export function NavbarLayout() {
-  const { isError,isLoading}=useMeQuery()
+  const { isError, isLoading } = useMeQuery();
   return (
     <div className="flex min-h-screen flex-col">
       <header className="container z-40 bg-background">
@@ -16,17 +16,17 @@ export function NavbarLayout() {
           <MainNav items={config.mainNav} />
 
           <nav>
-
-            {isLoading && !isError && <Link
-              to="/login"
-              className={cn(
-                buttonVariants({ variant: "secondary", size: "sm" }),
-                "px-4"
-              )}
-            >
-              Login
-            </Link>
-            }
+            {isLoading && !isError && (
+              <Link
+                to="/login"
+                className={cn(
+                  buttonVariants({ variant: "secondary", size: "sm" }),
+                  "px-4"
+                )}
+              >
+                Login
+              </Link>
+            )}
           </nav>
         </div>
       </header>

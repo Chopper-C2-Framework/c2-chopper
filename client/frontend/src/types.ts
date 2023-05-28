@@ -14,15 +14,15 @@ export type SidebarNavItem = {
   external?: boolean;
   icon?: keyof typeof Icons;
 } & (
-    | {
+  | {
       href: string;
       items?: never;
     }
-    | {
+  | {
       href?: string;
       items: any[];
     }
-  );
+);
 
 export type SiteConfig = {
   name: string;
@@ -55,7 +55,6 @@ export type SubscriptionPlan = {
   stripePriceId: string;
 };
 
-
 // export type Agent = {
 //   id: string;
 //   nickname: string;
@@ -82,7 +81,6 @@ export type SubscriptionPlan = {
 //   PING = "PING",
 //   SHELL = "SHELL",
 // }
-
 
 // export type Plugin = {
 // }
@@ -176,12 +174,11 @@ export interface User {
   role: string;
 }
 
-
 export interface TaskResult {
   // ExecutedAt
   id: string;
   status: number;
   task_id: string;
   output: string;
-  seen: boolean
+  seen: boolean;
 }

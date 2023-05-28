@@ -1,5 +1,5 @@
 import React from "react";
-import { Toaster } from "@components/ui/toaster"
+import { Toaster } from "@components/ui/toaster";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { RouterProvider } from "react-router-dom";
@@ -12,7 +12,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
-      <Toaster/>
+      <Toaster />
     </QueryClientProvider>
   </React.StrictMode>
 );
