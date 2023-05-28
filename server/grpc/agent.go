@@ -30,7 +30,8 @@ func (s *AgentService) ListAgents(ctx context.Context, in *emptypb.Empty) (*prot
 	}
 
 	return &proto.AgentListResponse{
-		Data: protoList,
+		Data:  protoList,
+		Count: uint32(len(protoList)),
 	}, nil
 }
 
