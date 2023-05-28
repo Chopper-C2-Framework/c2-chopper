@@ -62,13 +62,36 @@ func (s *TaskService) FindTasksForAgent(agentId string) ([]*entity.TaskModel, er
 	return tasks, nil
 }
 
+func (s *TaskService) FindAllTasks() ([]*entity.TaskModel, error) {
+	var tasks []*entity.TaskModel
+
+	err := s.repo.GetAll(&tasks)
+	if err != nil {
+		log.Debugf("[-] failed to fetch tasks")
+		return nil, err
+	}
+	return tasks, nil
+}
+
+func (s *TaskService) FindUnexecutedTasks() ([]*entity.TaskModel, error) {
+	var tasks []*entity.TaskModel
+
+	err := s.repo.DB().
+		Where("NOT EXISTS(SELECT id FROM task_result_models WHERE task_id = task_models.id)").
+		Find(&tasks).Error
+	if err != nil {
+		log.Debugf("[-] failed to fetch tasks")
+		return nil, err
+	}
+	return tasks, nil
+}
+
 func (s *TaskService) FindUnexecutedTasksForAgent(agentId string) ([]*entity.TaskModel, error) {
 	var tasks []*entity.TaskModel
 
 	err := s.repo.DB().
 		Where("agent_id = ?", agentId).
-		// Where("id NOT IN (SELECT task_id FROM task_result_models)", agentId).Error
-		Where("NOT EXISTS(SELECT id FROM task_result_models WHERE task_id = task_models.id)", agentId).
+		Where("NOT EXISTS(SELECT id FROM task_result_models WHERE task_id = task_models.id)").
 		Find(&tasks).Error
 
 	if err != nil {
@@ -92,6 +115,28 @@ func (s *TaskService) FindTaskResults(taskId string) ([]*entity.TaskResultModel,
 	var res []*entity.TaskResultModel
 
 	err := s.repo.GetByField(&res, "task_id", taskId)
+	if err != nil {
+		log.Debugf("[-] failed to find task results by taskid")
+		return nil, err
+	}
+	return res, nil
+}
+
+func (s *TaskService) FindLatestResults(limit uint32, page uint32) ([]*entity.TaskResultModel, error) {
+	var res []*entity.TaskResultModel
+
+	err := s.repo.GetSortedBatch(&res, "created_at", true, int(limit), int(page*limit))
+	if err != nil {
+		log.Debugf("[-] failed to find task results by taskid")
+		return nil, err
+	}
+	return res, nil
+}
+
+func (s *TaskService) FindLatestUnseenResults(limit uint32, page uint32) ([]*entity.TaskResultModel, error) {
+	var res []*entity.TaskResultModel
+
+	err := s.repo.GetByFieldSortedBatch(&res, "seen", false, "created_at", true, int(limit), int(page*limit))
 	if err != nil {
 		log.Debugf("[-] failed to find task results by taskid")
 		return nil, err

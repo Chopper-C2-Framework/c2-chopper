@@ -75,6 +75,7 @@ message GetPluginResultsRequest {
 
 message GetPluginResultsResponse {
   repeated PluginResult results = 1;
+  uint32 count = 2;
 }
 
 message GetPluginDetailsRequest {

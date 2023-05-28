@@ -2,6 +2,7 @@ package entity
 
 import (
 	"fmt"
+
 	"gorm.io/gorm"
 )
 
@@ -44,6 +45,42 @@ func (r *gormRepository) GetBatch(target interface{}, limit, offset int, preload
 		Unscoped().
 		Limit(limit).
 		Offset(offset).
+		Find(target)
+
+	return r.HandleError(res)
+}
+
+func (r *gormRepository) GetSortedBatch(target interface{}, column string, ascending bool, limit, offset int, preloads ...string) error {
+	r.logger.Debugf("Executing GetSortedBatch on %T", target)
+
+	order := column
+	if !ascending {
+		order += " DESC"
+	}
+
+	res := r.DBWithPreloads(preloads).
+		Unscoped().
+		Limit(limit).
+		Offset(offset).
+		Order(order).
+		Find(target)
+
+	return r.HandleError(res)
+}
+
+func (r *gormRepository) GetByFieldSortedBatch(target interface{}, field string, value interface{}, sortColumn string, ascending bool, limit, offset int, preloads ...string) error {
+	r.logger.Debugf("Executing GetByFieldSortedBatch on %T with %v = %v", target, field, value)
+
+	order := sortColumn
+	if !ascending {
+		order += " DESC"
+	}
+
+	res := r.DBWithPreloads(preloads).
+		Where(fmt.Sprintf("%v = ?", field), value).
+		Limit(limit).
+		Offset(offset).
+		Order(order).
 		Find(target)
 
 	return r.HandleError(res)

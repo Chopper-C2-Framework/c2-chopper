@@ -38,6 +38,7 @@ message AgentConnectionResponse {
 
 message AgentListResponse {
   repeated Agent data = 1;
+  uint32 count = 2;
 }
 
 message GetAgentInfoRequest {

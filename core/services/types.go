@@ -57,6 +57,9 @@ type ITaskService interface {
 	CreateTask(task *entity.TaskModel) error
 	DeleteTask(task *entity.TaskModel) error
 
+	FindAllTasks() ([]*entity.TaskModel, error)
+	FindUnexecutedTasks() ([]*entity.TaskModel, error)
+
 	FindTasksForAgent(agentId string) ([]*entity.TaskModel, error)
 	FindUnexecutedTasksForAgent(agentId string) ([]*entity.TaskModel, error)
 	FindTaskOrError(taskId string) (*entity.TaskModel, error)
@@ -65,6 +68,9 @@ type ITaskService interface {
 	FindTaskResults(taskId string) ([]*entity.TaskResultModel, error)
 	FindTaskResultOrError(resultId string) (*entity.TaskResultModel, error)
 	MarkTaskResultSeen(resultId string) error
+
+	FindLatestResults(limit uint32, page uint32) ([]*entity.TaskResultModel, error)
+	FindLatestUnseenResults(limit uint32, page uint32) ([]*entity.TaskResultModel, error)
 }
 
 type IReportService interface{}
