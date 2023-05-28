@@ -3,7 +3,8 @@ syntax = "proto3";
 option go_package = "./proto";
 
 import "google/api/annotations.proto";
-//import "types.proto";
+
+import "types.proto";
 
 service AuthService {
   rpc Login(LoginRequest) returns (LoginResponse) {
@@ -11,20 +12,37 @@ service AuthService {
       post: "/v1/login"
       body: "*"
     };
-
   }
+
   rpc Register(RegisterRequest) returns (RegisterResponse) {
     option(google.api.http) = {
       post: "/v1/register"
       body: "*"
     };
   }
+
+  rpc Me (MeRequest) returns (MeResponse){ 
+    option(google.api.http) ={
+      get:"/v1/me",
+    };
+  }
 }
+
 
 message LoginRequest {
   string username = 1;
   string password = 2;
 }
+
+message MeRequest {
+}
+
+message MeResponse {
+bool success =1;
+User user=2; 
+repeated Team teams=3;
+}
+
 
 message RegisterRequest {
   string username = 1;

@@ -87,7 +87,7 @@ func (u *UserService) UpdateUserPassword(id string, newPassword string) error {
 
 func (u *UserService) FindUserByIdOrError(id string) (*entity.UserModel, error) {
 	var user entity.UserModel
-	err := u.repo.GetOneByID(&user, id)
+	err := u.repo.GetOneByID(&user, id, "Teams")
 
 	if err != nil {
 		log.Debugf(" error finding user %v\n", err)

@@ -25,11 +25,20 @@ func ConvertTeamToProto(team *entity.TeamModel) *proto.Team {
 	return protoTeam
 }
 
+func ConvertTeamsToProto(teams []entity.TeamModel) []*proto.Team {
+	var protoTeams []*proto.Team
+	for _, team := range teams {
+		protoTeams = append(protoTeams, ConvertTeamToProto(&team))
+	}
+	return protoTeams
+}
+
 func ConvertUserToProto(user *entity.UserModel) *proto.User {
 
 	return &proto.User{
 		Username: user.Username,
 		Id:       user.ID.String(),
+		Role:     user.Role,
 	}
 }
 

@@ -83,6 +83,7 @@ func (Server *gRPCServer) NewgRPCServer(
 			"/TeamService/UpdateTeam": {"User"},
 			"/TeamService/CreateTeam": {"User"},
 			"/TeamService/DeleteTeam": {"User"},
+			"/AuthService/Me":         {"Admin", "User"},
 		},
 	}
 

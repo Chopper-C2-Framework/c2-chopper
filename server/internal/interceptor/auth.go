@@ -3,6 +3,7 @@ package interceptor
 import (
 	"context"
 	"fmt"
+
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 
@@ -40,10 +41,14 @@ func (i *AuthInterceptor) IsAuthenticatedInterceptor(
 	if err != nil {
 		return nil, err
 	}
-	if user!=nil{
-	ctx = metadata.AppendToOutgoingContext(ctx, "userId", user.Id)
+	if user != nil {
+		fmt.Println("Appending user here", user.Id)
+		userIdMetada := metadata.Pairs("userid", user.Id)
+		joined := metadata.Join(userIdMetada, md)
+		ctx := metadata.NewIncomingContext(ctx, joined)
+		return handler(ctx, req)
 	}
-	
+
 	return handler(ctx, req)
 }
 
@@ -70,6 +75,8 @@ func (i *AuthInterceptor) authorize(ctx context.Context, method string) (*Contex
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "access token is invalid: %v", err)
 	}
+
+	fmt.Printf("%v\n", claims)
 
 	for _, role := range accessibleRoles {
 		if role == claims.Role {
