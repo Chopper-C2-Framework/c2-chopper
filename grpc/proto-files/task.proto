@@ -46,7 +46,7 @@ service TaskService {
     };
   }
 
-  rpc GetAllTask(google.protobuf.Empty) returns (GetAllTasksResponse) {
+  rpc GetAllTasks(google.protobuf.Empty) returns (GetAllTasksResponse) {
     option (google.api.http) = {
       get: "/v1/task/all"
     };
