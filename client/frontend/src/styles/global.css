@@ -19,8 +19,8 @@
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 240, 101, 67;
+    --primary-foreground:240, 101, 67;
 
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
@@ -34,6 +34,8 @@
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
+
+    --font-special: Orbitron;
   }
 
   .dark {
@@ -52,17 +54,19 @@
     --border: 216 34% 17%;
     --input: 216 34% 17%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
 
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 12, 85%, 60%;
+    --secondary-foreground : 223, 70%, 4%;
 
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
+    --primary: 41, 73%, 74%;
+    --primary-foreground: 223, 70%, 4%;
+
+
+    --accent: 229, 44%, 47%;
+    --accent-foreground: 0, 0%, 100%;
 
     --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 229, 44%, 47%;
 
     --ring: 216 34% 17%;
 
@@ -77,5 +81,11 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
+}
+
+html {
 }
