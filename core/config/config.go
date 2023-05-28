@@ -1,5 +1,10 @@
 package config
 
+import (
+	"os"
+	"path/filepath"
+)
+
 const (
 	defaultDir  = ".c2-chopper"
 	defaultFile = "config.yaml"
@@ -19,19 +24,18 @@ type Config struct {
 	SecretToken    string `yaml:"secret_token"`
 }
 
-var DefaultConfig = Config{
-	PluginsDir:     "~/.c2-chopper/plugins",
-	ClientPort:     9001,
-	ServerHTTPPort: 8081,
-	ServergRPCPort: 9002,
-	Host:           "localhost",
-	ServerCert:     "./cert/server-cert.pem",
-	ServerCertKey:  "./cert/server-key.pem",
-	UseTLS:         false,
-	ServerDb:       "server.db",
-}
-
 func CreateDefaultConfig() *Config {
-	cfg := DefaultConfig
-	return &cfg
+	home, _ := os.UserHomeDir()
+
+	return &Config{
+		PluginsDir:     filepath.Join(home, "/.c2-chopper/plugins"),
+		ClientPort:     9001,
+		ServerHTTPPort: 8081,
+		ServergRPCPort: 9002,
+		Host:           "localhost",
+		ServerCert:     "./cert/server-cert.pem",
+		ServerCertKey:  "./cert/server-key.pem",
+		UseTLS:         false,
+		ServerDb:       "server.db",
+	}
 }
