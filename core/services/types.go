@@ -69,6 +69,7 @@ type ITaskService interface {
 	MarkTaskResultSeen(resultId string) error
 
 	FindLatestResults(limit uint32, page uint32) ([]*entity.TaskResultModel, error)
+	FindLatestUnseenResults(limit uint32, page uint32) ([]*entity.TaskResultModel, error)
 }
 
 type IReportService interface{}

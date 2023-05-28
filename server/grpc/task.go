@@ -238,7 +238,17 @@ func (s *TaskService) GetLatestTaskResults(ctx context.Context, in *proto.GetLat
 	if page == 0 {
 		page = 1
 	}
-	taskResults, err := s.TaskService.FindLatestResults(limit, page-1)
+
+	var (
+		taskResults []*entity.TaskResultModel
+		err         error
+	)
+	if in.GetUnseen() {
+		taskResults, err = s.TaskService.FindLatestUnseenResults(limit, page-1)
+	} else {
+		taskResults, err = s.TaskService.FindLatestResults(limit, page-1)
+	}
+
 	if err != nil {
 		return &proto.GetLatestTaskResultsResponse{}, err
 	}

@@ -25,6 +25,7 @@ type Repository interface {
 	GetBatch(target interface{}, limit, offset int, preloads ...string) error
 
 	GetSortedBatch(target interface{}, column string, ascending bool, limit, offset int, preloads ...string) error
+	GetByFieldSortedBatch(target interface{}, field string, value interface{}, sortColumn string, ascending bool, limit, offset int, preloads ...string) error
 
 	GetWhere(target interface{}, condition string, preloads ...string) error
 	GetWhereBatch(target interface{}, condition string, limit, offset int, preloads ...string) error

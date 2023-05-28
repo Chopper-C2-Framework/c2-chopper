@@ -93,6 +93,7 @@ message CreateTaskResultResponse {}
 message GetLatestTaskResultsRequest {
   uint32 limit = 1;
   uint32 page = 2;
+  bool unseen = 3;
 }
 
 message GetLatestTaskResultsResponse {

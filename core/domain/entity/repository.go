@@ -68,6 +68,24 @@ func (r *gormRepository) GetSortedBatch(target interface{}, column string, ascen
 	return r.HandleError(res)
 }
 
+func (r *gormRepository) GetByFieldSortedBatch(target interface{}, field string, value interface{}, sortColumn string, ascending bool, limit, offset int, preloads ...string) error {
+	r.logger.Debugf("Executing GetByFieldSortedBatch on %T with %v = %v", target, field, value)
+
+	order := sortColumn
+	if !ascending {
+		order += " DESC"
+	}
+
+	res := r.DBWithPreloads(preloads).
+		Where(fmt.Sprintf("%v = ?", field), value).
+		Limit(limit).
+		Offset(offset).
+		Order(order).
+		Find(target)
+
+	return r.HandleError(res)
+}
+
 func (r *gormRepository) GetWhere(target interface{}, condition string, preloads ...string) error {
 	r.logger.Debugf("Executing GetWhere on %T with %v ", target, condition)
 
