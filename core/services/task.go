@@ -62,6 +62,17 @@ func (s *TaskService) FindTasksForAgent(agentId string) ([]*entity.TaskModel, er
 	return tasks, nil
 }
 
+func (s *TaskService) FindAllTasks() ([]*entity.TaskModel, error) {
+	var tasks []*entity.TaskModel
+
+	err := s.repo.GetAll(&tasks)
+	if err != nil {
+		log.Debugf("[-] failed to fetch tasks")
+		return nil, err
+	}
+	return tasks, nil
+}
+
 func (s *TaskService) FindUnexecutedTasksForAgent(agentId string) ([]*entity.TaskModel, error) {
 	var tasks []*entity.TaskModel
 

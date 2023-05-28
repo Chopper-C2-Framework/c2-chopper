@@ -57,6 +57,8 @@ type ITaskService interface {
 	CreateTask(task *entity.TaskModel) error
 	DeleteTask(task *entity.TaskModel) error
 
+	FindAllTasks() ([]*entity.TaskModel, error)
+
 	FindTasksForAgent(agentId string) ([]*entity.TaskModel, error)
 	FindUnexecutedTasksForAgent(agentId string) ([]*entity.TaskModel, error)
 	FindTaskOrError(taskId string) (*entity.TaskModel, error)

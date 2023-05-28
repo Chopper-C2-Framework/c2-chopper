@@ -6,6 +6,7 @@ import (
 
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 	"github.com/google/uuid"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
@@ -81,6 +82,23 @@ func (s *TaskService) CreateTask(ctx context.Context, in *proto.CreateTaskReques
 	}
 
 	return &proto.CreateTaskResponse{}, nil
+}
+
+func (s *TaskService) GetAllTasks(ctx context.Context, in *emptypb.Empty) (*proto.GetAllTasksResponse, error) {
+	tasks, err := s.TaskService.FindAllTasks()
+	if err != nil {
+		return &proto.GetAllTasksResponse{}, err
+	}
+
+	protoList := make([]*proto.Task, len(tasks))
+	for i, task := range tasks {
+		protoList[i] = ConvertTaskToProto(task)
+	}
+
+	return &proto.GetAllTasksResponse{
+		Tasks: protoList,
+		Count: uint32(len(protoList)),
+	}, nil
 }
 
 func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasksRequest) (*proto.GetAgentTasksResponse, error) {

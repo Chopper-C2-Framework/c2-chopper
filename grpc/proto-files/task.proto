@@ -3,6 +3,7 @@ syntax = "proto3";
 // Placeholder for a cool featuer
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "types.proto";
 
 option go_package = "./proto";
@@ -39,6 +40,12 @@ service TaskService {
     };
   }
 
+  rpc GetAllTask(google.protobuf.Empty) returns (GetAllTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/all"
+    };
+  }
+
   rpc CreateTaskResult(CreateTaskResultRequest) returns (CreateTaskResultResponse) {
     option (google.api.http) = {
       post: "/v1/task/result/{task_result.task_id}",
@@ -57,6 +64,11 @@ service TaskService {
       patch: "/v1/task/result/seen",
     };
   }
+}
+
+message GetAllTasksResponse {
+  repeated Task tasks = 1;
+  uint32 count = 2;
 }
 
 message SetTaskResultsSeenRequest {
