@@ -229,6 +229,31 @@ func (s *TaskService) GetTaskResults(ctx context.Context, in *proto.GetTaskResul
 	}, nil
 }
 
+func (s *TaskService) GetLatestTaskResults(ctx context.Context, in *proto.GetLatestTaskResultsRequest) (*proto.GetLatestTaskResultsResponse, error) {
+	limit := in.GetLimit()
+	if limit == 0 {
+		limit = 10
+	}
+	page := in.GetPage()
+	if page == 0 {
+		page = 1
+	}
+	taskResults, err := s.TaskService.FindLatestResults(limit, page-1)
+	if err != nil {
+		return &proto.GetLatestTaskResultsResponse{}, err
+	}
+
+	protoList := make([]*proto.TaskResult, len(taskResults))
+	for i, taskRes := range taskResults {
+		protoList[i] = ConvertTaskResultToProto(taskRes)
+	}
+
+	return &proto.GetLatestTaskResultsResponse{
+		Results: protoList,
+		Count:   uint32(len(protoList)),
+	}, nil
+}
+
 func (s *TaskService) SetTaskResultsSeen(ctx context.Context, in *proto.SetTaskResultsSeenRequest) (*proto.SetTaskResultsSeenResponse, error) {
 	resultIds := in.GetResultIds()
 	if resultIds == nil {

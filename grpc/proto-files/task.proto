@@ -59,6 +59,12 @@ service TaskService {
     };
   }
 
+  rpc GetLatestTaskResults(GetLatestTaskResultsRequest) returns (GetLatestTaskResultsResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/result/latest",
+    };
+  }
+
   rpc SetTaskResultsSeen(SetTaskResultsSeenRequest) returns (SetTaskResultsSeenResponse) {
     option (google.api.http) = {
       patch: "/v1/task/result/seen",
@@ -83,6 +89,16 @@ message CreateTaskResultRequest {
 }
 
 message CreateTaskResultResponse {}
+
+message GetLatestTaskResultsRequest {
+  uint32 limit = 1;
+  uint32 page = 2;
+}
+
+message GetLatestTaskResultsResponse {
+  repeated TaskResult results = 1;
+  uint32 count = 2;
+}
 
 message GetTaskResultsRequest {
   string task_id = 1;

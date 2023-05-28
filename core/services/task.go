@@ -110,6 +110,17 @@ func (s *TaskService) FindTaskResults(taskId string) ([]*entity.TaskResultModel,
 	return res, nil
 }
 
+func (s *TaskService) FindLatestResults(limit uint32, page uint32) ([]*entity.TaskResultModel, error) {
+	var res []*entity.TaskResultModel
+
+	err := s.repo.GetSortedBatch(&res, "created_at", true, int(limit), int(page*limit))
+	if err != nil {
+		log.Debugf("[-] failed to find task results by taskid")
+		return nil, err
+	}
+	return res, nil
+}
+
 func (s *TaskService) FindTaskResultOrError(resultId string) (*entity.TaskResultModel, error) {
 	var taskRes entity.TaskResultModel
 	err := s.repo.GetOneByID(&taskRes, resultId)
