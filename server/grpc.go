@@ -23,13 +23,12 @@ import (
 )
 
 type IgRPCServer interface {
-	// NewgRPCServer TODO This function will be launched thro a go routine, and no return is expected from now on
+	// NewgRPCServer TODO This function will be launched through a go routine, and no return is expected from now on
 	// we need to handle error case and inform the main thread
 	// > we need to make sure the grpc gateway is only open when this succeeds
 	// we will gracefully terminate it when the main thread is done
 	NewgRPCServer(
 		config *Cfg.Config,
-		pluginManager *plugins.PluginManager,
 	) error
 }
 
@@ -54,23 +53,35 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 }
 
 func (Server *gRPCServer) NewgRPCServer(
-	config *Cfg.Config,
-	pluginManager *plugins.PluginManager,
+	frameworkConfig *Cfg.Config,
 ) error {
-	Agent, err := net.Listen("tcp", fmt.Sprintf("%s:%d", config.Host, config.ServergRPCPort))
+	Agent, err := net.Listen("tcp", fmt.Sprintf("%s:%d", frameworkConfig.Host, frameworkConfig.ServergRPCPort))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	fmt.Println("[+] Created Agent on port", config.ServergRPCPort)
 
-	AuthInterceptor := interceptor.AuthInterceptor{}
+	fmt.Println("[+] Created Agent on port", frameworkConfig.ServergRPCPort)
+
+	dbConnection, _ := orm.CreateDB(frameworkConfig)
+	coreServices := core.InitServices(dbConnection, *frameworkConfig)
+
+	var pluginManager = plugins.CreatePluginManager(frameworkConfig, coreServices.TaskService)
+
+	AuthInterceptor := interceptor.AuthInterceptor{
+		AuthService: coreServices.AuthService,
+		AccessibleRoles: map[string][]string{
+			"/TeamService/UpdateTeam": {"User"},
+			"/TeamService/CreateTeam": {"User"},
+			"/TeamService/DeleteTeam": {"User"},
+		},
+	}
 
 	UnaryInterceptors := grpc.ChainUnaryInterceptor(
-		AuthInterceptor.UnaryServerInterceptor,
+		AuthInterceptor.IsAuthenticatedInterceptor,
 	)
 
-	if config.UseTLS {
-		tlsCredentials, err := loadTLSCredentials(config.ServerCert, config.ServerCertKey)
+	if frameworkConfig.UseTLS {
+		tlsCredentials, err := loadTLSCredentials(frameworkConfig.ServerCert, frameworkConfig.ServerCertKey)
 		if err != nil {
 			log.Fatal("cannot load TLS credentials: ", err)
 		}
@@ -85,10 +96,6 @@ func (Server *gRPCServer) NewgRPCServer(
 		)
 	}
 
-	dbConnection, _ := orm.CreateDB(config)
-
-	coreServices := core.InitServices(dbConnection)
-
 	proto.RegisterAuthServiceServer(Server.server, &handler.AuthService{
 		AuthService: coreServices.AuthService,
 	})
@@ -100,12 +107,14 @@ func (Server *gRPCServer) NewgRPCServer(
 		TeamService: coreServices.TeamService,
 	})
 	proto.RegisterPluginServiceServer(Server.server, &handler.PluginService{
-		PluginManager: pluginManager,
+		PluginManager:       pluginManager,
+		PluginResultService: coreServices.PluginResultService,
 	})
 
 	proto.RegisterTaskServiceServer(Server.server, &handler.TaskService{
-		TaskService:  coreServices.TaskService,
-		AgentService: coreServices.AgentService,
+		TaskService:   coreServices.TaskService,
+		AgentService:  coreServices.AgentService,
+		PluginManager: pluginManager,
 	})
 	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
@@ -115,6 +124,6 @@ func (Server *gRPCServer) NewgRPCServer(
 		log.Fatalf("failed to serve: %v", err)
 	}
 
-	log.Println("gRPC server started on port", config.ServergRPCPort)
+	log.Println("gRPC server started on port", frameworkConfig.ServergRPCPort)
 	return nil
 }

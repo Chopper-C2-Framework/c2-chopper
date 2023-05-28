@@ -175,6 +175,13 @@ func (r *gormRepository) Save(target interface{}) error {
 	return r.HandleError(res)
 }
 
+func (r *gormRepository) Update(target interface{}, updates interface{}) error {
+	r.logger.Debugf("Executing Save on %T", target)
+
+	res := r.db.Model(target).Updates(updates)
+	return r.HandleError(res)
+}
+
 func (r *gormRepository) SaveTx(target interface{}, tx *gorm.DB) error {
 	r.logger.Debugf("Executing Save on %T", target)
 

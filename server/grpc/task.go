@@ -8,13 +8,15 @@ import (
 	"github.com/google/uuid"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
+	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	services "github.com/chopper-c2-framework/c2-chopper/core/services"
 )
 
 type TaskService struct {
 	proto.UnimplementedTaskServiceServer
-	TaskService  services.ITaskService
-	AgentService services.IAgentService
+	TaskService   services.ITaskService
+	PluginManager plugins.IPluginManager
+	AgentService  services.IAgentService
 }
 
 func (s *TaskService) GetTask(ctx context.Context, in *proto.GetTaskRequest) (*proto.GetTaskResponse, error) {
@@ -60,10 +62,14 @@ func (s *TaskService) CreateTask(ctx context.Context, in *proto.CreateTaskReques
 		return &proto.CreateTaskResponse{}, err
 	}
 
+	args := ""
+	if len(taskProto.GetArgs()) != 0 {
+		args = taskProto.GetArgs()[0]
+	}
 	// TODO: Add user id
 	var task = entity.TaskModel{
 		Name:    taskProto.GetName(),
-		Args:    taskProto.GetArgs(),
+		Args:    args,
 		Type:    entity.TaskType(taskProto.GetType().String()),
 		AgentId: agentId,
 		// CreatorId: ,
@@ -132,6 +138,19 @@ func (s *TaskService) GetAgentUnexecutedTasks(ctx context.Context, in *proto.Get
 }
 
 func (s *TaskService) CreateTaskResult(ctx context.Context, in *proto.CreateTaskResultRequest) (*proto.CreateTaskResultResponse, error) {
+	agentInfo := in.GetInfo()
+	if agentInfo != nil {
+		s.AgentService.ConnectAgent(
+			agentInfo.Id,
+			&entity.AgentModel{
+				Username: agentInfo.GetUsername(),
+				Uid:      agentInfo.GetUserId(),
+				Hostname: agentInfo.GetHostname(),
+				Cwd:      agentInfo.GetCwd(),
+			},
+		)
+	}
+
 	taskResProto := in.GetTaskResult()
 	err := ValidateTaskResultProto(taskResProto)
 	if err != nil {
@@ -148,6 +167,25 @@ func (s *TaskService) CreateTaskResult(ctx context.Context, in *proto.CreateTask
 	err = s.TaskService.CreateTaskResult(taskResult)
 	if err != nil {
 		return &proto.CreateTaskResultResponse{}, err
+	}
+
+	plugins := s.PluginManager.ListLoadedPlugins()
+	for _, plugin := range plugins {
+		loadedPlugin, err := s.PluginManager.GetPlugin(plugin)
+		if err != nil {
+			continue
+		}
+		if loadedPlugin.Channel == nil {
+			continue
+		}
+		waiting, taskId := loadedPlugin.Plugin.IsWaitingForTaskResult()
+		if waiting == false {
+			continue
+		}
+		if taskId != taskUUID.String() {
+			continue
+		}
+		loadedPlugin.Channel <- taskResult
 	}
 
 	return &proto.CreateTaskResultResponse{}, nil

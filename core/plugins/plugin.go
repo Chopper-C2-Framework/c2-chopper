@@ -1,6 +1,10 @@
 // Package plugins defines how to load and interact with the framework plugins.
 package plugins
 
+import (
+	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
+)
+
 // InfoRetriever:  it will only return its output.
 // SessionOpener in this case the framework has to prepare an agent and save the connection infos upons success.
 const (
@@ -40,6 +44,7 @@ type IPlugin interface {
 	MetaInfo() *Metadata
 	Info() *PluginInfo
 	Options() map[string]string
-	Exploit(...interface{}) []byte
+	Exploit(chan *entity.TaskResultModel, ...interface{}) []byte
 	SetArgs(...interface{}) error
+	IsWaitingForTaskResult() (bool, string)
 }

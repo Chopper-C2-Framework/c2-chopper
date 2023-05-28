@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "./styles/global.css";
-import {RouterProvider} from "react-router-dom";
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { RouterProvider } from "react-router-dom";
 import router from "./routes";
-import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import "./styles/global.css";
 
 const queryClient = new QueryClient()
 

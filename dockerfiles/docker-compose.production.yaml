@@ -4,4 +4,4 @@ services:
     build:
       dockerfile: ./dockerfiles/Dockerfile
       context: ../
-    command: ["go", "test", "-v", "./.../"]
+    command: [ "go", "test", "-v", "./.../" ]

@@ -66,7 +66,7 @@ func (t TeamService) AddMemberToTeam(teamId string, userId string) error {
 		return err
 	}
 
-	targetTeam.Members = append(targetTeam.Members, currentUser)
+	targetTeam.Members = append(targetTeam.Members, *currentUser)
 
 	err = t.repo.Save(targetTeam)
 

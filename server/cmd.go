@@ -5,8 +5,6 @@ import (
 
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/urfave/cli/v2"
-
-	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 )
 
 // A channel to block the main thread. Well TODO: CHANGE IT IN A MORE PROPER WAY OF DOING THINGS
@@ -27,11 +25,10 @@ func GetCommands() []*cli.Command {
 				return nil
 			}
 
-			var pluginManager = plugins.CreatePluginManager(frameworkConfig)
 			var serverManager IServerManager = &Manager{}
 
 			go func() {
-				err := serverManager.NewgRPCServer(frameworkConfig, &pluginManager)
+				err := serverManager.NewgRPCServer(frameworkConfig)
 				if err != nil {
 					log.Println("Error launching GRPC server")
 					return

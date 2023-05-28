@@ -4,6 +4,9 @@ import (
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
+
+	"github.com/mattn/go-shellwords"
+
 	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 )
@@ -11,7 +14,7 @@ import (
 func ConvertTeamToProto(team *entity.TeamModel) *proto.Team {
 	var users []*proto.User
 	for _, m := range team.Members {
-		users = append(users, ConvertUserToProto(m))
+		users = append(users, ConvertUserToProto(&m))
 	}
 	protoTeam := &proto.Team{
 		Id:      team.ID.String(),
@@ -41,6 +44,7 @@ func ConvertProtoToUser(user *proto.User) (*entity.UserModel, error) {
 		Username:  user.Username,
 	}, nil
 }
+
 func ConvertPluginToProto(plugin plugins.IPlugin) *proto.Plugin {
 	pluginInfo := plugin.Info()
 	pluginMeta := plugin.MetaInfo()
@@ -62,6 +66,16 @@ func ConvertPluginToProto(plugin plugins.IPlugin) *proto.Plugin {
 	return &proto.Plugin{Info: info, Metadata: metadata}
 }
 
+func ConvertPluginResultToProto(res *entity.PluginResultModel) *proto.PluginResult {
+	return &proto.PluginResult{
+		Id:         res.ID.String(),
+		Path:       res.Path,
+		Output:     res.Output,
+		OutputType: res.OutputType,
+		CreatedAt:  res.CreatedAt.String(),
+	}
+}
+
 func ConvertTaskTypeToProto(task *entity.TaskModel) proto.TaskType {
 	if task.Type == entity.TASK_TYPE_PING {
 		return proto.TaskType_PING
@@ -73,11 +87,18 @@ func ConvertTaskTypeToProto(task *entity.TaskModel) proto.TaskType {
 }
 
 func ConvertTaskToProto(task *entity.TaskModel) *proto.Task {
+	var args []string
+	if task.Type == entity.TASK_TYPE_SHELL {
+		args, _ = shellwords.Parse(task.Args)
+	} else {
+		args = make([]string, 1)
+		args[0] = task.Args
+	}
 	// TODO: Add user id
 	return &proto.Task{
 		TaskId:  task.ID.String(),
 		Name:    task.Name,
-		Args:    task.Args,
+		Args:    args,
 		Type:    ConvertTaskTypeToProto(task),
 		AgentId: task.AgentId.String(),
 	}

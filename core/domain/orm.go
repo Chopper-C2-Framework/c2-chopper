@@ -36,6 +36,7 @@ func CreateDB(config *Cfg.Config) (*ORMConnection, error) {
 	checkMigrationError(db.AutoMigrate(&entity.TaskModel{}))
 	checkMigrationError(db.AutoMigrate(&entity.TaskResultModel{}))
 	checkMigrationError(db.AutoMigrate(&entity.AgentModel{}))
+	checkMigrationError(db.AutoMigrate(&entity.PluginResultModel{}))
 
 	fmt.Println("[+] Migrated Models.")
 

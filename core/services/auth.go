@@ -2,27 +2,30 @@ package services
 
 import (
 	"errors"
+	"time"
+
 	"github.com/chopper-c2-framework/c2-chopper/core/config"
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/golang-jwt/jwt/v5"
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/crypto/bcrypt"
-	"time"
 )
 
 type AuthService struct {
-	FrameworkConfig *config.Config
+	FrameworkConfig config.Config
 	UserService     *UserService
 }
 
 type JWTData struct {
-	Username string
+	Username string `json:"username"`
+	Role     string `json:"role"`
 	jwt.RegisteredClaims
 }
 
-func NewAuthService(userService *UserService) *AuthService {
+func NewAuthService(userService *UserService, frameworkConfig config.Config) *AuthService {
 	return &AuthService{
-		UserService: userService,
+		UserService:     userService,
+		FrameworkConfig: frameworkConfig,
 	}
 }
 
@@ -39,50 +42,50 @@ func (s AuthService) Login(username string, password string) (string, error) {
 		return "", err
 	}
 
-	return s.generateToken(username, user.ID.String())
+	return s.GenerateToken(user)
 }
 func (s AuthService) Register(username string, password string) (string, error) {
-	user, err := s.UserService.FindUserByUsernameOrError(username)
-	if err != nil {
-		log.Debugf("Register error finding user to validate password %v\n", err)
-		return "", err
-	}
-	if user != nil {
+	_, err := s.UserService.FindUserByUsernameOrError(username)
+
+	if err == nil {
 		log.Debugf("Register error user already exists %v\n", err)
 		return "", errors.New("user already exists")
 	}
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-	if err != nil {
-		log.Debugf("Register error hashing password %v\n", err)
-		return "", err
-	}
 
-	newUser := &entity.UserModel{Username: username, Password: string(hashedPassword)}
+	newUser := &entity.UserModel{Username: username, Password: password}
 	err = s.UserService.CreateUser(newUser)
 
 	if err != nil {
 		log.Debugf("Register error creating user %v\n", err)
 		return "", err
 	}
-	return s.generateToken(username, newUser.ID.String())
+
+	log.Println("NewUser", newUser)
+	return s.GenerateToken(newUser)
 }
 
-func (s AuthService) generateToken(username string, id string) (string, error) {
+func (s AuthService) GenerateToken(user *entity.UserModel) (string, error) {
 
 	expirationTime := time.Now().Add(24 * 3 * time.Hour)
+	log.Println("expirationTime", expirationTime)
 	claims := &JWTData{
-		Username: username,
+		Username: user.Username,
+		Role:     user.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
-			Subject:   id,
+			Subject:   user.ID.String(),
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 		},
 	}
 
+	log.Println("expirationTime", claims, user)
+
 	// Declare the token with the algorithm used for signing, and the claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	// Create the JWT string
-	tokenString, err := token.SignedString(s.FrameworkConfig.SecretToken)
+
+	log.Debugln(s.FrameworkConfig, s.FrameworkConfig.SecretToken)
+	tokenString, err := token.SignedString([]byte(s.FrameworkConfig.SecretToken))
 	if err != nil {
 		log.Debugf("GenerateToken error signing token %v\n", err)
 		return "", err
@@ -91,19 +94,20 @@ func (s AuthService) generateToken(username string, id string) (string, error) {
 	return tokenString, nil
 }
 
-func (s AuthService) parseToken(token string) (string, error) {
-	var myClaims *JWTData
-	parsedToken, err := jwt.ParseWithClaims(token, myClaims, func(token *jwt.Token) (interface{}, error) {
-		return s.FrameworkConfig.SecretToken, nil
+func (s AuthService) ParseToken(token string) (*JWTData, error) {
+
+	parsedToken, err := jwt.ParseWithClaims(token, &JWTData{}, func(token *jwt.Token) (interface{}, error) {
+		log.Debugln("token", token)
+		return []byte(s.FrameworkConfig.SecretToken), nil
 	})
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
-	if claims, ok := parsedToken.Claims.(JWTData); ok && parsedToken.Valid {
-		return claims.Subject, nil
+	if claims, ok := parsedToken.Claims.(*JWTData); ok && parsedToken.Valid {
+		return claims, nil
 	}
 
-	return "", errors.New("unable to parse token")
+	return nil, errors.New("unable to parse token")
 }

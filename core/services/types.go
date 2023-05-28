@@ -3,12 +3,18 @@ package services
 import "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 
 type Services struct {
-	TeamService   ITeamService
-	AuthService   IAuthService
-	AgentService  IAgentService
-	HostService   IHostService
-	TaskService   ITaskService
-	ReportService IReportService
+	TeamService         ITeamService
+	AuthService         IAuthService
+	AgentService        IAgentService
+	HostService         IHostService
+	TaskService         ITaskService
+	ReportService       IReportService
+	PluginResultService IPluginResultService
+}
+
+type IPluginResultService interface {
+	CreatePluginResult(newRes *entity.PluginResultModel) error
+	GetPluginResultsOrError(path string) ([]*entity.PluginResultModel, error)
 }
 
 type ITeamService interface {
@@ -32,15 +38,17 @@ type IUserService interface {
 type IAuthService interface {
 	Login(username string, password string) (string, error)
 	Register(username string, password string) (string, error)
+	ParseToken(token string) (*JWTData, error)
 }
 
 type IAgentService interface {
 	CreateAgent(agent *entity.AgentModel) error
 	FindAgentOrError(id string) (*entity.AgentModel, error)
 	FindAllAgents() ([]*entity.AgentModel, error)
-	ConnectAgent(id string) (*entity.AgentModel, error)
+	ConnectAgent(id string, agentInfo *entity.AgentModel) (*entity.AgentModel, error)
 
-	UpdateAgent(agent *entity.AgentModel) error
+	UpdateAgent(target *entity.AgentModel, updates *entity.AgentModel) error
+	SaveAgent(agent *entity.AgentModel) error
 }
 
 type IHostService interface{}

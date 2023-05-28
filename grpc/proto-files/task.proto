@@ -67,6 +67,7 @@ message SetTaskResultsSeenResponse {}
 
 message CreateTaskResultRequest {
   TaskResult task_result = 1;
+  Agent info = 2;
 }
 
 message CreateTaskResultResponse {}
