@@ -3,6 +3,7 @@ syntax = "proto3";
 // Placeholder for a cool featuer
 
 import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
 import "types.proto";
 
 option go_package = "./proto";
@@ -18,6 +19,12 @@ service TaskService {
   rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse) {
     option (google.api.http) = {
       delete: "/v1/task/{task_id}"
+    };
+  }
+
+  rpc GetActiveTasks(google.protobuf.Empty) returns (GetActiveTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/unexecuted/all"
     };
   }
 
@@ -39,6 +46,12 @@ service TaskService {
     };
   }
 
+  rpc GetAllTasks(google.protobuf.Empty) returns (GetAllTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/all"
+    };
+  }
+
   rpc CreateTaskResult(CreateTaskResultRequest) returns (CreateTaskResultResponse) {
     option (google.api.http) = {
       post: "/v1/task/result/{task_result.task_id}",
@@ -52,11 +65,23 @@ service TaskService {
     };
   }
 
+  // params: limit, page, unseen (bool)
+  rpc GetLatestTaskResults(GetLatestTaskResultsRequest) returns (GetLatestTaskResultsResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/result/latest",
+    };
+  }
+
   rpc SetTaskResultsSeen(SetTaskResultsSeenRequest) returns (SetTaskResultsSeenResponse) {
     option (google.api.http) = {
       patch: "/v1/task/result/seen",
     };
   }
+}
+
+message GetAllTasksResponse {
+  repeated Task tasks = 1;
+  uint32 count = 2;
 }
 
 message SetTaskResultsSeenRequest {
@@ -72,12 +97,24 @@ message CreateTaskResultRequest {
 
 message CreateTaskResultResponse {}
 
+message GetLatestTaskResultsRequest {
+  uint32 limit = 1;
+  uint32 page = 2;
+  bool unseen = 3;
+}
+
+message GetLatestTaskResultsResponse {
+  repeated TaskResult results = 1;
+  uint32 count = 2;
+}
+
 message GetTaskResultsRequest {
   string task_id = 1;
 }
 
 message GetTaskResultsResponse {
   repeated TaskResult results = 1;
+  uint32 count = 2;
 }
 
 message CreateTaskRequest {
@@ -108,6 +145,11 @@ message GetAgentUnexecutedTasksRequest {
 message GetAgentUnexecutedTasksResponse {
   repeated Task tasks = 1;
   uint32 sleep_time = 2;
+}
+
+message GetActiveTasksResponse {
+  repeated Task tasks = 1;
+  uint32 count = 2;
 }
 
 message GetAgentTasksRequest {

@@ -6,6 +6,7 @@ import (
 
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 	"github.com/google/uuid"
+	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
@@ -83,6 +84,23 @@ func (s *TaskService) CreateTask(ctx context.Context, in *proto.CreateTaskReques
 	return &proto.CreateTaskResponse{}, nil
 }
 
+func (s *TaskService) GetAllTasks(ctx context.Context, in *emptypb.Empty) (*proto.GetAllTasksResponse, error) {
+	tasks, err := s.TaskService.FindAllTasks()
+	if err != nil {
+		return &proto.GetAllTasksResponse{}, err
+	}
+
+	protoList := make([]*proto.Task, len(tasks))
+	for i, task := range tasks {
+		protoList[i] = ConvertTaskToProto(task)
+	}
+
+	return &proto.GetAllTasksResponse{
+		Tasks: protoList,
+		Count: uint32(len(protoList)),
+	}, nil
+}
+
 func (s *TaskService) GetAgentTasks(ctx context.Context, in *proto.GetAgentTasksRequest) (*proto.GetAgentTasksResponse, error) {
 	agentId := in.GetAgentId()
 	if len(agentId) == 0 {
@@ -134,6 +152,23 @@ func (s *TaskService) GetAgentUnexecutedTasks(ctx context.Context, in *proto.Get
 	return &proto.GetAgentUnexecutedTasksResponse{
 		Tasks:     protoList,
 		SleepTime: agent.SleepTime,
+	}, nil
+}
+
+func (s *TaskService) GetActiveTasks(ctx context.Context, in *emptypb.Empty) (*proto.GetActiveTasksResponse, error) {
+	tasks, err := s.TaskService.FindUnexecutedTasks()
+	if err != nil {
+		return &proto.GetActiveTasksResponse{}, err
+	}
+
+	protoList := make([]*proto.Task, len(tasks))
+	for i, task := range tasks {
+		protoList[i] = ConvertTaskToProto(task)
+	}
+
+	return &proto.GetActiveTasksResponse{
+		Tasks: protoList,
+		Count: uint32(len(protoList)),
 	}, nil
 }
 
@@ -208,6 +243,42 @@ func (s *TaskService) GetTaskResults(ctx context.Context, in *proto.GetTaskResul
 
 	return &proto.GetTaskResultsResponse{
 		Results: protoList,
+		Count:   uint32(len(protoList)),
+	}, nil
+}
+
+func (s *TaskService) GetLatestTaskResults(ctx context.Context, in *proto.GetLatestTaskResultsRequest) (*proto.GetLatestTaskResultsResponse, error) {
+	limit := in.GetLimit()
+	if limit == 0 {
+		limit = 10
+	}
+	page := in.GetPage()
+	if page == 0 {
+		page = 1
+	}
+
+	var (
+		taskResults []*entity.TaskResultModel
+		err         error
+	)
+	if in.GetUnseen() {
+		taskResults, err = s.TaskService.FindLatestUnseenResults(limit, page-1)
+	} else {
+		taskResults, err = s.TaskService.FindLatestResults(limit, page-1)
+	}
+
+	if err != nil {
+		return &proto.GetLatestTaskResultsResponse{}, err
+	}
+
+	protoList := make([]*proto.TaskResult, len(taskResults))
+	for i, taskRes := range taskResults {
+		protoList[i] = ConvertTaskResultToProto(taskRes)
+	}
+
+	return &proto.GetLatestTaskResultsResponse{
+		Results: protoList,
+		Count:   uint32(len(protoList)),
 	}, nil
 }
 
