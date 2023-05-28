@@ -243,6 +243,7 @@ func (s *TaskService) GetTaskResults(ctx context.Context, in *proto.GetTaskResul
 
 	return &proto.GetTaskResultsResponse{
 		Results: protoList,
+		Count:   uint32(len(protoList)),
 	}, nil
 }
 

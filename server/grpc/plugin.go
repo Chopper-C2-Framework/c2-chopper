@@ -104,7 +104,10 @@ func (s *PluginService) GetPluginResults(ctx context.Context, in *proto.GetPlugi
 		protoList[i] = ConvertPluginResultToProto(res)
 	}
 
-	return &proto.GetPluginResultsResponse{Results: protoList}, nil
+	return &proto.GetPluginResultsResponse{
+		Results: protoList,
+		Count:   uint32(len(protoList)),
+	}, nil
 }
 
 func GetValue(val *proto.ArgValue) interface{} {

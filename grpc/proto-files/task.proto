@@ -114,6 +114,7 @@ message GetTaskResultsRequest {
 
 message GetTaskResultsResponse {
   repeated TaskResult results = 1;
+  uint32 count = 2;
 }
 
 message CreateTaskRequest {
