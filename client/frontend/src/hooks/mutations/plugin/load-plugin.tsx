@@ -7,29 +7,33 @@ import { Plugin } from "types";
 import * as z from "zod";
 
 interface LoadPluginRequest {
-  file_name: string;
+    file_name:string
 }
 
 interface LoadPluginResponse {
-  success: boolean;
-  data: Plugin;
+    success: boolean
+    data: Plugin
 }
-export const loadPluginSchema = z.object({});
+export const loadPluginSchema = z.object({
+});
 
-export const useRunPluginMutation = () => {
+export const useLoadPluginMutation = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
   return useMutation<LoadPluginResponse, any, LoadPluginRequest, any>(
-    ["plugins"],
+    ["plugins","loaded"],
     async (data: LoadPluginRequest) => {
-      return axios
-        .post(getServerUrl() + "/v1/plugins/run", data)
-        .then((r) => r.data);
+      return axios.post(getServerUrl() + "/v1/plugins/load", data).then(r=>r.data);
     },
     {
-      onSuccess: (data) => {},
-      onError: (error) => {},
+      onSuccess: (data) => {
+        
+      },
+      onError: (error) => {
+       
+      },
     }
   );
 };
+

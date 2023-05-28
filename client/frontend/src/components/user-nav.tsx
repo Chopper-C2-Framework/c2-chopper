@@ -12,7 +12,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { useMeQuery } from "@hooks/queries/me";
+import { useMeQuery } from "@hooks/queries/user/me";
 import { useLogout } from "@hooks/mutations/auth/useLogout";
 
 export function UserNav() {

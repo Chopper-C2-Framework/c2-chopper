@@ -14,15 +14,15 @@ export type SidebarNavItem = {
   external?: boolean;
   icon?: keyof typeof Icons;
 } & (
-  | {
+    | {
       href: string;
       items?: never;
     }
-  | {
+    | {
       href?: string;
-      items: NavLink[];
+      items: any[];
     }
-);
+  );
 
 export type SiteConfig = {
   name: string;
@@ -55,8 +55,133 @@ export type SubscriptionPlan = {
   stripePriceId: string;
 };
 
-export type UserSubscriptionPlan = SubscriptionPlan &
-  Pick<User, "stripeCustomerId" | "stripeSubscriptionId"> & {
-    stripeCurrentPeriodEnd: number;
-    isPro: boolean;
-  };
+
+// export type Agent = {
+//   id: string;
+//   nickname: string;
+//   username: string;
+//   user_id: string;
+//   sleep_time: number;
+//   cwd: string;
+// }
+
+// export type Team = {
+//   id: string;
+//   name: string;
+//   members: User[]
+// }
+
+// export type User = {
+//   id: string;
+//   username: string;
+//   role: string
+// }
+
+// export enum TaskType {
+//   UNKNOWN = "UNKNOWN",
+//   PING = "PING",
+//   SHELL = "SHELL",
+// }
+
+
+// export type Plugin = {
+// }
+
+export interface Agent {
+  id: string;
+  nickname: string;
+  hostname: string;
+  username: string;
+  user_id: string;
+  sleep_time: number;
+  cwd: string;
+}
+
+export interface Team {
+  id: string;
+  name: string;
+  members: User[];
+}
+
+export interface Plugin {
+  Metadata: PluginMetadata;
+  info: PluginInfo;
+}
+
+export interface PluginResult {
+  id: string;
+  path: string;
+  output: string;
+  output_type: string;
+  created_at: string;
+}
+
+export interface PluginMetadata {
+  version: string;
+  author: string;
+  tags: string[];
+  release_date: string;
+  type: number;
+  source_link: string;
+  description: string;
+}
+
+export interface PluginInfo {
+  Name: string;
+  Options: { [key: string]: string };
+  ReturnType: string;
+}
+
+export interface Cred {
+  username: string;
+  password: string;
+}
+
+export enum TaskType {
+  UNKNOWN = 0,
+  PING = 1,
+  SHELL = 2,
+}
+
+export interface Task {
+  task_id: string;
+  name: string;
+  type: TaskType;
+  args: string[];
+  agent_id: string;
+  creator_id: string;
+}
+
+export interface TaskResult {
+  id: string;
+  status: number;
+  task_id: string;
+  output: string;
+  seen: boolean;
+}
+
+export interface Host {
+  hostname: string;
+  ip_address: string;
+  users: string[];
+  creds: Cred[];
+  tasks: Task[];
+  used_plugins: string[];
+  note: string;
+}
+
+export interface User {
+  id: string;
+  username: string;
+  role: string;
+}
+
+
+export interface TaskResult {
+  // ExecutedAt
+  id: string;
+  status: number;
+  task_id: string;
+  output: string;
+  seen: boolean
+}

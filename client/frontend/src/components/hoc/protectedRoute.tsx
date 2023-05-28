@@ -1,9 +1,6 @@
 import LoadingPage from "@components/loading-page";
-import { useMeQuery } from "@hooks/queries/me";
-import { checkIfAuth } from "@lib/auth-utils";
-import { getServerUrl } from "@lib/get-server-url";
+import { useMeQuery } from "@hooks/queries/user/me";
 import React, { useEffect, useState } from "react";
-import { useQuery } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 interface ProtectedRouteProps {

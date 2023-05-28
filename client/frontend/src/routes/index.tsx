@@ -5,6 +5,10 @@ import Home from "./home.tsx";
 import Login from "./login.tsx";
 import Register from "./register.tsx";
 import Dashboard from "./dashboard.tsx";
+import AppLayout from "../layouts/app-layout.tsx";
+import Plugins from "./plugins.tsx";
+import Findings from "./findings.tsx";
+import Report from "./report.tsx";
 
 const router = createBrowserRouter([
   {
@@ -19,13 +23,25 @@ const router = createBrowserRouter([
   },
   {
     path: "/app",
+    element: <AppLayout />,
     children: [
       {
         path: "dashboard",
         element: <Dashboard />,
-      }
-    ]
-
+      },
+      {
+        path: "plugins",
+        element: <Plugins />,
+      },
+      {
+        path: "findings",
+        element: <Findings />,
+      },
+      {
+        path: "report",
+        element: <Report />,
+      },
+    ],
   },
 
   {
