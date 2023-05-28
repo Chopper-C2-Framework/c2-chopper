@@ -81,15 +81,15 @@ func (s *PluginService) LoadPlugin(ctx context.Context, in *proto.LoadPluginRequ
 	return &proto.LoadPluginResponse{Success: true, Data: ConvertPluginToProto(plugin)}, nil
 }
 
-func (s *PluginService) GetPluginDetails(ctx context.Context, in *proto.LoadPluginRequest) (*proto.LoadPluginResponse, error) {
+func (s *PluginService) GetPluginDetails(ctx context.Context, in *proto.GetPluginDetailsRequest) (*proto.GetPluginDetailsResponse, error) {
 	fmt.Println("[gRPC] [PluginService] GetPluginDetails")
 	loadedPlugin, err := s.PluginManager.GetPlugin(in.FileName)
 	if err != nil {
-		return &proto.LoadPluginResponse{Success: false}, err
+		return &proto.GetPluginDetailsResponse{}, err
 	}
 	plugin := loadedPlugin.Plugin
 
-	return &proto.LoadPluginResponse{Success: true, Data: ConvertPluginToProto(plugin)}, nil
+	return &proto.GetPluginDetailsResponse{Data: ConvertPluginToProto(plugin)}, nil
 }
 
 func (s *PluginService) GetPluginResults(ctx context.Context, in *proto.GetPluginResultsRequest) (*proto.GetPluginResultsResponse, error) {

@@ -21,7 +21,7 @@ func TestParseConfigFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if !reflect.DeepEqual(file, config.DefaultConfig) {
+	if !reflect.DeepEqual(file, config.CreateDefaultConfig()) {
 		t.Fatalf("Error the configuration wasn't as intended")
 	}
 

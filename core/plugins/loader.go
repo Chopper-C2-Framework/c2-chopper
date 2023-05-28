@@ -101,6 +101,9 @@ func (manager PluginManager) LoadPlugin(filePath string) (*LoadedPluginInfo, err
 
 	info, err := os.Lstat(fullPath)
 	if err != nil {
+		if os.IsNotExist(err) {
+			return nil, errors.New("plugin not found")
+		}
 		return nil, err
 	}
 
