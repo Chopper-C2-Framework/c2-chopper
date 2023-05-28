@@ -30,10 +30,12 @@ type IgRPCServer interface {
 	NewgRPCServer(
 		config *Cfg.Config,
 	) error
+	CloseGRPCServer() error
 }
 
 type gRPCServer struct {
-	server *grpc.Server
+	server   *grpc.Server
+	listener net.Listener
 }
 
 func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportCredentials, error) {
@@ -52,6 +54,11 @@ func loadTLSCredentials(certFile string, keyFile string) (credentials.TransportC
 	return credentials.NewTLS(tlsCfg), nil
 }
 
+func (Server *gRPCServer) CloseGRPCServer() error {
+	Server.server.GracefulStop()
+	return Server.listener.Close()
+}
+
 func (Server *gRPCServer) NewgRPCServer(
 	frameworkConfig *Cfg.Config,
 ) error {
@@ -59,9 +66,12 @@ func (Server *gRPCServer) NewgRPCServer(
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+	Server.listener = Agent
 
 	fmt.Println("[+] Created Agent on port", frameworkConfig.ServergRPCPort)
 
+	// TODO: Extract these 3 lines out of this function
+	// To be able to mock db & services during tests
 	dbConnection, _ := orm.CreateDB(frameworkConfig)
 	coreServices := core.InitServices(dbConnection, *frameworkConfig)
 
@@ -118,7 +128,6 @@ func (Server *gRPCServer) NewgRPCServer(
 	})
 	proto.RegisterProfileServiceServer(Server.server, &handler.ProfileService{})
 	proto.RegisterTrackingServiceServer(Server.server, &handler.TrackingService{})
-	proto.RegisterHelloServiceServer(Server.server, &handler.HelloService{})
 
 	if err := Server.server.Serve(Agent); err != nil {
 		log.Fatalf("failed to serve: %v", err)

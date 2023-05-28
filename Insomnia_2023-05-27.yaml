@@ -1,0 +1,3354 @@
+_type: export
+__export_format: 4
+__export_date: 2023-05-27T20:43:39.102Z
+__export_source: insomnia.desktop.app:v2023.2.0
+resources:
+  - _id: greq_7ccd01d1b757468fb4b4723e30a64b5b
+    parentId: fld_1c1835425b7b416187397dd7cb5b89eb
+    modified: 1685218961442
+    created: 1685218929432
+    url: localhost:9002
+    name: List Agents
+    description: ""
+    protoFileId: pf_b6c32fce3e064a55bee9f67919198bb9
+    protoMethodName: /AgentService/ListAgents
+    metadata: []
+    body:
+      text: "{}"
+    metaSortKey: -1685218902200
+    isPrivate: false
+    _type: grpc_request
+  - _id: fld_1c1835425b7b416187397dd7cb5b89eb
+    parentId: wrk_9ba69dcbc94549fc9dc915a8b134ac67
+    modified: 1685218898869
+    created: 1685218898869
+    name: Agent
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1685218898869
+    _type: request_group
+  - _id: wrk_9ba69dcbc94549fc9dc915a8b134ac67
+    parentId: null
+    modified: 1683459718752
+    created: 1683459718752
+    name: gRPC
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: greq_988938eed71b4c1d9cda03fbd92be237
+    parentId: fld_1c1835425b7b416187397dd7cb5b89eb
+    modified: 1685219085763
+    created: 1685219066562
+    url: localhost:9002
+    name: Get Agent Info
+    description: ""
+    protoFileId: pf_b6c32fce3e064a55bee9f67919198bb9
+    protoMethodName: /AgentService/GetAgentInfo
+    metadata: []
+    body:
+      text: |-
+        {
+        	"agent_id": "9f9087a9-bb8b-4e32-91b9-7e764a31bbb7"
+        }
+    metaSortKey: -1685218871262.25
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_b894a6ca3ab044aeb6df0fb1f2ea5616
+    parentId: fld_1c1835425b7b416187397dd7cb5b89eb
+    modified: 1685219545499
+    created: 1685219124484
+    url: localhost:9002
+    name: Connect
+    description: ""
+    protoFileId: pf_b6c32fce3e064a55bee9f67919198bb9
+    protoMethodName: /AgentService/Connect
+    metadata: []
+    body:
+      text: |-
+        {
+        	"data": {
+        		"id": "9f9087a9-bb8b-4e32-91b9-7e764a31bbb7",
+        		"hostname": "kali",
+        		"username": "nobody",
+        		"user_id": "1000",
+        		"cwd": "/"
+        	}
+        }
+    metaSortKey: -1685218855793.375
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_dabeb539e93747778379fa8c717e2399
+    parentId: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    modified: 1685218852203
+    created: 1685033905925
+    url: localhost:9002
+    name: Create Task Result
+    description: ""
+    protoFileId: pf_e6a7f6e0f1dc46338c1a713ed9bd7681
+    protoMethodName: /TaskService/CreateTaskResult
+    metadata: []
+    body:
+      text: |-
+        {
+        	"task_result": {
+        		"status": 200,
+        		"task_id": "a53f5e26-7041-4036-a847-84ef454d7cfe",
+        		"output": "Hello"
+        	},
+        	"info": {
+        		"cwd": "/",
+        		"username": "root",
+        		"user_id": "1000",
+        		"hostname": "kali"
+        	}
+        }
+    metaSortKey: -1685218840324.5
+    isPrivate: false
+    _type: grpc_request
+  - _id: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    parentId: wrk_9ba69dcbc94549fc9dc915a8b134ac67
+    modified: 1685218831543
+    created: 1685218831543
+    name: Tasks
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1685218831543
+    _type: request_group
+  - _id: greq_fab728942a044486b6881245af925b00
+    parentId: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    modified: 1685218845200
+    created: 1685035075142
+    url: localhost:9002
+    name: Get task
+    description: ""
+    protoFileId: pf_e6a7f6e0f1dc46338c1a713ed9bd7681
+    protoMethodName: /TaskService/GetTask
+    metadata: []
+    body:
+      text: |-
+        {
+        	"task_id": "a53f5e26-7041-4036-a847-84ef454d7cfe"
+        }
+    metaSortKey: -1685218840312
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_6d65f4fdd5e94a6b8db562133b20cd44
+    parentId: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    modified: 1685220066442
+    created: 1684858648795
+    url: localhost:9002
+    name: Create Task
+    description: ""
+    protoFileId: pf_e6a7f6e0f1dc46338c1a713ed9bd7681
+    protoMethodName: /TaskService/CreateTask
+    metadata: []
+    body:
+      text: |-
+        {
+        	"agent_id": "9f9087a9-bb8b-4e32-91b9-7e764a31bbb7",
+        	"task": {
+        		"name": "Test",
+        		"type": 2,
+        		"args": "cd /"
+        	}
+        }
+    metaSortKey: -1685218840305.75
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_0f0f9d52a37c4b21aad0d8bedf9c8b78
+    parentId: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    modified: 1685220118097
+    created: 1685220080040
+    url: localhost:9002
+    name: Delete Task
+    description: ""
+    protoFileId: pf_322324c62387417fad27c4c7605e7a81
+    protoMethodName: /TaskService/DeleteTask
+    metadata: []
+    body:
+      text: |-
+        {
+        	"task_id": "a53f5e26-7041-4036-a847-84ef454d7cfe"
+        }
+    metaSortKey: -1685218840302.625
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_44f42759075b451aad4a2b4194de1f0a
+    parentId: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    modified: 1685218853955
+    created: 1685033266069
+    url: localhost:9002
+    name: Get task results
+    description: ""
+    protoFileId: pf_e6a7f6e0f1dc46338c1a713ed9bd7681
+    protoMethodName: /TaskService/GetTaskResults
+    metadata: []
+    body:
+      text: |-
+        {
+        	"task_id": "a53f5e26-7041-4036-a847-84ef454d7cfe"
+        }
+    metaSortKey: -1685218840299.5
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_36afda0891034d5aa0d3ea9b2f029ecb
+    parentId: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    modified: 1685219659093
+    created: 1684864071449
+    url: localhost:9002
+    name: Get agent unexecuted tasks
+    description: ""
+    protoFileId: pf_e6a7f6e0f1dc46338c1a713ed9bd7681
+    protoMethodName: /TaskService/GetAgentUnexecutedTasks
+    metadata: []
+    body:
+      text: |-
+        {
+        	"agent_id": "9f9087a9-bb8b-4e32-91b9-7e764a31bbb7"
+        }
+    metaSortKey: -1685218840293.25
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_0e919a51f96846ba92ee1f0477179883
+    parentId: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    modified: 1685220147638
+    created: 1685220133182
+    url: localhost:9002
+    name: Get agent tasks
+    description: ""
+    protoFileId: pf_322324c62387417fad27c4c7605e7a81
+    protoMethodName: /TaskService/GetAgentTasks
+    metadata: []
+    body:
+      text: |-
+        {
+        	"agent_id": "9f9087a9-bb8b-4e32-91b9-7e764a31bbb7"
+        }
+    metaSortKey: -1685218840290.125
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_5be436e743984f8e9748a4baaae90ab7
+    parentId: fld_69c7bea8504a427e8d19d5b1e9e285bc
+    modified: 1685218841717
+    created: 1685036565879
+    url: localhost:9002
+    name: Mark Seen
+    description: ""
+    protoFileId: pf_e6a7f6e0f1dc46338c1a713ed9bd7681
+    protoMethodName: /TaskService/SetTaskResultsSeen
+    metadata: []
+    body:
+      text: |-
+        {
+        	"result_ids": [
+        		"6c5ed2e9-d549-4ca1-a637-bef7fe49549f",
+        		"f9656277-d877-4631-8add-b83b2cdf4c60"
+        	]
+        }
+    metaSortKey: -1685218840287
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_fd852b8f63904ab7b0456b4e85089b64
+    parentId: fld_198405c8323b478d94d1ee921b2bd52b
+    modified: 1685218803509
+    created: 1685204982891
+    url: localhost:9002
+    name: Run Plugin
+    description: ""
+    protoFileId: pf_cc37f80b6ddb4f5889a7453f1ef0d3e1
+    protoMethodName: /PluginService/RunPlugin
+    metadata: []
+    body:
+      text: |-
+        {
+          "FileName": "RequireAgent.so",
+          "Args": {
+            "arg0": {
+              "type": "string_value",
+              "string_value": "value 1"
+            },
+        		"arg1": {
+              "type": "string_value",
+              "string_value": "9f9087a9-bb8b-4e32-91b9-7e764a31bbb7"
+            },
+            "arg2": {
+              "type": "map_value",
+              "map_value": {
+                "items": [
+                  {
+                    "key": "key1",
+                    "value": {
+                      "type": "string_value",
+                      "string_value": "Hello world"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+    metaSortKey: -1685218801566
+    isPrivate: false
+    _type: grpc_request
+  - _id: fld_198405c8323b478d94d1ee921b2bd52b
+    parentId: wrk_9ba69dcbc94549fc9dc915a8b134ac67
+    modified: 1685218798983
+    created: 1685218784758
+    name: Plugins
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1685210882241.3125
+    _type: request_group
+  - _id: greq_f1738c3527fa4765a6438f17dfaee1ae
+    parentId: fld_198405c8323b478d94d1ee921b2bd52b
+    modified: 1685218814933
+    created: 1685204704958
+    url: localhost:9002
+    name: Load Plugin
+    description: ""
+    protoFileId: pf_cc37f80b6ddb4f5889a7453f1ef0d3e1
+    protoMethodName: /PluginService/LoadPlugin
+    metadata: []
+    body:
+      text: |-
+        {
+        	"file_name": "RequireAgent.so"
+        }
+    metaSortKey: -1685218801516
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_f47c8dd697c14b7bb578dc5254494e06
+    parentId: fld_198405c8323b478d94d1ee921b2bd52b
+    modified: 1685218818425
+    created: 1685203296714
+    url: localhost:9002
+    name: List All Plugins
+    description: ""
+    protoFileId: pf_cc37f80b6ddb4f5889a7453f1ef0d3e1
+    protoMethodName: /PluginService/ListPlugins
+    metadata: []
+    body:
+      text: "{}"
+    metaSortKey: -1685218801466
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_92d67c4fe02e4fb7ba7b0c7719f37ea5
+    parentId: fld_198405c8323b478d94d1ee921b2bd52b
+    modified: 1685219774445
+    created: 1685219769397
+    url: localhost:9002
+    name: List Loaded Plugins
+    description: ""
+    protoFileId: pf_cc37f80b6ddb4f5889a7453f1ef0d3e1
+    protoMethodName: /PluginService/ListLoadedPlugins
+    metadata: []
+    body:
+      text: "{}"
+    metaSortKey: -1685218801416
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_d74597f0c3ef411c9a7b76b2d3f4d02f
+    parentId: fld_198405c8323b478d94d1ee921b2bd52b
+    modified: 1685219825257
+    created: 1685219807027
+    url: localhost:9002
+    name: Get Plugin Details
+    description: ""
+    protoFileId: pf_cc37f80b6ddb4f5889a7453f1ef0d3e1
+    protoMethodName: /PluginService/GetPluginDetails
+    metadata: []
+    body:
+      text: |-
+        {
+        	"file_name": "RequireAgent.so"
+        }
+    metaSortKey: -1685218801366
+    isPrivate: false
+    _type: grpc_request
+  - _id: greq_f15d95e2b48b41f092bbdf5cc0462a47
+    parentId: fld_198405c8323b478d94d1ee921b2bd52b
+    modified: 1685219963639
+    created: 1685219862584
+    url: localhost:9002
+    name: Get Plugin Results
+    description: ""
+    protoFileId: pf_b4a4d543202d4fbea353bebaefc7d6f3
+    protoMethodName: /PluginService/GetPluginResults
+    metadata: []
+    body:
+      text: |-
+        {
+        	"file_name": "RequireAgent.so"
+        }
+    metaSortKey: -1685218801316
+    isPrivate: false
+    _type: grpc_request
+  - _id: env_fe1f4043d5c203b27e6c8e184cee0396a6c6b46a
+    parentId: wrk_9ba69dcbc94549fc9dc915a8b134ac67
+    modified: 1683459718757
+    created: 1683459718757
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1683459718757
+    _type: environment
+  - _id: jar_fe1f4043d5c203b27e6c8e184cee0396a6c6b46a
+    parentId: wrk_9ba69dcbc94549fc9dc915a8b134ac67
+    modified: 1683459718759
+    created: 1683459718759
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_8e01849d81d849ef9caebcd145910285
+    parentId: wrk_9ba69dcbc94549fc9dc915a8b134ac67
+    modified: 1683459718753
+    created: 1683459718753
+    fileName: gRPC
+    contents: ""
+    contentType: yaml
+    _type: api_spec
+  - _id: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    parentId: wrk_9ba69dcbc94549fc9dc915a8b134ac67
+    modified: 1685219955858
+    created: 1685219955858
+    name: proto-files
+    _type: proto_directory
+  - _id: pf_f40ecb7f63f9437fa74e2111ac15c586
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955657
+    created: 1685219955657
+    name: agent.proto
+    protoText: |
+      syntax = "proto3";
+
+      import "google/protobuf/empty.proto";
+      import "types.proto";
+      import "google/api/annotations.proto";
+
+      option go_package = "./proto";
+
+      service AgentService {
+        rpc ListAgents(google.protobuf.Empty) returns (AgentListResponse) {
+          option(google.api.http) = {
+            get: "/v1/agent/all"
+          };
+        }
+        
+        rpc GetAgentInfo(GetAgentInfoRequest) returns (GetAgentInfoResponse) {
+          option(google.api.http) = {
+            get: "/v1/agent/{agent_id}"
+          };
+        }
+
+        // Used by agent
+        rpc Connect(AgentConnectionRequest) returns (AgentConnectionResponse) {
+          option(google.api.http) = {
+            patch: "/v1/agent/{data.id}",
+            body: "*"
+          };
+        }
+      }
+
+      message AgentConnectionRequest {
+        Agent data = 1;
+      }
+
+      message AgentConnectionResponse {
+        string uuid = 1;
+      }
+
+      message AgentListResponse {
+        repeated Agent data = 1;
+      }
+
+      message GetAgentInfoRequest {
+        string agent_id = 1;
+      }
+
+      message GetAgentInfoResponse {
+        Agent agent = 1;
+      }
+    _type: proto_file
+  - _id: pf_0e3fa4dabc264ff782465ed0e3df78dc
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955665
+    created: 1685219955665
+    name: auth.proto
+    protoText: |
+      syntax = "proto3";
+
+      option go_package = "./proto";
+
+      import "google/api/annotations.proto";
+      //import "types.proto";
+
+      service AuthService {
+        rpc Login(LoginRequest) returns (LoginResponse) {
+          option(google.api.http) = {
+            post: "/v1/login"
+            body: "*"
+          };
+
+        }
+        rpc Register(RegisterRequest) returns (RegisterResponse) {
+          option(google.api.http) = {
+            post: "/v1/register"
+            body: "*"
+          };
+        }
+      }
+
+      message LoginRequest {
+        string username = 1;
+        string password = 2;
+      }
+
+      message RegisterRequest {
+        string username = 1;
+        string password = 2;
+      }
+
+      message LoginResponse {
+        bool success = 1;
+        string token = 2;
+      }
+
+      message RegisterResponse {
+        bool success = 1;
+        string token = 2;
+      }
+    _type: proto_file
+  - _id: pf_b4a4d543202d4fbea353bebaefc7d6f3
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955767
+    created: 1685219955767
+    name: plugin.proto
+    protoText: >
+      syntax = "proto3";
+
+
+      import "google/protobuf/empty.proto";
+
+      import "types.proto";
+
+      import "google/api/annotations.proto";
+
+
+      option go_package = "./proto";
+
+
+      service PluginService {
+        rpc ListLoadedPlugins (google.protobuf.Empty) returns (ListLoadedPluginsResponse) {
+          option(google.api.http) = {
+            get: "/v1/plugins/loaded"
+          };
+        }
+
+        rpc ListPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {
+          option(google.api.http) = {
+            get: "/v1/plugins/all"
+          };
+        }
+
+        rpc RunPlugin (RunPluginRequest) returns (RunPluginResponse) {
+          option(google.api.http) = {
+            post: "/v1/plugins/run",
+            body: "*"
+          };
+        }
+
+        rpc LoadPlugin (LoadPluginRequest) returns (LoadPluginResponse) {
+          option(google.api.http) = {
+            post: "/v1/plugins/load",
+            body: "*"
+          };
+        }
+
+        rpc GetPluginDetails (GetPluginDetailsRequest) returns (GetPluginDetailsResponse) {
+          option(google.api.http) = {
+            get: "/v1/plugins/{file_name}"
+          };
+        }
+
+        rpc GetPluginResults (GetPluginResultsRequest) returns (GetPluginResultsResponse) {
+          option(google.api.http) = {
+            get: "/v1/plugins/results/{file_name}"
+          };
+        }
+      }
+
+
+      message MapItem {
+        string key = 1;
+        ArgValue value = 2;
+      }
+
+      message MapValue {
+        repeated MapItem items = 1;
+      }
+
+
+      message ArgValue{
+        string type = 1;
+        oneof V {
+          double number_value = 3;
+          string string_value = 4;
+          bool bool_value = 5;
+          MapValue map_value = 6;
+        }
+      }
+
+
+      message RunPluginRequest {
+        string FileName = 1;
+        map<string, ArgValue> Args = 2;
+      }
+
+
+      message GetPluginResultsRequest {
+        string file_name = 1;
+      }
+
+
+      message GetPluginResultsResponse {
+        repeated PluginResult results = 1;
+      }
+
+
+      message GetPluginDetailsRequest {
+        string file_name = 1;
+      }
+
+
+      message GetPluginDetailsResponse {
+        Plugin data = 1;
+      }
+
+
+      message LoadPluginRequest {
+        string file_name = 1;
+      }
+
+
+      message ListPluginsResponse {
+        bool success = 1;
+        repeated string names = 2;
+      }
+
+
+      message ListLoadedPluginsResponse {
+        bool success = 1;
+        repeated string names = 2;
+      }
+
+
+      message RunPluginResponse {
+        bool success = 1;
+        string message = 2;
+      }
+
+
+      message LoadPluginResponse {
+        bool success = 1;
+        Plugin data = 2;
+      }
+    _type: proto_file
+  - _id: pf_43cbe978895642eb94f7ba2f30eb2d29
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955779
+    created: 1685219955779
+    name: profile.proto
+    protoText: >
+      syntax = "proto3";
+
+
+      // Placeholder for a cool featuer
+
+
+      import "google/api/annotations.proto";
+
+      // import "types.proto";
+
+
+      option go_package = "./proto";
+
+
+      service ProfileService {
+        rpc CreateProfile(CreateProfileRequest) returns (CreateProfileResponse) {
+          option (google.api.http) = {
+            post: "/v1/management/profile"
+            body: "*"
+          };
+        }
+
+        rpc UpdateProfile(UpdateProfileRequest) returns (UpdateProfileResponse) {
+          option (google.api.http) = {
+            post: "/v1/management/profile/{profile_id}"
+            body: "updated_profile"
+          };
+        }
+      }
+
+
+      message CreateProfileRequest {
+        string tag_name = 1;
+        string role = 2;
+      }
+
+
+      message CreateProfileResponse {}
+
+
+      message UpdateProfileRequest {
+        string tagname = 1;
+        string role = 2;
+        string profile_id = 3;
+        string updated_profile = 4;
+      }
+
+
+      message UpdateProfileResponse {
+        string profile_id = 1;
+        string updated_profile = 2;
+      }
+    _type: proto_file
+  - _id: pf_322324c62387417fad27c4c7605e7a81
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955798
+    created: 1685219955798
+    name: task.proto
+    protoText: >
+      syntax = "proto3";
+
+
+      // Placeholder for a cool featuer
+
+
+      import "google/api/annotations.proto";
+
+      import "types.proto";
+
+
+      option go_package = "./proto";
+
+
+      service TaskService {
+        rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse) {
+          option (google.api.http) = {
+            post: "/v1/task/{agent_id}"
+            body: "task"
+          };
+        }
+
+        rpc DeleteTask(DeleteTaskRequest) returns (DeleteTaskResponse) {
+          option (google.api.http) = {
+            delete: "/v1/task/{task_id}"
+          };
+        }
+
+        rpc GetAgentUnexecutedTasks(GetAgentUnexecutedTasksRequest) returns (GetAgentUnexecutedTasksResponse) {
+          option (google.api.http) = {
+            get: "/v1/task/unexecuted/agent/{agent_id}"
+          };
+        }
+
+        rpc GetAgentTasks(GetAgentTasksRequest) returns (GetAgentTasksResponse) {
+          option (google.api.http) = {
+            get: "/v1/task/agent/{agent_id}"
+          };
+        }
+
+        rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
+          option (google.api.http) = {
+            get: "/v1/task/{task_id}"
+          };
+        }
+
+        rpc CreateTaskResult(CreateTaskResultRequest) returns (CreateTaskResultResponse) {
+          option (google.api.http) = {
+            post: "/v1/task/result/{task_result.task_id}",
+            body: "task_result"
+          };
+        }
+
+        rpc GetTaskResults(GetTaskResultsRequest) returns (GetTaskResultsResponse) {
+          option (google.api.http) = {
+            get: "/v1/task/result/{task_id}",
+          };
+        }
+
+        rpc SetTaskResultsSeen(SetTaskResultsSeenRequest) returns (SetTaskResultsSeenResponse) {
+          option (google.api.http) = {
+            patch: "/v1/task/result/seen",
+          };
+        }
+      }
+
+
+      message SetTaskResultsSeenRequest {
+        repeated string result_ids = 1;
+      }
+
+
+      message SetTaskResultsSeenResponse {}
+
+
+      message CreateTaskResultRequest {
+        TaskResult task_result = 1;
+        Agent info = 2;
+      }
+
+
+      message CreateTaskResultResponse {}
+
+
+      message GetTaskResultsRequest {
+        string task_id = 1;
+      }
+
+
+      message GetTaskResultsResponse {
+        repeated TaskResult results = 1;
+      }
+
+
+      message CreateTaskRequest {
+        string agent_id = 1;
+        Task task = 2;
+      }
+
+
+      message DeleteTaskRequest {
+        string task_id = 1;
+      }
+
+
+      message GetTaskRequest {
+        string task_id = 1;
+      }
+
+
+      message CreateTaskResponse {}
+
+
+      message DeleteTaskResponse {}
+
+
+      message GetTaskResponse {
+        Task task = 1;
+      }
+
+
+      message GetAgentUnexecutedTasksRequest {
+        string agent_id = 1;
+      }
+
+
+      message GetAgentUnexecutedTasksResponse {
+        repeated Task tasks = 1;
+        uint32 sleep_time = 2;
+      }
+
+
+      message GetAgentTasksRequest {
+        string agent_id = 1;
+      }
+
+
+      message GetAgentTasksResponse {
+        repeated Task tasks = 1;
+        uint32 sleep_time = 2;
+      }
+    _type: proto_file
+  - _id: pf_be4f8f998b9948fe9804254ba5383338
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955814
+    created: 1685219955814
+    name: team.proto
+    protoText: >
+      syntax = "proto3";
+
+
+      option go_package = "./proto";
+
+
+      import "google/api/annotations.proto";
+
+      import "types.proto";
+
+
+      service TeamService {
+        rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
+          option (google.api.http) = {
+            post: "/v1/management/team"
+            body: "data"
+          };
+        }
+
+        rpc JoinTeam(JoinTeamRequest) returns (JoinTeamResponse) {
+          option (google.api.http) = {post: "/v1/management/team/join/team/{team_id}"};
+        }
+
+        rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
+          option (google.api.http) = {
+            patch: "/v1/management/team/{team_id}"
+            body: "updated_team"
+          };
+        }
+
+        rpc AddMemberToTeam(AddMemberToTeamRequest) returns (AddMemberToTeamResponse) {
+          option (google.api.http) = {
+            post: "/v1/management/team/members/{team_id}"
+            body: "user_id"
+          };
+        }
+
+        rpc GetTeams(GetTeamsRequest) returns(GetTeamsResponse){
+          option(google.api.http) = {
+            get: "/v1/management/team"
+          };
+        };
+
+        rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse) {
+          option (google.api.http) = {delete: "/v1/management/team/{team_id}"};
+        }
+      }
+
+
+      message CreateTeamRequest {
+        Team data = 1;
+      }
+
+
+      message CreateTeamResponse {
+        bool success = 1;
+        Team data = 2;
+      }
+
+
+      message JoinTeamRequest {
+        string team_id = 1;
+      }
+
+
+      message JoinTeamResponse {
+        bool success = 1;
+      }
+
+
+      message UpdateTeamRequest {
+        string team_id = 1;
+        Team updated_team = 2;
+      }
+
+
+      message UpdateTeamResponse {
+        bool success = 1;
+        Team data = 2;
+      }
+
+
+      message AddMemberToTeamRequest {
+        string team_id = 1;
+        string user_id = 2;
+      }
+
+
+      message AddMemberToTeamResponse {
+        bool success = 1;
+        Team team = 2;
+      }
+
+
+      message DeleteTeamRequest {
+        string team_id = 1;
+      }
+
+
+      message DeleteTeamResponse {
+        bool success = 1;
+      }
+
+
+      message GetTeamsRequest{
+
+      }
+
+
+      message GetTeamsResponse{
+        bool success = 1;
+        repeated Team teams = 2;
+      }
+    _type: proto_file
+  - _id: pf_8a718970c2ea4f818c5ccda9e367bbfb
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955834
+    created: 1685219955834
+    name: tracking.proto
+    protoText: |
+      syntax = "proto3";
+
+      import "google/api/annotations.proto";
+      import "google/protobuf/empty.proto";
+      import "types.proto";
+
+      option go_package = "./proto";
+
+      service TrackingService {
+        rpc GetsAllCreds(google.protobuf.Empty) returns (GetCredsResponse) {
+          option (google.api.http) = {get: "/v1/tracking/creds"};
+        }
+
+        rpc GetHostInfo(GetHostInfoRequest) returns (GetHostInfoResponse) {
+          option (google.api.http) = {get: "/v1/tracking/host/{host_id}"};
+        }
+
+        rpc GetHosts(google.protobuf.Empty) returns (GetHostsResponse) {
+          option (google.api.http) = {get: "/v1/tracking/host"};
+        }
+      }
+
+      message GetCredsResponse {
+        bool success = 1;
+        Cred creds = 2;
+      }
+
+      message GetHostInfoRequest {
+        string host_id = 1;
+      }
+
+      message GetHostInfoResponse {
+        bool success = 1;
+        Host host = 2;
+      }
+
+      message GetHostsResponse {
+        bool success = 1;
+        repeated Host hosts = 2;
+      }
+    _type: proto_file
+  - _id: pf_77c21203db1a447ebb8893a5e174b1dc
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955850
+    created: 1685219955850
+    name: types.proto
+    protoText: >-
+      syntax = "proto3";
+
+
+      option go_package = "./proto";
+
+
+
+      import "google/protobuf/descriptor.proto";
+
+
+
+      message Agent {
+        string id = 1;
+        string nickname = 2;
+        string hostname = 3;
+        string username = 4;
+        string user_id = 5;
+        uint32 sleep_time = 6;
+        string cwd = 7;
+      }
+
+
+      message Team {
+        string id = 1;
+        string name = 2;
+        repeated User members = 3;
+      }
+
+
+      message Plugin {
+        PluginMetadata Metadata = 2;
+        PluginInfo info = 3;
+      }
+
+
+      message PluginResult {
+        string id = 1;
+        string path = 2;
+        string output = 3;
+        string output_type = 4;
+        string created_at = 5;
+      }
+
+
+      message PluginMetadata {
+        string version = 1;
+        string author = 2;
+        repeated string tags = 3;
+        string release_date = 4;
+        int32 type = 5;
+        string source_link = 6;
+        string description = 7;
+      }
+
+
+      message PluginInfo {
+        string Name = 1;
+        map<string, string> Options = 2;
+        string ReturnType = 3;
+      }
+
+
+      message Cred {
+        string username = 1;
+        string password = 2;
+      }
+
+
+      // Custom option definition
+
+      extend google.protobuf.EnumValueOptions {
+        string string_value = 1000;
+      }
+
+
+      // Placeholder for the real task thing which should be used in the plugins too or partially.
+
+      enum TaskType {
+        UNKNOWN = 0 [(string_value) = "UNKNOWN"];
+        PING = 1 [(string_value) = "PING"];
+        SHELL = 2 [(string_value) = "SHELL"];
+      }
+
+
+      message Task {
+        string task_id = 1;
+        string name = 2;
+        TaskType type = 3;
+        repeated string args = 4;
+        string agent_id = 5;
+        string creator_id = 6;
+      }
+
+
+      message TaskResult {
+        // ExecutedAt
+        string id = 1;
+        int32 status = 2;
+        string task_id = 3;
+        string output = 4;
+        bool seen = 5;
+      }
+
+
+      message Host {
+        string hostname = 1;
+        string ip_address = 2;
+        repeated string users = 3;
+        repeated Cred creds = 4;
+        repeated Task tasks = 5;
+        repeated string used_plugins = 6;
+
+        // Notes related to the host. Can be left by the team.
+        string note = 7;
+      }
+
+
+      message User {
+        string id = 1;
+        string username = 2;
+
+      }
+    _type: proto_file
+  - _id: pd_3967af8ea90d466aac626192b3e08441
+    parentId: pd_2e7cbb2247b84d4c8b450d89ab5b96ab
+    modified: 1685219955742
+    created: 1685219955742
+    name: google
+    _type: proto_directory
+  - _id: pf_c1260b8476ea400c8719fd4cb55b1350
+    parentId: pd_3967af8ea90d466aac626192b3e08441
+    modified: 1685219955735
+    created: 1685219955735
+    name: descriptor.proto
+    protoText: >-
+      // Protocol Buffers - Google's data interchange format
+
+      // Copyright 2008 Google Inc.  All rights reserved.
+
+      // https://developers.google.com/protocol-buffers/
+
+      //
+
+      // Redistribution and use in source and binary forms, with or without
+
+      // modification, are permitted provided that the following conditions are
+
+      // met:
+
+      //
+
+      //     * Redistributions of source code must retain the above copyright
+
+      // notice, this list of conditions and the following disclaimer.
+
+      //     * Redistributions in binary form must reproduce the above
+
+      // copyright notice, this list of conditions and the following disclaimer
+
+      // in the documentation and/or other materials provided with the
+
+      // distribution.
+
+      //     * Neither the name of Google Inc. nor the names of its
+
+      // contributors may be used to endorse or promote products derived from
+
+      // this software without specific prior written permission.
+
+      //
+
+      // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+
+      // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+
+      // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+
+      // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+
+      // OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+
+      // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+
+      // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+
+      // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+
+      // THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+
+      // (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+
+      // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+      // Author: kenton@google.com (Kenton Varda)
+
+      //  Based on original Protocol Buffers design by
+
+      //  Sanjay Ghemawat, Jeff Dean, and others.
+
+      //
+
+      // The messages in this file describe the definitions found in .proto files.
+
+      // A valid .proto file can be translated directly to a FileDescriptorProto
+
+      // without any other information (e.g. without reading its imports).
+
+
+      syntax = "proto2";
+
+
+      package google.protobuf;
+
+
+      option go_package = "google.golang.org/protobuf/types/descriptorpb";
+
+      option java_package = "com.google.protobuf";
+
+      option java_outer_classname = "DescriptorProtos";
+
+      option csharp_namespace = "Google.Protobuf.Reflection";
+
+      option objc_class_prefix = "GPB";
+
+      option cc_enable_arenas = true;
+
+
+      // descriptor.proto must be optimized for speed because reflection-based
+
+      // algorithms don't work during bootstrapping.
+
+      option optimize_for = SPEED;
+
+
+      // The protocol compiler can output a FileDescriptorSet containing the .proto
+
+      // files it parses.
+
+      message FileDescriptorSet {
+        repeated FileDescriptorProto file = 1;
+      }
+
+
+      // Describes a complete .proto file.
+
+      message FileDescriptorProto {
+        optional string name = 1;     // file name, relative to root of source tree
+        optional string package = 2;  // e.g. "foo", "foo.bar", etc.
+
+        // Names of files imported by this file.
+        repeated string dependency = 3;
+        // Indexes of the public imported files in the dependency list above.
+        repeated int32 public_dependency = 10;
+        // Indexes of the weak imported files in the dependency list.
+        // For Google-internal migration only. Do not use.
+        repeated int32 weak_dependency = 11;
+
+        // All top-level definitions in this file.
+        repeated DescriptorProto message_type = 4;
+        repeated EnumDescriptorProto enum_type = 5;
+        repeated ServiceDescriptorProto service = 6;
+        repeated FieldDescriptorProto extension = 7;
+
+        optional FileOptions options = 8;
+
+        // This field contains optional information about the original source code.
+        // You may safely remove this entire field without harming runtime
+        // functionality of the descriptors -- the information is needed only by
+        // development tools.
+        optional SourceCodeInfo source_code_info = 9;
+
+        // The syntax of the proto file.
+        // The supported values are "proto2", "proto3", and "editions".
+        //
+        // If `edition` is present, this value must be "editions".
+        optional string syntax = 12;
+
+        // The edition of the proto file, which is an opaque string.
+        optional string edition = 13;
+      }
+
+
+      // Describes a message type.
+
+      message DescriptorProto {
+        optional string name = 1;
+
+        repeated FieldDescriptorProto field = 2;
+        repeated FieldDescriptorProto extension = 6;
+
+        repeated DescriptorProto nested_type = 3;
+        repeated EnumDescriptorProto enum_type = 4;
+
+        message ExtensionRange {
+          optional int32 start = 1;  // Inclusive.
+          optional int32 end = 2;    // Exclusive.
+
+          optional ExtensionRangeOptions options = 3;
+        }
+        repeated ExtensionRange extension_range = 5;
+
+        repeated OneofDescriptorProto oneof_decl = 8;
+
+        optional MessageOptions options = 7;
+
+        // Range of reserved tag numbers. Reserved tag numbers may not be used by
+        // fields or extension ranges in the same message. Reserved ranges may
+        // not overlap.
+        message ReservedRange {
+          optional int32 start = 1;  // Inclusive.
+          optional int32 end = 2;    // Exclusive.
+        }
+        repeated ReservedRange reserved_range = 9;
+        // Reserved field names, which may not be used by fields in the same message.
+        // A given name may only be reserved once.
+        repeated string reserved_name = 10;
+      }
+
+
+      message ExtensionRangeOptions {
+        // The parser stores options it doesn't recognize here. See above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        message Declaration {
+          // The extension number declared within the extension range.
+          optional int32 number = 1;
+
+          // The fully-qualified name of the extension field. There must be a leading
+          // dot in front of the full name.
+          optional string full_name = 2;
+
+          // The fully-qualified type name of the extension field. Unlike
+          // Metadata.type, Declaration.type must have a leading dot for messages
+          // and enums.
+          optional string type = 3;
+
+          // Deprecated. Please use "repeated".
+          optional bool is_repeated = 4 [deprecated = true];
+
+          // If true, indicates that the number is reserved in the extension range,
+          // and any extension field with the number will fail to compile. Set this
+          // when a declared extension field is deleted.
+          optional bool reserved = 5;
+
+          // If true, indicates that the extension must be defined as repeated.
+          // Otherwise the extension must be defined as optional.
+          optional bool repeated = 6;
+        }
+
+        // For external users: DO NOT USE. We are in the process of open sourcing
+        // extension declaration and executing internal cleanups before it can be
+        // used externally.
+        repeated Declaration declaration = 2 [retention = RETENTION_SOURCE];
+
+        // The verification state of the extension range.
+        enum VerificationState {
+          // All the extensions of the range must be declared.
+          DECLARATION = 0;
+          UNVERIFIED = 1;
+        }
+
+        // The verification state of the range.
+        // TODO(b/278783756): flip the default to DECLARATION once all empty ranges
+        // are marked as UNVERIFIED.
+        optional VerificationState verification = 3 [default = UNVERIFIED];
+
+        // Clients can define custom options in extensions of this message. See above.
+        extensions 1000 to max;
+      }
+
+
+      // Describes a field within a message.
+
+      message FieldDescriptorProto {
+        enum Type {
+          // 0 is reserved for errors.
+          // Order is weird for historical reasons.
+          TYPE_DOUBLE = 1;
+          TYPE_FLOAT = 2;
+          // Not ZigZag encoded.  Negative numbers take 10 bytes.  Use TYPE_SINT64 if
+          // negative values are likely.
+          TYPE_INT64 = 3;
+          TYPE_UINT64 = 4;
+          // Not ZigZag encoded.  Negative numbers take 10 bytes.  Use TYPE_SINT32 if
+          // negative values are likely.
+          TYPE_INT32 = 5;
+          TYPE_FIXED64 = 6;
+          TYPE_FIXED32 = 7;
+          TYPE_BOOL = 8;
+          TYPE_STRING = 9;
+          // Tag-delimited aggregate.
+          // Group type is deprecated and not supported in proto3. However, Proto3
+          // implementations should still be able to parse the group wire format and
+          // treat group fields as unknown fields.
+          TYPE_GROUP = 10;
+          TYPE_MESSAGE = 11;  // Length-delimited aggregate.
+
+          // New in version 2.
+          TYPE_BYTES = 12;
+          TYPE_UINT32 = 13;
+          TYPE_ENUM = 14;
+          TYPE_SFIXED32 = 15;
+          TYPE_SFIXED64 = 16;
+          TYPE_SINT32 = 17;  // Uses ZigZag encoding.
+          TYPE_SINT64 = 18;  // Uses ZigZag encoding.
+        }
+
+        enum Label {
+          // 0 is reserved for errors
+          LABEL_OPTIONAL = 1;
+          LABEL_REQUIRED = 2;
+          LABEL_REPEATED = 3;
+        }
+
+        optional string name = 1;
+        optional int32 number = 3;
+        optional Label label = 4;
+
+        // If type_name is set, this need not be set.  If both this and type_name
+        // are set, this must be one of TYPE_ENUM, TYPE_MESSAGE or TYPE_GROUP.
+        optional Type type = 5;
+
+        // For message and enum types, this is the name of the type.  If the name
+        // starts with a '.', it is fully-qualified.  Otherwise, C++-like scoping
+        // rules are used to find the type (i.e. first the nested types within this
+        // message are searched, then within the parent, on up to the root
+        // namespace).
+        optional string type_name = 6;
+
+        // For extensions, this is the name of the type being extended.  It is
+        // resolved in the same manner as type_name.
+        optional string extendee = 2;
+
+        // For numeric types, contains the original text representation of the value.
+        // For booleans, "true" or "false".
+        // For strings, contains the default text contents (not escaped in any way).
+        // For bytes, contains the C escaped value.  All bytes >= 128 are escaped.
+        optional string default_value = 7;
+
+        // If set, gives the index of a oneof in the containing type's oneof_decl
+        // list.  This field is a member of that oneof.
+        optional int32 oneof_index = 9;
+
+        // JSON name of this field. The value is set by protocol compiler. If the
+        // user has set a "json_name" option on this field, that option's value
+        // will be used. Otherwise, it's deduced from the field's name by converting
+        // it to camelCase.
+        optional string json_name = 10;
+
+        optional FieldOptions options = 8;
+
+        // If true, this is a proto3 "optional". When a proto3 field is optional, it
+        // tracks presence regardless of field type.
+        //
+        // When proto3_optional is true, this field must be belong to a oneof to
+        // signal to old proto3 clients that presence is tracked for this field. This
+        // oneof is known as a "synthetic" oneof, and this field must be its sole
+        // member (each proto3 optional field gets its own synthetic oneof). Synthetic
+        // oneofs exist in the descriptor only, and do not generate any API. Synthetic
+        // oneofs must be ordered after all "real" oneofs.
+        //
+        // For message fields, proto3_optional doesn't create any semantic change,
+        // since non-repeated message fields always track presence. However it still
+        // indicates the semantic detail of whether the user wrote "optional" or not.
+        // This can be useful for round-tripping the .proto file. For consistency we
+        // give message fields a synthetic oneof also, even though it is not required
+        // to track presence. This is especially important because the parser can't
+        // tell if a field is a message or an enum, so it must always create a
+        // synthetic oneof.
+        //
+        // Proto2 optional fields do not set this flag, because they already indicate
+        // optional with `LABEL_OPTIONAL`.
+        optional bool proto3_optional = 17;
+      }
+
+
+      // Describes a oneof.
+
+      message OneofDescriptorProto {
+        optional string name = 1;
+        optional OneofOptions options = 2;
+      }
+
+
+      // Describes an enum type.
+
+      message EnumDescriptorProto {
+        optional string name = 1;
+
+        repeated EnumValueDescriptorProto value = 2;
+
+        optional EnumOptions options = 3;
+
+        // Range of reserved numeric values. Reserved values may not be used by
+        // entries in the same enum. Reserved ranges may not overlap.
+        //
+        // Note that this is distinct from DescriptorProto.ReservedRange in that it
+        // is inclusive such that it can appropriately represent the entire int32
+        // domain.
+        message EnumReservedRange {
+          optional int32 start = 1;  // Inclusive.
+          optional int32 end = 2;    // Inclusive.
+        }
+
+        // Range of reserved numeric values. Reserved numeric values may not be used
+        // by enum values in the same enum declaration. Reserved ranges may not
+        // overlap.
+        repeated EnumReservedRange reserved_range = 4;
+
+        // Reserved enum value names, which may not be reused. A given name may only
+        // be reserved once.
+        repeated string reserved_name = 5;
+      }
+
+
+      // Describes a value within an enum.
+
+      message EnumValueDescriptorProto {
+        optional string name = 1;
+        optional int32 number = 2;
+
+        optional EnumValueOptions options = 3;
+      }
+
+
+      // Describes a service.
+
+      message ServiceDescriptorProto {
+        optional string name = 1;
+        repeated MethodDescriptorProto method = 2;
+
+        optional ServiceOptions options = 3;
+      }
+
+
+      // Describes a method of a service.
+
+      message MethodDescriptorProto {
+        optional string name = 1;
+
+        // Input and output type names.  These are resolved in the same way as
+        // FieldDescriptorProto.type_name, but must refer to a message type.
+        optional string input_type = 2;
+        optional string output_type = 3;
+
+        optional MethodOptions options = 4;
+
+        // Identifies if client streams multiple client messages
+        optional bool client_streaming = 5 [default = false];
+        // Identifies if server streams multiple server messages
+        optional bool server_streaming = 6 [default = false];
+      }
+
+
+      // ===================================================================
+
+      // Options
+
+
+      // Each of the definitions above may have "options" attached.  These are
+
+      // just annotations which may cause code to be generated slightly differently
+
+      // or may contain hints for code that manipulates protocol messages.
+
+      //
+
+      // Clients may define custom options as extensions of the *Options messages.
+
+      // These extensions may not yet be known at parsing time, so the parser cannot
+
+      // store the values in them.  Instead it stores them in a field in the *Options
+
+      // message called uninterpreted_option. This field must have the same name
+
+      // across all *Options messages. We then use this field to populate the
+
+      // extensions when we build a descriptor, at which point all protos have been
+
+      // parsed and so all extensions are known.
+
+      //
+
+      // Extension numbers for custom options may be chosen as follows:
+
+      // * For options which will only be used within a single application or
+
+      //   organization, or for experimental options, use field numbers 50000
+
+      //   through 99999.  It is up to you to ensure that you do not use the
+
+      //   same number for multiple options.
+
+      // * For options which will be published and used publicly by multiple
+
+      //   independent entities, e-mail protobuf-global-extension-registry@google.com
+
+      //   to reserve extension numbers. Simply provide your project name (e.g.
+
+      //   Objective-C plugin) and your project website (if available) -- there's no
+
+      //   need to explain how you intend to use them. Usually you only need one
+
+      //   extension number. You can declare multiple options with only one extension
+
+      //   number by putting them in a sub-message. See the Custom Options section of
+
+      //   the docs for examples:
+
+      //   https://developers.google.com/protocol-buffers/docs/proto#options
+
+      //   If this turns out to be popular, a web service will be set up
+
+      //   to automatically assign option numbers.
+
+
+      message FileOptions {
+
+        // Sets the Java package where classes generated from this .proto will be
+        // placed.  By default, the proto package is used, but this is often
+        // inappropriate because proto packages do not normally start with backwards
+        // domain names.
+        optional string java_package = 1;
+
+        // Controls the name of the wrapper Java class generated for the .proto file.
+        // That class will always contain the .proto file's getDescriptor() method as
+        // well as any top-level extensions defined in the .proto file.
+        // If java_multiple_files is disabled, then all the other classes from the
+        // .proto file will be nested inside the single wrapper outer class.
+        optional string java_outer_classname = 8;
+
+        // If enabled, then the Java code generator will generate a separate .java
+        // file for each top-level message, enum, and service defined in the .proto
+        // file.  Thus, these types will *not* be nested inside the wrapper class
+        // named by java_outer_classname.  However, the wrapper class will still be
+        // generated to contain the file's getDescriptor() method as well as any
+        // top-level extensions defined in the file.
+        optional bool java_multiple_files = 10 [default = false];
+
+        // This option does nothing.
+        optional bool java_generate_equals_and_hash = 20 [deprecated = true];
+
+
+        // If set true, then the Java2 code generator will generate code that
+        // throws an exception whenever an attempt is made to assign a non-UTF-8
+        // byte sequence to a string field.
+        // Message reflection will do the same.
+        // However, an extension field still accepts non-UTF-8 byte sequences.
+        // This option has no effect on when used with the lite runtime.
+        optional bool java_string_check_utf8 = 27 [default = false];
+
+        // Generated classes can be optimized for speed or code size.
+        enum OptimizeMode {
+          SPEED = 1;         // Generate complete code for parsing, serialization,
+          CODE_SIZE = 2;     // Use ReflectionOps to implement these methods.
+          LITE_RUNTIME = 3;  // Generate code using MessageLite and the lite runtime.
+        }
+        optional OptimizeMode optimize_for = 9 [default = SPEED];
+
+        // Sets the Go package where structs generated from this .proto will be
+        // placed. If omitted, the Go package will be derived from the following:
+        //   - The basename of the package import path, if provided.
+        //   - Otherwise, the package statement in the .proto file, if present.
+        //   - Otherwise, the basename of the .proto file, without extension.
+        optional string go_package = 11;
+
+        // Should generic services be generated in each language?  "Generic" services
+        // are not specific to any particular RPC system.  They are generated by the
+        // main code generators in each language (without additional plugins).
+        // Generic services were the only kind of service generation supported by
+        // early versions of google.protobuf.
+        //
+        // Generic services are now considered deprecated in favor of using plugins
+        // that generate code specific to your particular RPC system.  Therefore,
+        // these default to false.  Old code which depends on generic services should
+        // explicitly set them to true.
+        optional bool cc_generic_services = 16 [default = false];
+        optional bool java_generic_services = 17 [default = false];
+        optional bool py_generic_services = 18 [default = false];
+        optional bool php_generic_services = 42 [default = false];
+
+        // Is this file deprecated?
+        // Depending on the target platform, this can emit Deprecated annotations
+        // for everything in the file, or it will be completely ignored; in the very
+        // least, this is a formalization for deprecating files.
+        optional bool deprecated = 23 [default = false];
+
+        // Enables the use of arenas for the proto messages in this file. This applies
+        // only to generated classes for C++.
+        optional bool cc_enable_arenas = 31 [default = true];
+
+        // Sets the objective c class prefix which is prepended to all objective c
+        // generated classes from this .proto. There is no default.
+        optional string objc_class_prefix = 36;
+
+        // Namespace for generated classes; defaults to the package.
+        optional string csharp_namespace = 37;
+
+        // By default Swift generators will take the proto package and CamelCase it
+        // replacing '.' with underscore and use that to prefix the types/symbols
+        // defined. When this options is provided, they will use this value instead
+        // to prefix the types/symbols defined.
+        optional string swift_prefix = 39;
+
+        // Sets the php class prefix which is prepended to all php generated classes
+        // from this .proto. Default is empty.
+        optional string php_class_prefix = 40;
+
+        // Use this option to change the namespace of php generated classes. Default
+        // is empty. When this option is empty, the package name will be used for
+        // determining the namespace.
+        optional string php_namespace = 41;
+
+        // Use this option to change the namespace of php generated metadata classes.
+        // Default is empty. When this option is empty, the proto file name will be
+        // used for determining the namespace.
+        optional string php_metadata_namespace = 44;
+
+        // Use this option to change the package of ruby generated classes. Default
+        // is empty. When this option is not set, the package name will be used for
+        // determining the ruby package.
+        optional string ruby_package = 45;
+
+        // The parser stores options it doesn't recognize here.
+        // See the documentation for the "Options" section above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        // Clients can define custom options in extensions of this message.
+        // See the documentation for the "Options" section above.
+        extensions 1000 to max;
+
+        reserved 38;
+      }
+
+
+      message MessageOptions {
+        // Set true to use the old proto1 MessageSet wire format for extensions.
+        // This is provided for backwards-compatibility with the MessageSet wire
+        // format.  You should not use this for any other reason:  It's less
+        // efficient, has fewer features, and is more complicated.
+        //
+        // The message must be defined exactly as follows:
+        //   message Foo {
+        //     option message_set_wire_format = true;
+        //     extensions 4 to max;
+        //   }
+        // Note that the message cannot have any defined fields; MessageSets only
+        // have extensions.
+        //
+        // All extensions of your type must be singular messages; e.g. they cannot
+        // be int32s, enums, or repeated messages.
+        //
+        // Because this is an option, the above two restrictions are not enforced by
+        // the protocol compiler.
+        optional bool message_set_wire_format = 1 [default = false];
+
+        // Disables the generation of the standard "descriptor()" accessor, which can
+        // conflict with a field of the same name.  This is meant to make migration
+        // from proto1 easier; new code should avoid fields named "descriptor".
+        optional bool no_standard_descriptor_accessor = 2 [default = false];
+
+        // Is this message deprecated?
+        // Depending on the target platform, this can emit Deprecated annotations
+        // for the message, or it will be completely ignored; in the very least,
+        // this is a formalization for deprecating messages.
+        optional bool deprecated = 3 [default = false];
+
+        reserved 4, 5, 6;
+
+        // NOTE: Do not set the option in .proto files. Always use the maps syntax
+        // instead. The option should only be implicitly set by the proto compiler
+        // parser.
+        //
+        // Whether the message is an automatically generated map entry type for the
+        // maps field.
+        //
+        // For maps fields:
+        //     map<KeyType, ValueType> map_field = 1;
+        // The parsed descriptor looks like:
+        //     message MapFieldEntry {
+        //         option map_entry = true;
+        //         optional KeyType key = 1;
+        //         optional ValueType value = 2;
+        //     }
+        //     repeated MapFieldEntry map_field = 1;
+        //
+        // Implementations may choose not to generate the map_entry=true message, but
+        // use a native map in the target language to hold the keys and values.
+        // The reflection APIs in such implementations still need to work as
+        // if the field is a repeated message field.
+        optional bool map_entry = 7;
+
+        reserved 8;  // javalite_serializable
+        reserved 9;  // javanano_as_lite
+
+        // Enable the legacy handling of JSON field name conflicts.  This lowercases
+        // and strips underscored from the fields before comparison in proto3 only.
+        // The new behavior takes `json_name` into account and applies to proto2 as
+        // well.
+        //
+        // This should only be used as a temporary measure against broken builds due
+        // to the change in behavior for JSON field name conflicts.
+        //
+        // TODO(b/261750190) This is legacy behavior we plan to remove once downstream
+        // teams have had time to migrate.
+        optional bool deprecated_legacy_json_field_conflicts = 11 [deprecated = true];
+
+        // The parser stores options it doesn't recognize here. See above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        // Clients can define custom options in extensions of this message. See above.
+        extensions 1000 to max;
+      }
+
+
+      message FieldOptions {
+        // The ctype option instructs the C++ code generator to use a different
+        // representation of the field than it normally would.  See the specific
+        // options below.  This option is only implemented to support use of
+        // [ctype=CORD] and [ctype=STRING] (the default) on non-repeated fields of
+        // type "bytes" in the open source release -- sorry, we'll try to include
+        // other types in a future version!
+        optional CType ctype = 1 [default = STRING];
+        enum CType {
+          // Default mode.
+          STRING = 0;
+
+          // The option [ctype=CORD] may be applied to a non-repeated field of type
+          // "bytes". It indicates that in C++, the data should be stored in a Cord
+          // instead of a string.  For very large strings, this may reduce memory
+          // fragmentation. It may also allow better performance when parsing from a
+          // Cord, or when parsing with aliasing enabled, as the parsed Cord may then
+          // alias the original buffer.
+          CORD = 1;
+
+          STRING_PIECE = 2;
+        }
+        // The packed option can be enabled for repeated primitive fields to enable
+        // a more efficient representation on the wire. Rather than repeatedly
+        // writing the tag and type for each element, the entire array is encoded as
+        // a single length-delimited blob. In proto3, only explicit setting it to
+        // false will avoid using packed encoding.
+        optional bool packed = 2;
+
+        // The jstype option determines the JavaScript type used for values of the
+        // field.  The option is permitted only for 64 bit integral and fixed types
+        // (int64, uint64, sint64, fixed64, sfixed64).  A field with jstype JS_STRING
+        // is represented as JavaScript string, which avoids loss of precision that
+        // can happen when a large value is converted to a floating point JavaScript.
+        // Specifying JS_NUMBER for the jstype causes the generated JavaScript code to
+        // use the JavaScript "number" type.  The behavior of the default option
+        // JS_NORMAL is implementation dependent.
+        //
+        // This option is an enum to permit additional types to be added, e.g.
+        // goog.math.Integer.
+        optional JSType jstype = 6 [default = JS_NORMAL];
+        enum JSType {
+          // Use the default type.
+          JS_NORMAL = 0;
+
+          // Use JavaScript strings.
+          JS_STRING = 1;
+
+          // Use JavaScript numbers.
+          JS_NUMBER = 2;
+        }
+
+        // Should this field be parsed lazily?  Lazy applies only to message-type
+        // fields.  It means that when the outer message is initially parsed, the
+        // inner message's contents will not be parsed but instead stored in encoded
+        // form.  The inner message will actually be parsed when it is first accessed.
+        //
+        // This is only a hint.  Implementations are free to choose whether to use
+        // eager or lazy parsing regardless of the value of this option.  However,
+        // setting this option true suggests that the protocol author believes that
+        // using lazy parsing on this field is worth the additional bookkeeping
+        // overhead typically needed to implement it.
+        //
+        // This option does not affect the public interface of any generated code;
+        // all method signatures remain the same.  Furthermore, thread-safety of the
+        // interface is not affected by this option; const methods remain safe to
+        // call from multiple threads concurrently, while non-const methods continue
+        // to require exclusive access.
+        //
+        // Note that implementations may choose not to check required fields within
+        // a lazy sub-message.  That is, calling IsInitialized() on the outer message
+        // may return true even if the inner message has missing required fields.
+        // This is necessary because otherwise the inner message would have to be
+        // parsed in order to perform the check, defeating the purpose of lazy
+        // parsing.  An implementation which chooses not to check required fields
+        // must be consistent about it.  That is, for any particular sub-message, the
+        // implementation must either *always* check its required fields, or *never*
+        // check its required fields, regardless of whether or not the message has
+        // been parsed.
+        //
+        // As of May 2022, lazy verifies the contents of the byte stream during
+        // parsing.  An invalid byte stream will cause the overall parsing to fail.
+        optional bool lazy = 5 [default = false];
+
+        // unverified_lazy does no correctness checks on the byte stream. This should
+        // only be used where lazy with verification is prohibitive for performance
+        // reasons.
+        optional bool unverified_lazy = 15 [default = false];
+
+        // Is this field deprecated?
+        // Depending on the target platform, this can emit Deprecated annotations
+        // for accessors, or it will be completely ignored; in the very least, this
+        // is a formalization for deprecating fields.
+        optional bool deprecated = 3 [default = false];
+
+        // For Google-internal migration only. Do not use.
+        optional bool weak = 10 [default = false];
+
+        // Indicate that the field value should not be printed out when using debug
+        // formats, e.g. when the field contains sensitive credentials.
+        optional bool debug_redact = 16 [default = false];
+
+        // If set to RETENTION_SOURCE, the option will be omitted from the binary.
+        // Note: as of January 2023, support for this is in progress and does not yet
+        // have an effect (b/264593489).
+        enum OptionRetention {
+          RETENTION_UNKNOWN = 0;
+          RETENTION_RUNTIME = 1;
+          RETENTION_SOURCE = 2;
+        }
+
+        optional OptionRetention retention = 17;
+
+        // This indicates the types of entities that the field may apply to when used
+        // as an option. If it is unset, then the field may be freely used as an
+        // option on any kind of entity. Note: as of January 2023, support for this is
+        // in progress and does not yet have an effect (b/264593489).
+        enum OptionTargetType {
+          TARGET_TYPE_UNKNOWN = 0;
+          TARGET_TYPE_FILE = 1;
+          TARGET_TYPE_EXTENSION_RANGE = 2;
+          TARGET_TYPE_MESSAGE = 3;
+          TARGET_TYPE_FIELD = 4;
+          TARGET_TYPE_ONEOF = 5;
+          TARGET_TYPE_ENUM = 6;
+          TARGET_TYPE_ENUM_ENTRY = 7;
+          TARGET_TYPE_SERVICE = 8;
+          TARGET_TYPE_METHOD = 9;
+        }
+
+        repeated OptionTargetType targets = 19;
+
+        // The parser stores options it doesn't recognize here. See above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        // Clients can define custom options in extensions of this message. See above.
+        extensions 1000 to max;
+
+        reserved 4;  // removed jtype
+        optional OptionTargetType target_obsolete_do_not_use = 18 [deprecated = true];
+      }
+
+
+      message OneofOptions {
+
+        // The parser stores options it doesn't recognize here. See above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        // Clients can define custom options in extensions of this message. See above.
+        extensions 1000 to max;
+      }
+
+
+      message EnumOptions {
+
+        // Set this option to true to allow mapping different tag names to the same
+        // value.
+        optional bool allow_alias = 2;
+
+        // Is this enum deprecated?
+        // Depending on the target platform, this can emit Deprecated annotations
+        // for the enum, or it will be completely ignored; in the very least, this
+        // is a formalization for deprecating enums.
+        optional bool deprecated = 3 [default = false];
+
+        reserved 5;  // javanano_as_lite
+
+        // Enable the legacy handling of JSON field name conflicts.  This lowercases
+        // and strips underscored from the fields before comparison in proto3 only.
+        // The new behavior takes `json_name` into account and applies to proto2 as
+        // well.
+        // TODO(b/261750190) Remove this legacy behavior once downstream teams have
+        // had time to migrate.
+        optional bool deprecated_legacy_json_field_conflicts = 6 [deprecated = true];
+
+        // The parser stores options it doesn't recognize here. See above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        // Clients can define custom options in extensions of this message. See above.
+        extensions 1000 to max;
+      }
+
+
+      message EnumValueOptions {
+        // Is this enum value deprecated?
+        // Depending on the target platform, this can emit Deprecated annotations
+        // for the enum value, or it will be completely ignored; in the very least,
+        // this is a formalization for deprecating enum values.
+        optional bool deprecated = 1 [default = false];
+
+        // The parser stores options it doesn't recognize here. See above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        // Clients can define custom options in extensions of this message. See above.
+        extensions 1000 to max;
+      }
+
+
+      message ServiceOptions {
+
+        // Note:  Field numbers 1 through 32 are reserved for Google's internal RPC
+        //   framework.  We apologize for hoarding these numbers to ourselves, but
+        //   we were already using them long before we decided to release Protocol
+        //   Buffers.
+
+        // Is this service deprecated?
+        // Depending on the target platform, this can emit Deprecated annotations
+        // for the service, or it will be completely ignored; in the very least,
+        // this is a formalization for deprecating services.
+        optional bool deprecated = 33 [default = false];
+
+        // The parser stores options it doesn't recognize here. See above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        // Clients can define custom options in extensions of this message. See above.
+        extensions 1000 to max;
+      }
+
+
+      message MethodOptions {
+
+        // Note:  Field numbers 1 through 32 are reserved for Google's internal RPC
+        //   framework.  We apologize for hoarding these numbers to ourselves, but
+        //   we were already using them long before we decided to release Protocol
+        //   Buffers.
+
+        // Is this method deprecated?
+        // Depending on the target platform, this can emit Deprecated annotations
+        // for the method, or it will be completely ignored; in the very least,
+        // this is a formalization for deprecating methods.
+        optional bool deprecated = 33 [default = false];
+
+        // Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
+        // or neither? HTTP based RPC implementation may choose GET verb for safe
+        // methods, and PUT verb for idempotent methods instead of the default POST.
+        enum IdempotencyLevel {
+          IDEMPOTENCY_UNKNOWN = 0;
+          NO_SIDE_EFFECTS = 1;  // implies idempotent
+          IDEMPOTENT = 2;       // idempotent, but may have side effects
+        }
+        optional IdempotencyLevel idempotency_level = 34
+        [default = IDEMPOTENCY_UNKNOWN];
+
+
+        // The parser stores options it doesn't recognize here. See above.
+        repeated UninterpretedOption uninterpreted_option = 999;
+
+        // Clients can define custom options in extensions of this message. See above.
+        extensions 1000 to max;
+      }
+
+
+      // A message representing a option the parser does not recognize. This only
+
+      // appears in options protos created by the compiler::Parser class.
+
+      // DescriptorPool resolves these when building Descriptor objects. Therefore,
+
+      // options protos in descriptor objects (e.g. returned by Descriptor::options(),
+
+      // or produced by Descriptor::CopyTo()) will never have UninterpretedOptions
+
+      // in them.
+
+      message UninterpretedOption {
+        // The name of the uninterpreted option.  Each string represents a segment in
+        // a dot-separated name.  is_extension is true iff a segment represents an
+        // extension (denoted with parentheses in options specs in .proto files).
+        // E.g.,{ ["foo", false], ["bar.baz", true], ["moo", false] } represents
+        // "foo.(bar.baz).moo".
+        message NamePart {
+          required string name_part = 1;
+          required bool is_extension = 2;
+        }
+        repeated NamePart name = 2;
+
+        // The value of the uninterpreted option, in whatever type the tokenizer
+        // identified it as during parsing. Exactly one of these should be set.
+        optional string identifier_value = 3;
+        optional uint64 positive_int_value = 4;
+        optional int64 negative_int_value = 5;
+        optional double double_value = 6;
+        optional bytes string_value = 7;
+        optional string aggregate_value = 8;
+      }
+
+
+      // ===================================================================
+
+      // Optional source code info
+
+
+      // Encapsulates information about the original source file from which a
+
+      // FileDescriptorProto was generated.
+
+      message SourceCodeInfo {
+        // A Location identifies a piece of source code in a .proto file which
+        // corresponds to a particular definition.  This information is intended
+        // to be useful to IDEs, code indexers, documentation generators, and similar
+        // tools.
+        //
+        // For example, say we have a file like:
+        //   message Foo {
+        //     optional string foo = 1;
+        //   }
+        // Let's look at just the field definition:
+        //   optional string foo = 1;
+        //   ^       ^^     ^^  ^  ^^^
+        //   a       bc     de  f  ghi
+        // We have the following locations:
+        //   span   path               represents
+        //   [a,i)  [ 4, 0, 2, 0 ]     The whole field definition.
+        //   [a,b)  [ 4, 0, 2, 0, 4 ]  The label (optional).
+        //   [c,d)  [ 4, 0, 2, 0, 5 ]  The type (string).
+        //   [e,f)  [ 4, 0, 2, 0, 1 ]  The name (foo).
+        //   [g,h)  [ 4, 0, 2, 0, 3 ]  The number (1).
+        //
+        // Notes:
+        // - A location may refer to a repeated field itself (i.e. not to any
+        //   particular index within it).  This is used whenever a set of elements are
+        //   logically enclosed in a single code segment.  For example, an entire
+        //   extend block (possibly containing multiple extension definitions) will
+        //   have an outer location whose path refers to the "extensions" repeated
+        //   field without an index.
+        // - Multiple locations may have the same path.  This happens when a single
+        //   logical declaration is spread out across multiple places.  The most
+        //   obvious example is the "extend" block again -- there may be multiple
+        //   extend blocks in the same scope, each of which will have the same path.
+        // - A location's span is not always a subset of its parent's span.  For
+        //   example, the "extendee" of an extension declaration appears at the
+        //   beginning of the "extend" block and is shared by all extensions within
+        //   the block.
+        // - Just because a location's span is a subset of some other location's span
+        //   does not mean that it is a descendant.  For example, a "group" defines
+        //   both a type and a field in a single declaration.  Thus, the locations
+        //   corresponding to the type and field and their components will overlap.
+        // - Code which tries to interpret locations should probably be designed to
+        //   ignore those that it doesn't understand, as more types of locations could
+        //   be recorded in the future.
+        repeated Location location = 1;
+        message Location {
+          // Identifies which part of the FileDescriptorProto was defined at this
+          // location.
+          //
+          // Each element is a field number or an index.  They form a path from
+          // the root FileDescriptorProto to the place where the definition occurs.
+          // For example, this path:
+          //   [ 4, 3, 2, 7, 1 ]
+          // refers to:
+          //   file.message_type(3)  // 4, 3
+          //       .field(7)         // 2, 7
+          //       .name()           // 1
+          // This is because FileDescriptorProto.message_type has field number 4:
+          //   repeated DescriptorProto message_type = 4;
+          // and DescriptorProto.field has field number 2:
+          //   repeated FieldDescriptorProto field = 2;
+          // and FieldDescriptorProto.name has field number 1:
+          //   optional string name = 1;
+          //
+          // Thus, the above path gives the location of a field name.  If we removed
+          // the last element:
+          //   [ 4, 3, 2, 7 ]
+          // this path refers to the whole field declaration (from the beginning
+          // of the label to the terminating semicolon).
+          repeated int32 path = 1 [packed = true];
+
+          // Always has exactly three or four elements: start line, start column,
+          // end line (optional, otherwise assumed same as start line), end column.
+          // These are packed into a single field for efficiency.  Note that line
+          // and column numbers are zero-based -- typically you will want to add
+          // 1 to each before displaying to a user.
+          repeated int32 span = 2 [packed = true];
+
+          // If this SourceCodeInfo represents a complete declaration, these are any
+          // comments appearing before and after the declaration which appear to be
+          // attached to the declaration.
+          //
+          // A series of line comments appearing on consecutive lines, with no other
+          // tokens appearing on those lines, will be treated as a single comment.
+          //
+          // leading_detached_comments will keep paragraphs of comments that appear
+          // before (but not connected to) the current element. Each paragraph,
+          // separated by empty lines, will be one comment element in the repeated
+          // field.
+          //
+          // Only the comment content is provided; comment markers (e.g. //) are
+          // stripped out.  For block comments, leading whitespace and an asterisk
+          // will be stripped from the beginning of each line other than the first.
+          // Newlines are included in the output.
+          //
+          // Examples:
+          //
+          //   optional int32 foo = 1;  // Comment attached to foo.
+          //   // Comment attached to bar.
+          //   optional int32 bar = 2;
+          //
+          //   optional string baz = 3;
+          //   // Comment attached to baz.
+          //   // Another line attached to baz.
+          //
+          //   // Comment attached to moo.
+          //   //
+          //   // Another line attached to moo.
+          //   optional double moo = 4;
+          //
+          //   // Detached comment for corge. This is not leading or trailing comments
+          //   // to moo or corge because there are blank lines separating it from
+          //   // both.
+          //
+          //   // Detached comment for corge paragraph 2.
+          //
+          //   optional string corge = 5;
+          //   /* Block comment attached
+          //    * to corge.  Leading asterisks
+          //    * will be removed. */
+          //   /* Block comment attached to
+          //    * grault. */
+          //   optional int32 grault = 6;
+          //
+          //   // ignored detached comments.
+          optional string leading_comments = 3;
+          optional string trailing_comments = 4;
+          repeated string leading_detached_comments = 6;
+        }
+      }
+
+
+      // Describes the relationship between generated code and its original source
+
+      // file. A GeneratedCodeInfo message is associated with only one generated
+
+      // source file, but may contain references to different source .proto files.
+
+      message GeneratedCodeInfo {
+        // An Annotation connects some span of text in generated code to an element
+        // of its generating .proto file.
+        repeated Annotation annotation = 1;
+        message Annotation {
+          // Identifies the element in the original source .proto file. This field
+          // is formatted the same as SourceCodeInfo.Location.path.
+          repeated int32 path = 1 [packed = true];
+
+          // Identifies the filesystem path to the original source .proto.
+          optional string source_file = 2;
+
+          // Identifies the starting offset in bytes in the generated code
+          // that relates to the identified object.
+          optional int32 begin = 3;
+
+          // Identifies the ending offset in bytes in the generated code that
+          // relates to the identified object. The end offset should be one past
+          // the last relevant byte (so the length of the text = end - begin).
+          optional int32 end = 4;
+
+          // Represents the identified object's effect on the element in the original
+          // .proto file.
+          enum Semantic {
+            // There is no effect or the effect is indescribable.
+            NONE = 0;
+            // The element is set or otherwise mutated.
+            SET = 1;
+            // An alias to the element is returned.
+            ALIAS = 2;
+          }
+          optional Semantic semantic = 5;
+        }
+      }
+    _type: proto_file
+  - _id: pd_9aeccbeb9c66423c84673323708d0e5d
+    parentId: pd_3967af8ea90d466aac626192b3e08441
+    modified: 1685219955717
+    created: 1685219955717
+    name: api
+    _type: proto_directory
+  - _id: pf_3fc81a7ff6464ac4a0d1c9e1ae7a7a85
+    parentId: pd_9aeccbeb9c66423c84673323708d0e5d
+    modified: 1685219955674
+    created: 1685219955674
+    name: annotations.proto
+    protoText: >
+      // Copyright 2015 Google LLC
+
+      //
+
+      // Licensed under the Apache License, Version 2.0 (the "License");
+
+      // you may not use this file except in compliance with the License.
+
+      // You may obtain a copy of the License at
+
+      //
+
+      //     http://www.apache.org/licenses/LICENSE-2.0
+
+      //
+
+      // Unless required by applicable law or agreed to in writing, software
+
+      // distributed under the License is distributed on an "AS IS" BASIS,
+
+      // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+      // See the License for the specific language governing permissions and
+
+      // limitations under the License.
+
+
+      syntax = "proto3";
+
+
+      package google.api;
+
+
+      import "google/api/http.proto";
+
+      import "google/protobuf/descriptor.proto";
+
+
+      option go_package = "google.golang.org/genproto/googleapis/api/annotations;annotations";
+
+      option java_multiple_files = true;
+
+      option java_outer_classname = "AnnotationsProto";
+
+      option java_package = "com.google.api";
+
+      option objc_class_prefix = "GAPI";
+
+
+      extend google.protobuf.MethodOptions {
+        // See `HttpRule`.
+        HttpRule http = 72295728;
+      }
+    _type: proto_file
+  - _id: pf_77a61eb630db4ef8b6f3a4324f46e5da
+    parentId: pd_9aeccbeb9c66423c84673323708d0e5d
+    modified: 1685219955683
+    created: 1685219955684
+    name: field_behavior.proto
+    protoText: >
+      // Copyright 2023 Google LLC
+
+      //
+
+      // Licensed under the Apache License, Version 2.0 (the "License");
+
+      // you may not use this file except in compliance with the License.
+
+      // You may obtain a copy of the License at
+
+      //
+
+      //     http://www.apache.org/licenses/LICENSE-2.0
+
+      //
+
+      // Unless required by applicable law or agreed to in writing, software
+
+      // distributed under the License is distributed on an "AS IS" BASIS,
+
+      // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+      // See the License for the specific language governing permissions and
+
+      // limitations under the License.
+
+
+      syntax = "proto3";
+
+
+      package google.api;
+
+
+      import "google/protobuf/descriptor.proto";
+
+
+      option go_package = "google.golang.org/genproto/googleapis/api/annotations;annotations";
+
+      option java_multiple_files = true;
+
+      option java_outer_classname = "FieldBehaviorProto";
+
+      option java_package = "com.google.api";
+
+      option objc_class_prefix = "GAPI";
+
+
+      extend google.protobuf.FieldOptions {
+        // A designation of a specific field behavior (required, output only, etc.)
+        // in protobuf messages.
+        //
+        // Examples:
+        //
+        //   string name = 1 [(google.api.field_behavior) = REQUIRED];
+        //   State state = 1 [(google.api.field_behavior) = OUTPUT_ONLY];
+        //   google.protobuf.Duration ttl = 1
+        //     [(google.api.field_behavior) = INPUT_ONLY];
+        //   google.protobuf.Timestamp expire_time = 1
+        //     [(google.api.field_behavior) = OUTPUT_ONLY,
+        //      (google.api.field_behavior) = IMMUTABLE];
+        repeated google.api.FieldBehavior field_behavior = 1052;
+      }
+
+
+      // An indicator of the behavior of a given field (for example, that a field
+
+      // is required in requests, or given as output but ignored as input).
+
+      // This **does not** change the behavior in protocol buffers itself; it only
+
+      // denotes the behavior and may affect how API tooling handles the field.
+
+      //
+
+      // Note: This enum **may** receive new values in the future.
+
+      enum FieldBehavior {
+        // Conventional default for enums. Do not use this.
+        FIELD_BEHAVIOR_UNSPECIFIED = 0;
+
+        // Specifically denotes a field as optional.
+        // While all fields in protocol buffers are optional, this may be specified
+        // for emphasis if appropriate.
+        OPTIONAL = 1;
+
+        // Denotes a field as required.
+        // This indicates that the field **must** be provided as part of the request,
+        // and failure to do so will cause an error (usually `INVALID_ARGUMENT`).
+        REQUIRED = 2;
+
+        // Denotes a field as output only.
+        // This indicates that the field is provided in responses, but including the
+        // field in a request does nothing (the server *must* ignore it and
+        // *must not* throw an error as a result of the field's presence).
+        OUTPUT_ONLY = 3;
+
+        // Denotes a field as input only.
+        // This indicates that the field is provided in requests, and the
+        // corresponding field is not included in output.
+        INPUT_ONLY = 4;
+
+        // Denotes a field as immutable.
+        // This indicates that the field may be set once in a request to create a
+        // resource, but may not be changed thereafter.
+        IMMUTABLE = 5;
+
+        // Denotes that a (repeated) field is an unordered list.
+        // This indicates that the service may provide the elements of the list
+        // in any arbitrary  order, rather than the order the user originally
+        // provided. Additionally, the list's order may or may not be stable.
+        UNORDERED_LIST = 6;
+
+        // Denotes that this field returns a non-empty default value if not set.
+        // This indicates that if the user provides the empty value in a request,
+        // a non-empty value will be returned. The user will not be aware of what
+        // non-empty value to expect.
+        NON_EMPTY_DEFAULT = 7;
+      }
+    _type: proto_file
+  - _id: pf_25f4fc716d1a407a8320b082bf66f916
+    parentId: pd_9aeccbeb9c66423c84673323708d0e5d
+    modified: 1685219955700
+    created: 1685219955700
+    name: http.proto
+    protoText: >
+      // Copyright 2023 Google LLC
+
+      //
+
+      // Licensed under the Apache License, Version 2.0 (the "License");
+
+      // you may not use this file except in compliance with the License.
+
+      // You may obtain a copy of the License at
+
+      //
+
+      //     http://www.apache.org/licenses/LICENSE-2.0
+
+      //
+
+      // Unless required by applicable law or agreed to in writing, software
+
+      // distributed under the License is distributed on an "AS IS" BASIS,
+
+      // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+      // See the License for the specific language governing permissions and
+
+      // limitations under the License.
+
+
+      syntax = "proto3";
+
+
+      package google.api;
+
+
+      option cc_enable_arenas = true;
+
+      option go_package = "google.golang.org/genproto/googleapis/api/annotations;annotations";
+
+      option java_multiple_files = true;
+
+      option java_outer_classname = "HttpProto";
+
+      option java_package = "com.google.api";
+
+      option objc_class_prefix = "GAPI";
+
+
+      // Defines the HTTP configuration for an API service. It contains a list of
+
+      // [HttpRule][google.api.HttpRule], each specifying the mapping of an RPC method
+
+      // to one or more HTTP REST API methods.
+
+      message Http {
+        // A list of HTTP configuration rules that apply to individual API methods.
+        //
+        // **NOTE:** All service configuration rules follow "last one wins" order.
+        repeated HttpRule rules = 1;
+
+        // When set to true, URL path parameters will be fully URI-decoded except in
+        // cases of single segment matches in reserved expansion, where "%2F" will be
+        // left encoded.
+        //
+        // The default behavior is to not decode RFC 6570 reserved characters in multi
+        // segment matches.
+        bool fully_decode_reserved_expansion = 2;
+      }
+
+
+      // # gRPC Transcoding
+
+      //
+
+      // gRPC Transcoding is a feature for mapping between a gRPC method and one or
+
+      // more HTTP REST endpoints. It allows developers to build a single API service
+
+      // that supports both gRPC APIs and REST APIs. Many systems, including [Google
+
+      // APIs](https://github.com/googleapis/googleapis),
+
+      // [Cloud Endpoints](https://cloud.google.com/endpoints), [gRPC
+
+      // Gateway](https://github.com/grpc-ecosystem/grpc-gateway),
+
+      // and [Envoy](https://github.com/envoyproxy/envoy) proxy support this feature
+
+      // and use it for large scale production services.
+
+      //
+
+      // `HttpRule` defines the schema of the gRPC/REST mapping. The mapping specifies
+
+      // how different portions of the gRPC request message are mapped to the URL
+
+      // path, URL query parameters, and HTTP request body. It also controls how the
+
+      // gRPC response message is mapped to the HTTP response body. `HttpRule` is
+
+      // typically specified as an `google.api.http` annotation on the gRPC method.
+
+      //
+
+      // Each mapping specifies a URL path template and an HTTP method. The path
+
+      // template may refer to one or more fields in the gRPC request message, as long
+
+      // as each field is a non-repeated field with a primitive (non-message) type.
+
+      // The path template controls how fields of the request message are mapped to
+
+      // the URL path.
+
+      //
+
+      // Example:
+
+      //
+
+      //     service Messaging {
+
+      //       rpc GetMessage(GetMessageRequest) returns (Message) {
+
+      //         option (google.api.http) = {
+
+      //             get: "/v1/{name=messages/*}"
+
+      //         };
+
+      //       }
+
+      //     }
+
+      //     message GetMessageRequest {
+
+      //       string name = 1; // Mapped to URL path.
+
+      //     }
+
+      //     message Message {
+
+      //       string text = 1; // The resource content.
+
+      //     }
+
+      //
+
+      // This enables an HTTP REST to gRPC mapping as below:
+
+      //
+
+      // HTTP | gRPC
+
+      // -----|-----
+
+      // `GET /v1/messages/123456`  | `GetMessage(name: "messages/123456")`
+
+      //
+
+      // Any fields in the request message which are not bound by the path template
+
+      // automatically become HTTP query parameters if there is no HTTP request body.
+
+      // For example:
+
+      //
+
+      //     service Messaging {
+
+      //       rpc GetMessage(GetMessageRequest) returns (Message) {
+
+      //         option (google.api.http) = {
+
+      //             get:"/v1/messages/{message_id}"
+
+      //         };
+
+      //       }
+
+      //     }
+
+      //     message GetMessageRequest {
+
+      //       message SubMessage {
+
+      //         string subfield = 1;
+
+      //       }
+
+      //       string message_id = 1; // Mapped to URL path.
+
+      //       int64 revision = 2;    // Mapped to URL query parameter `revision`.
+
+      //       SubMessage sub = 3;    // Mapped to URL query parameter `sub.subfield`.
+
+      //     }
+
+      //
+
+      // This enables a HTTP JSON to RPC mapping as below:
+
+      //
+
+      // HTTP | gRPC
+
+      // -----|-----
+
+      // `GET /v1/messages/123456?revision=2&sub.subfield=foo` |
+
+      // `GetMessage(message_id: "123456" revision: 2 sub: SubMessage(subfield:
+
+      // "foo"))`
+
+      //
+
+      // Note that fields which are mapped to URL query parameters must have a
+
+      // primitive type or a repeated primitive type or a non-repeated message type.
+
+      // In the case of a repeated type, the parameter can be repeated in the URL
+
+      // as `...?param=A&param=B`. In the case of a message type, each field of the
+
+      // message is mapped to a separate parameter, such as
+
+      // `...?foo.a=A&foo.b=B&foo.c=C`.
+
+      //
+
+      // For HTTP methods that allow a request body, the `body` field
+
+      // specifies the mapping. Consider a REST update method on the
+
+      // message resource collection:
+
+      //
+
+      //     service Messaging {
+
+      //       rpc UpdateMessage(UpdateMessageRequest) returns (Message) {
+
+      //         option (google.api.http) = {
+
+      //           patch: "/v1/messages/{message_id}"
+
+      //           body: "message"
+
+      //         };
+
+      //       }
+
+      //     }
+
+      //     message UpdateMessageRequest {
+
+      //       string message_id = 1; // mapped to the URL
+
+      //       Message message = 2;   // mapped to the body
+
+      //     }
+
+      //
+
+      // The following HTTP JSON to RPC mapping is enabled, where the
+
+      // representation of the JSON in the request body is determined by
+
+      // protos JSON encoding:
+
+      //
+
+      // HTTP | gRPC
+
+      // -----|-----
+
+      // `PATCH /v1/messages/123456 { "text": "Hi!" }` | `UpdateMessage(message_id:
+
+      // "123456" message { text: "Hi!" })`
+
+      //
+
+      // The special name `*` can be used in the body mapping to define that
+
+      // every field not bound by the path template should be mapped to the
+
+      // request body.  This enables the following alternative definition of
+
+      // the update method:
+
+      //
+
+      //     service Messaging {
+
+      //       rpc UpdateMessage(Message) returns (Message) {
+
+      //         option (google.api.http) = {
+
+      //           patch: "/v1/messages/{message_id}"
+
+      //           body: "*"
+
+      //         };
+
+      //       }
+
+      //     }
+
+      //     message Message {
+
+      //       string message_id = 1;
+
+      //       string text = 2;
+
+      //     }
+
+      //
+
+      //
+
+      // The following HTTP JSON to RPC mapping is enabled:
+
+      //
+
+      // HTTP | gRPC
+
+      // -----|-----
+
+      // `PATCH /v1/messages/123456 { "text": "Hi!" }` | `UpdateMessage(message_id:
+
+      // "123456" text: "Hi!")`
+
+      //
+
+      // Note that when using `*` in the body mapping, it is not possible to
+
+      // have HTTP parameters, as all fields not bound by the path end in
+
+      // the body. This makes this option more rarely used in practice when
+
+      // defining REST APIs. The common usage of `*` is in custom methods
+
+      // which don't use the URL at all for transferring data.
+
+      //
+
+      // It is possible to define multiple HTTP methods for one RPC by using
+
+      // the `additional_bindings` option. Example:
+
+      //
+
+      //     service Messaging {
+
+      //       rpc GetMessage(GetMessageRequest) returns (Message) {
+
+      //         option (google.api.http) = {
+
+      //           get: "/v1/messages/{message_id}"
+
+      //           additional_bindings {
+
+      //             get: "/v1/users/{user_id}/messages/{message_id}"
+
+      //           }
+
+      //         };
+
+      //       }
+
+      //     }
+
+      //     message GetMessageRequest {
+
+      //       string message_id = 1;
+
+      //       string user_id = 2;
+
+      //     }
+
+      //
+
+      // This enables the following two alternative HTTP JSON to RPC mappings:
+
+      //
+
+      // HTTP | gRPC
+
+      // -----|-----
+
+      // `GET /v1/messages/123456` | `GetMessage(message_id: "123456")`
+
+      // `GET /v1/users/me/messages/123456` | `GetMessage(user_id: "me" message_id:
+
+      // "123456")`
+
+      //
+
+      // ## Rules for HTTP mapping
+
+      //
+
+      // 1. Leaf request fields (recursive expansion nested messages in the request
+
+      //    message) are classified into three categories:
+
+      //    - Fields referred by the path template. They are passed via the URL path.
+
+      //    - Fields referred by the [HttpRule.body][google.api.HttpRule.body]. They
+
+      //    are passed via the HTTP
+
+      //      request body.
+
+      //    - All other fields are passed via the URL query parameters, and the
+
+      //      parameter name is the field path in the request message. A repeated
+
+      //      field can be represented as multiple query parameters under the same
+
+      //      name.
+
+      //  2. If [HttpRule.body][google.api.HttpRule.body] is "*", there is no URL
+
+      //  query parameter, all fields
+
+      //     are passed via URL path and HTTP request body.
+
+      //  3. If [HttpRule.body][google.api.HttpRule.body] is omitted, there is no HTTP
+
+      //  request body, all
+
+      //     fields are passed via URL path and URL query parameters.
+
+      //
+
+      // ### Path template syntax
+
+      //
+
+      //     Template = "/" Segments [ Verb ] ;
+
+      //     Segments = Segment { "/" Segment } ;
+
+      //     Segment  = "*" | "**" | LITERAL | Variable ;
+
+      //     Variable = "{" FieldPath [ "=" Segments ] "}" ;
+
+      //     FieldPath = IDENT { "." IDENT } ;
+
+      //     Verb     = ":" LITERAL ;
+
+      //
+
+      // The syntax `*` matches a single URL path segment. The syntax `**` matches
+
+      // zero or more URL path segments, which must be the last part of the URL path
+
+      // except the `Verb`.
+
+      //
+
+      // The syntax `Variable` matches part of the URL path as specified by its
+
+      // template. A variable template must not contain other variables. If a variable
+
+      // matches a single path segment, its template may be omitted, e.g. `{var}`
+
+      // is equivalent to `{var=*}`.
+
+      //
+
+      // The syntax `LITERAL` matches literal text in the URL path. If the `LITERAL`
+
+      // contains any reserved character, such characters should be percent-encoded
+
+      // before the matching.
+
+      //
+
+      // If a variable contains exactly one path segment, such as `"{var}"` or
+
+      // `"{var=*}"`, when such a variable is expanded into a URL path on the client
+
+      // side, all characters except `[-_.~0-9a-zA-Z]` are percent-encoded. The
+
+      // server side does the reverse decoding. Such variables show up in the
+
+      // [Discovery
+
+      // Document](https://developers.google.com/discovery/v1/reference/apis) as
+
+      // `{var}`.
+
+      //
+
+      // If a variable contains multiple path segments, such as `"{var=foo/*}"`
+
+      // or `"{var=**}"`, when such a variable is expanded into a URL path on the
+
+      // client side, all characters except `[-_.~/0-9a-zA-Z]` are percent-encoded.
+
+      // The server side does the reverse decoding, except "%2F" and "%2f" are left
+
+      // unchanged. Such variables show up in the
+
+      // [Discovery
+
+      // Document](https://developers.google.com/discovery/v1/reference/apis) as
+
+      // `{+var}`.
+
+      //
+
+      // ## Using gRPC API Service Configuration
+
+      //
+
+      // gRPC API Service Configuration (service config) is a configuration language
+
+      // for configuring a gRPC service to become a user-facing product. The
+
+      // service config is simply the YAML representation of the `google.api.Service`
+
+      // proto message.
+
+      //
+
+      // As an alternative to annotating your proto file, you can configure gRPC
+
+      // transcoding in your service config YAML files. You do this by specifying a
+
+      // `HttpRule` that maps the gRPC method to a REST endpoint, achieving the same
+
+      // effect as the proto annotation. This can be particularly useful if you
+
+      // have a proto that is reused in multiple services. Note that any transcoding
+
+      // specified in the service config will override any matching transcoding
+
+      // configuration in the proto.
+
+      //
+
+      // Example:
+
+      //
+
+      //     http:
+
+      //       rules:
+
+      //         # Selects a gRPC method and applies HttpRule to it.
+
+      //         - selector: example.v1.Messaging.GetMessage
+
+      //           get: /v1/messages/{message_id}/{sub.subfield}
+
+      //
+
+      // ## Special notes
+
+      //
+
+      // When gRPC Transcoding is used to map a gRPC to JSON REST endpoints, the
+
+      // proto to JSON conversion must follow the [proto3
+
+      // specification](https://developers.google.com/protocol-buffers/docs/proto3#json).
+
+      //
+
+      // While the single segment variable follows the semantics of
+
+      // [RFC 6570](https://tools.ietf.org/html/rfc6570) Section 3.2.2 Simple String
+
+      // Expansion, the multi segment variable **does not** follow RFC 6570 Section
+
+      // 3.2.3 Reserved Expansion. The reason is that the Reserved Expansion
+
+      // does not expand special characters like `?` and `#`, which would lead
+
+      // to invalid URLs. As the result, gRPC Transcoding uses a custom encoding
+
+      // for multi segment variables.
+
+      //
+
+      // The path variables **must not** refer to any repeated or mapped field,
+
+      // because client libraries are not capable of handling such variable expansion.
+
+      //
+
+      // The path variables **must not** capture the leading "/" character. The reason
+
+      // is that the most common use case "{var}" does not capture the leading "/"
+
+      // character. For consistency, all path variables must share the same behavior.
+
+      //
+
+      // Repeated message fields must not be mapped to URL query parameters, because
+
+      // no client library can support such complicated mapping.
+
+      //
+
+      // If an API needs to use a JSON array for request or response body, it can map
+
+      // the request or response body to a repeated field. However, some gRPC
+
+      // Transcoding implementations may not support this feature.
+
+      message HttpRule {
+        // Selects a method to which this rule applies.
+        //
+        // Refer to [selector][google.api.DocumentationRule.selector] for syntax
+        // details.
+        string selector = 1;
+
+        // Determines the URL pattern is matched by this rules. This pattern can be
+        // used with any of the {get|put|post|delete|patch} methods. A custom method
+        // can be defined using the 'custom' field.
+        oneof pattern {
+          // Maps to HTTP GET. Used for listing and getting information about
+          // resources.
+          string get = 2;
+
+          // Maps to HTTP PUT. Used for replacing a resource.
+          string put = 3;
+
+          // Maps to HTTP POST. Used for creating a resource or performing an action.
+          string post = 4;
+
+          // Maps to HTTP DELETE. Used for deleting a resource.
+          string delete = 5;
+
+          // Maps to HTTP PATCH. Used for updating a resource.
+          string patch = 6;
+
+          // The custom pattern is used for specifying an HTTP method that is not
+          // included in the `pattern` field, such as HEAD, or "*" to leave the
+          // HTTP method unspecified for this rule. The wild-card rule is useful
+          // for services that provide content to Web (HTML) clients.
+          CustomHttpPattern custom = 8;
+        }
+
+        // The name of the request field whose value is mapped to the HTTP request
+        // body, or `*` for mapping all request fields not captured by the path
+        // pattern to the HTTP body, or omitted for not having any HTTP request body.
+        //
+        // NOTE: the referred field must be present at the top-level of the request
+        // message type.
+        string body = 7;
+
+        // Optional. The name of the response field whose value is mapped to the HTTP
+        // response body. When omitted, the entire response message will be used
+        // as the HTTP response body.
+        //
+        // NOTE: The referred field must be present at the top-level of the response
+        // message type.
+        string response_body = 12;
+
+        // Additional HTTP bindings for the selector. Nested bindings must
+        // not contain an `additional_bindings` field themselves (that is,
+        // the nesting may only be one level deep).
+        repeated HttpRule additional_bindings = 11;
+      }
+
+
+      // A custom pattern is used for defining custom HTTP verb.
+
+      message CustomHttpPattern {
+        // The name of this custom HTTP verb.
+        string kind = 1;
+
+        // The path matched by this custom verb.
+        string path = 2;
+      }
+    _type: proto_file
+  - _id: pf_a7e817f87c3c45b69f5f0beadc370fb1
+    parentId: pd_9aeccbeb9c66423c84673323708d0e5d
+    modified: 1685219955716
+    created: 1685219955716
+    name: httpbody.proto
+    protoText: >
+      // Copyright 2023 Google LLC
+
+      //
+
+      // Licensed under the Apache License, Version 2.0 (the "License");
+
+      // you may not use this file except in compliance with the License.
+
+      // You may obtain a copy of the License at
+
+      //
+
+      //     http://www.apache.org/licenses/LICENSE-2.0
+
+      //
+
+      // Unless required by applicable law or agreed to in writing, software
+
+      // distributed under the License is distributed on an "AS IS" BASIS,
+
+      // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+
+      // See the License for the specific language governing permissions and
+
+      // limitations under the License.
+
+
+      syntax = "proto3";
+
+
+      package google.api;
+
+
+      import "google/protobuf/any.proto";
+
+
+      option cc_enable_arenas = true;
+
+      option go_package = "google.golang.org/genproto/googleapis/api/httpbody;httpbody";
+
+      option java_multiple_files = true;
+
+      option java_outer_classname = "HttpBodyProto";
+
+      option java_package = "com.google.api";
+
+      option objc_class_prefix = "GAPI";
+
+
+      // Message that represents an arbitrary HTTP body. It should only be used for
+
+      // payload formats that can't be represented as JSON, such as raw binary or
+
+      // an HTML page.
+
+      //
+
+      //
+
+      // This message can be used both in streaming and non-streaming API methods in
+
+      // the request as well as the response.
+
+      //
+
+      // It can be used as a top-level request field, which is convenient if one
+
+      // wants to extract parameters from either the URL or HTTP template into the
+
+      // request fields and also want access to the raw HTTP body.
+
+      //
+
+      // Example:
+
+      //
+
+      //     message GetResourceRequest {
+
+      //       // A unique request id.
+
+      //       string request_id = 1;
+
+      //
+
+      //       // The raw HTTP body is bound to this field.
+
+      //       google.api.HttpBody http_body = 2;
+
+      //
+
+      //     }
+
+      //
+
+      //     service ResourceService {
+
+      //       rpc GetResource(GetResourceRequest)
+
+      //         returns (google.api.HttpBody);
+
+      //       rpc UpdateResource(google.api.HttpBody)
+
+      //         returns (google.protobuf.Empty);
+
+      //
+
+      //     }
+
+      //
+
+      // Example with streaming methods:
+
+      //
+
+      //     service CaldavService {
+
+      //       rpc GetCalendar(stream google.api.HttpBody)
+
+      //         returns (stream google.api.HttpBody);
+
+      //       rpc UpdateCalendar(stream google.api.HttpBody)
+
+      //         returns (stream google.api.HttpBody);
+
+      //
+
+      //     }
+
+      //
+
+      // Use of this type only changes how the request and response bodies are
+
+      // handled, all other features will continue to work unchanged.
+
+      message HttpBody {
+        // The HTTP Content-Type header value specifying the content type of the body.
+        string content_type = 1;
+
+        // The HTTP request/response body as raw binary.
+        bytes data = 2;
+
+        // Application specific response metadata. Must be set in the first response
+        // for streaming APIs.
+        repeated google.protobuf.Any extensions = 3;
+      }
+    _type: proto_file

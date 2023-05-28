@@ -2,16 +2,48 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 import "types.proto";
+import "google/api/annotations.proto";
 
 option go_package = "./proto";
 
 service PluginService {
-  rpc ListLoadedPlugins (google.protobuf.Empty) returns (ListLoadedPluginsResponse) {}
-  rpc ListPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {}
-  rpc RunPlugin (RunPluginRequest) returns (RunPluginResponse) {}
-  rpc LoadPlugin (LoadPluginRequest) returns (LoadPluginResponse) {}
-  rpc GetPluginDetails (LoadPluginRequest) returns (LoadPluginResponse) {}
-  rpc GetPluginResults (GetPluginResultsRequest) returns (GetPluginResultsResponse) {}
+  rpc ListLoadedPlugins (google.protobuf.Empty) returns (ListLoadedPluginsResponse) {
+    option(google.api.http) = {
+      get: "/v1/plugins/loaded"
+    };
+  }
+
+  rpc ListPlugins (google.protobuf.Empty) returns (ListPluginsResponse) {
+    option(google.api.http) = {
+      get: "/v1/plugins/all"
+    };
+  }
+
+  rpc RunPlugin (RunPluginRequest) returns (RunPluginResponse) {
+    option(google.api.http) = {
+      post: "/v1/plugins/run",
+      body: "*"
+    };
+  }
+
+  rpc LoadPlugin (LoadPluginRequest) returns (LoadPluginResponse) {
+    option(google.api.http) = {
+      post: "/v1/plugins/load",
+      body: "*"
+    };
+  }
+
+  rpc GetPluginDetails (GetPluginDetailsRequest) returns (GetPluginDetailsResponse) {
+    option(google.api.http) = {
+      get: "/v1/plugins/{file_name}"
+    };
+  }
+
+  rpc GetPluginResults (GetPluginResultsRequest) returns (GetPluginResultsResponse) {
+    option(google.api.http) = {
+      get: "/v1/plugins/results/{file_name}"
+    };
+  }
 }
 
 message MapItem {
@@ -43,6 +75,14 @@ message GetPluginResultsRequest {
 
 message GetPluginResultsResponse {
   repeated PluginResult results = 1;
+}
+
+message GetPluginDetailsRequest {
+  string file_name = 1;
+}
+
+message GetPluginDetailsResponse {
+  Plugin data = 1;
 }
 
 message LoadPluginRequest {
