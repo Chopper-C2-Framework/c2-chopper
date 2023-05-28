@@ -9,6 +9,14 @@ const siteConfig = {
       title: "Home",
       href: "/",
     },
+    {
+      title: "Dashboard",
+      href: "/app/dashboard",
+    },
+    {
+      title: "Documentation",
+      href: "/docs",
+    }
   ],
 };
 

@@ -1,4 +1,5 @@
 import LoadingPage from "@components/loading-page";
+import { useMeQuery } from "@hooks/queries/me";
 import { checkIfAuth } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
 import React, { useEffect, useState } from "react";
@@ -14,25 +15,28 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   reverseProtect,
   children,
 }) => {
-  const isAuthenticated = checkIfAuth();
   const [isHidden, setIsHidden] = useState<boolean>(true);
-
-  const { data, isLoading, isError } = useQuery(["user", "me"], () => {
-    if (!isAuthenticated) throw new Error("Unable to login ");
-    return fetch(getServerUrl() + "/user/me").then((res) => res.json());
-  });
+const {data,isLoading,isError}=useMeQuery()
+  
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (((!isAuthenticated||isError) && reverseProtect) || data) {
-      setIsHidden(false);
-    } else {
-      navigate(-1);
-    }
+      if ((isError || !data)&&!reverseProtect) {
+          navigate("/login");
+      }
+      else if( (isError|| !data&&!isLoading)&&reverseProtect){
+        setIsHidden(false);
+      }
+      else if (data && reverseProtect) {
+        navigate("/app/dashboard")
+      }
+      else if (data&&!reverseProtect) {
+        setIsHidden(false);
+      }
   }, [isError, data]);
 
-  if (isLoading && isHidden) {
+  if ( isHidden) {
     return <LoadingPage />;
   }
 

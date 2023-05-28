@@ -39,6 +39,8 @@ message MeRequest {
 
 message MeResponse {
 bool success =1;
+User user=2; 
+repeated Team teams=3;
 }
 
 

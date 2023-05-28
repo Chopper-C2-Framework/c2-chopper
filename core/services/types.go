@@ -39,6 +39,7 @@ type IAuthService interface {
 	Login(username string, password string) (string, error)
 	Register(username string, password string) (string, error)
 	ParseToken(token string) (*JWTData, error)
+	FetchUserFromId(userId string) (*entity.UserModel, error)
 }
 
 type IAgentService interface {

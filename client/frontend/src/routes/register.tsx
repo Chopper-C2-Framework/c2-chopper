@@ -1,5 +1,4 @@
 import { AuthForm } from "@components/auth-form";
-import { useToast } from "@components/ui/use-toast";
 import {
   registerSchema,
   useRegisterMutation,

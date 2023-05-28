@@ -1,4 +1,5 @@
 import { useToast } from "@components/ui/use-toast";
+import { SetAuthUser } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
 import axios from "axios";
 import { useMutation } from "react-query";
@@ -26,11 +27,12 @@ export const useLoginMutation = () => {
   return useMutation<LoginResponse, any, LoginRequest, any>(
     ["user"],
     async (data: LoginRequest) => {
-      return axios.post(getServerUrl() + "/v1/login", data);
+      return axios.post(getServerUrl() + "/login", data).then(r=>r.data);
     },
     {
       onSuccess: (data) => {
         if (data.token) {
+        SetAuthUser(data.token);
           toast({
             title: "Successfully logged in.",
             description: "We are taking you to your dashboard.",

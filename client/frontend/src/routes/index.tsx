@@ -4,6 +4,7 @@ import NavbarLayout from "../layouts/navbar-layout.tsx";
 import Home from "./home.tsx";
 import Login from "./login.tsx";
 import Register from "./register.tsx";
+import Dashboard from "./dashboard.tsx";
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,16 @@ const router = createBrowserRouter([
         element: <Home />,
       },
     ],
+  },
+  {
+    path: "/app",
+    children: [
+      {
+        path: "dashboard",
+        element: <Dashboard />,
+      }
+    ]
+
   },
 
   {

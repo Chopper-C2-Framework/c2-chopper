@@ -1,4 +1,5 @@
 import { useToast } from "@components/ui/use-toast";
+import { SetAuthUser } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
 import axios from "axios";
 import { useMutation } from "react-query";
@@ -27,7 +28,7 @@ export const useRegisterMutation = () => {
   return useMutation<RegisterResponse, any, RegisterRequest, any>(
     ["user"],
     async (data: RegisterRequest) => {
-      return axios.post(getServerUrl() + "/v1/register", data).then(r=>r.data);
+      return axios.post(getServerUrl() + "/register", data).then(r=>r.data);
     },
     {
       onSuccess: (data) => {
@@ -38,6 +39,7 @@ export const useRegisterMutation = () => {
             description: "We've created your account for you.",
             variant: "success",
           });
+          SetAuthUser(data.token)
           setTimeout(() => navigate("/app/dashboard"), 1000);
         }
       },

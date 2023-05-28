@@ -72,6 +72,7 @@ func (s AuthService) GenerateToken(user *entity.UserModel) (string, error) {
 		Username: user.Username,
 		Role:     user.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer: "chopper",
 			// In JWT, the expiry time is expressed as unix milliseconds
 			Subject:   user.ID.String(),
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
@@ -110,4 +111,8 @@ func (s AuthService) ParseToken(token string) (*JWTData, error) {
 	}
 
 	return nil, errors.New("unable to parse token")
+}
+
+func (s AuthService) FetchUserFromId(userId string) (*entity.UserModel, error) {
+	return s.UserService.FindUserByIdOrError(userId)
 }

@@ -5,6 +5,13 @@ import {
   Download,
   Users,
 } from "lucide-react";
+
+import { CalendarDateRangePicker } from "@components/date-range-picker";
+import { Icons } from "@components/icons";
+import { Overview } from "@components/overview";
+import { RecentSales } from "@components/recent-sales";
+import { Search } from "@components/search";
+import TeamSwitcher from "@components/team-switcher";
 import { Button } from "@components/ui/button";
 import {
   Card,
@@ -14,19 +21,19 @@ import {
   CardTitle,
 } from "@components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
-import { CalendarDateRangePicker } from "@components/date-range-picker";
 import { UserMainNav } from "@components/user-main-nav.tsx";
-import { Overview } from "@components/overview";
-import { RecentSales } from "@components/recent-sales";
-import { Search } from "@components/search";
-import TeamSwitcher from "@components/team-switcher";
 import { UserNav } from "@components/user-nav";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   return (
     <>
       <div className="border-b">
         <div className="flex h-16 items-center px-4">
+          <Link to="/" className="flex items-center justify-center space-x-4 px-10">
+          <Icons.logo className="h-10 w-10"/>
+          <p className="font-special font-bold text-primary">C2-Chopper</p>
+      </Link>
           <TeamSwitcher />
           <UserMainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">

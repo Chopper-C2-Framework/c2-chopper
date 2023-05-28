@@ -11,28 +11,28 @@ export function UserMainNav({
       {...props}
     >
       <Link
-        to="/examples/dashboard"
+        to="/app/dashboard"
         className="text-sm font-medium transition-colors hover:text-primary"
       >
         Overview
       </Link>
       <Link
-        to="/examples/dashboard"
+        to="/app/plugins"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Customers
+        Plugins
       </Link>
       <Link
-        to="/examples/dashboard"
+        to="/app/findings"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Products
+        Findings
       </Link>
       <Link
-        to="/examples/dashboard"
+        to="/app/report"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Settings
+        Report
       </Link>
     </nav>
   );
