@@ -73,13 +73,25 @@ func (s *TaskService) FindAllTasks() ([]*entity.TaskModel, error) {
 	return tasks, nil
 }
 
+func (s *TaskService) FindUnexecutedTasks() ([]*entity.TaskModel, error) {
+	var tasks []*entity.TaskModel
+
+	err := s.repo.DB().
+		Where("NOT EXISTS(SELECT id FROM task_result_models WHERE task_id = task_models.id)").
+		Find(&tasks).Error
+	if err != nil {
+		log.Debugf("[-] failed to fetch tasks")
+		return nil, err
+	}
+	return tasks, nil
+}
+
 func (s *TaskService) FindUnexecutedTasksForAgent(agentId string) ([]*entity.TaskModel, error) {
 	var tasks []*entity.TaskModel
 
 	err := s.repo.DB().
 		Where("agent_id = ?", agentId).
-		// Where("id NOT IN (SELECT task_id FROM task_result_models)", agentId).Error
-		Where("NOT EXISTS(SELECT id FROM task_result_models WHERE task_id = task_models.id)", agentId).
+		Where("NOT EXISTS(SELECT id FROM task_result_models WHERE task_id = task_models.id)").
 		Find(&tasks).Error
 
 	if err != nil {

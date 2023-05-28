@@ -22,6 +22,12 @@ service TaskService {
     };
   }
 
+  rpc GetActiveTasks(GetActiveTasksRequest) returns (GetActiveTasksResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/unexecuted/all"
+    };
+  }
+
   rpc GetAgentUnexecutedTasks(GetAgentUnexecutedTasksRequest) returns (GetAgentUnexecutedTasksResponse) {
     option (google.api.http) = {
       get: "/v1/task/unexecuted/agent/{agent_id}"
@@ -137,6 +143,13 @@ message GetAgentUnexecutedTasksRequest {
 message GetAgentUnexecutedTasksResponse {
   repeated Task tasks = 1;
   uint32 sleep_time = 2;
+}
+
+message GetActiveTasksRequest {}
+
+message GetActiveTasksResponse {
+  repeated Task tasks = 1;
+  uint32 count = 2;
 }
 
 message GetAgentTasksRequest {

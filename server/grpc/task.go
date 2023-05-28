@@ -155,6 +155,23 @@ func (s *TaskService) GetAgentUnexecutedTasks(ctx context.Context, in *proto.Get
 	}, nil
 }
 
+func (s *TaskService) GetActiveTasks(ctx context.Context, in *proto.GetActiveTasksRequest) (*proto.GetActiveTasksResponse, error) {
+	tasks, err := s.TaskService.FindUnexecutedTasks()
+	if err != nil {
+		return &proto.GetActiveTasksResponse{}, err
+	}
+
+	protoList := make([]*proto.Task, len(tasks))
+	for i, task := range tasks {
+		protoList[i] = ConvertTaskToProto(task)
+	}
+
+	return &proto.GetActiveTasksResponse{
+		Tasks: protoList,
+		Count: uint32(len(protoList)),
+	}, nil
+}
+
 func (s *TaskService) CreateTaskResult(ctx context.Context, in *proto.CreateTaskResultRequest) (*proto.CreateTaskResultResponse, error) {
 	agentInfo := in.GetInfo()
 	if agentInfo != nil {
