@@ -1,9 +1,14 @@
-const {fontFamily} = require("tailwindcss/defaultTheme");
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: ["**/*.{ts,tsx}","**/**/*.{ts,tsx}", "./**/**/**/*.{ts,tsx}","./**/**/**/**/*.{ts,tsx}"],
+  content: [
+    "**/*.{ts,tsx}",
+    "**/**/*.{ts,tsx}",
+    "./**/**/**/*.{ts,tsx}",
+    "./**/**/**/**/*.{ts,tsx}",
+  ],
   theme: {
     container: {
       center: true,
@@ -31,6 +36,11 @@ module.exports = {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
+        success: {
+          DEFAULT: 'hsl(var(--success))',
+          foreground: 'hsl(var(--success-foreground))',
+
+        },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
@@ -55,7 +65,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ["var(--font-sans)", ...fontFamily.sans],
-        special:["var(--font-special)", ...fontFamily.sans],
+        special: ["var(--font-special)", ...fontFamily.sans],
       },
       keyframes: {
         "accordion-down": {

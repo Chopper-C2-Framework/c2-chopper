@@ -5,32 +5,31 @@ import Home from "./home.tsx";
 import Login from "./login.tsx";
 import Register from "./register.tsx";
 
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <NavbarLayout />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+    ],
+  },
 
-const router= createBrowserRouter([
-    {
-        path: "/",
-        element:<NavbarLayout/>,
-        children: [
-            {
-                index: true,
-                element:<Home/>
-            },
-        ],
-    },
-
-    {
-        element:<AuthLayout/>,
-        children: [
-            {
-                path: "/register",
-                element:<Register/>
-            },
-            {
-                path: "/login",
-                element:<Login/>
-            }
-        ]
-    },
-])
+  {
+    element: <AuthLayout />,
+    children: [
+      {
+        path: "/register",
+        element: <Register />,
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+    ],
+  },
+]);
 
 export default router;

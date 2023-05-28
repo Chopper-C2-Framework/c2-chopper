@@ -1,6 +1,12 @@
-import { AuthForm } from "@components/login-form";
-import { useRegisterMutation, registerSchema } from "@hooks/mutations/auth/register";
+import { AuthForm } from "@components/auth-form";
+import { useToast } from "@components/ui/use-toast";
+import {
+  registerSchema,
+  useRegisterMutation,
+} from "@hooks/mutations/auth/register";
 export default function Register() {
+
+  
   return (
     <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
       <div className="flex flex-col space-y-2 text-center">
@@ -11,8 +17,11 @@ export default function Register() {
           Enter your username below to create your account
         </p>
       </div>
-      <AuthForm  defaultValues={{username:"h3x004_cr4t",password:"xxxxxx"}} formSchema={registerSchema} useMutation={useRegisterMutation}/>
+      <AuthForm
+        defaultValues={{ username: "h3x004_cr4t", password: "xxxxxx" }}
+        formSchema={registerSchema}
+        useMutation={useRegisterMutation}
+      />
     </div>
   );
 }
-

@@ -1,12 +1,5 @@
+interface AboutProps {}
 
-interface AboutProps  {
-
-}
-
-export const  About:React.FC<AboutProps> = ()=>{
-    return (
-        <div>
-
-        </div>
-    );
+export const About: React.FC<AboutProps> = () => {
+  return <div></div>;
 };

@@ -36,7 +36,7 @@ export function Footer({ className }: React.HTMLAttributes<HTMLElement>) {
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
-              Nowhere{" "}.
+              Nowhere .
             </a>
             The source code is available on{" "}
             <a

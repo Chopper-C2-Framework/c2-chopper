@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
+	"github.com/rs/cors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -63,7 +64,23 @@ func (g *gRPCServerHTTPGateway) NewgRPCServerHTTPGateway(config *config.Config) 
 	handleSvcRegError(err)
 
 	fmt.Printf("[+] HTTP Gateway on on %d\n", config.ServerHTTPPort)
-	err = http.ListenAndServe(fmt.Sprintf(":%d", config.ServerHTTPPort), mux)
+
+	corsConfig := cors.New(cors.Options{
+		AllowedOrigins: []string{"*"},
+		AllowedMethods: []string{
+			http.MethodPost,
+			http.MethodGet,
+		},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: false,
+	})
+
+	server := &http.Server{
+		Handler: corsConfig.Handler(mux),
+		Addr:    fmt.Sprintf(":%d", config.ServerHTTPPort),
+	}
+
+	err = server.ListenAndServe()
 
 	if err != nil {
 		log.Fatalf("failed to serve: %v\n", err)

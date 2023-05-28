@@ -1,11 +1,10 @@
-export const Plugin = (props:any) => (
+export const Plugin = (props: any) => (
   <svg
     width="800px"
     height="800px"
     viewBox="0 0 24 24"
     fill="inherit"
-
-  {...props}
+    {...props}
     xmlns="http://www.w3.org/2000/svg"
   >
     <g clip-path="url(#clip0_402_1610)">

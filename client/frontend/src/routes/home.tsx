@@ -55,8 +55,12 @@ export function Home() {
             .
           </h1>
           <p className="max-w-[42rem] leading-normal text-muted-foreground sm:text-xl sm:leading-8">
-            This framework for the final term project for the Personal Professional Project of SE 3 2023-2022 at{" "}
-            <a className="font-black text-primary text-lg hover:underline" href="https://insat.rnu.tn/">
+            This framework for the final term project for the Personal
+            Professional Project of SE 3 2023-2022 at{" "}
+            <a
+              className="font-black text-primary text-lg hover:underline"
+              href="https://insat.rnu.tn/"
+            >
               INSAT
             </a>
           </p>
@@ -84,43 +88,51 @@ export function Home() {
             Features
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-        Driven by curiosity and the desire to learn more about the field of cybersecurity, we decided to create a C2 framework that is easy to use and that can be used by anyone. 
+            Driven by curiosity and the desire to learn more about the field of
+            cybersecurity, we decided to create a C2 framework that is easy to
+            use and that can be used by anyone.
           </p>
         </div>
         <div className="mx-auto grid justify-center gap-4 sm:grid-cols-2 md:max-w-[64rem] md:grid-cols-3">
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-             <Icons.plugin className="text-white w-14 h-14 stroke-secondary fill-secondary"/> 
+              <Icons.plugin className="text-white w-14 h-14 stroke-secondary fill-secondary" />
               <div className="space-y-2">
-                <h3 className="font-bold text-secondary">Pluggable framework</h3>
+                <h3 className="font-bold text-secondary">
+                  Pluggable framework
+                </h3>
                 <p className="text-sm text-muted-foreground">
-                  Bult-in plugin system and we offer tons of utilies to allow you to develop yours !
+                  Bult-in plugin system and we offer tons of utilies to allow
+                  you to develop yours !
                 </p>
               </div>
             </div>
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-                <div >
-                <Icons.golang className="text-white w-14 h-14 stroke-secondary fill-secondary border-0"/>
-</div>
-           
+              <div>
+                <Icons.golang className="text-white w-14 h-14 stroke-secondary fill-secondary border-0" />
+              </div>
+
               <div className="space-y-2">
                 <h3 className="font-bold text-secondary">Golang</h3>
                 <p className="text-sm text-muted-foreground">
-                  Buit with golang, all you need is to download the binary and run it ! Fast, reliable and easy to use !
+                  Buit with golang, all you need is to download the binary and
+                  run it ! Fast, reliable and easy to use !
                 </p>
               </div>
             </div>
           </div>
           <div className="relative overflow-hidden rounded-lg border bg-background p-2">
             <div className="flex h-[180px] flex-col justify-between rounded-md p-6">
-                <p className="text-4xl font-black text-secondary ">MIT</p>
-              
+              <p className="text-4xl font-black text-secondary ">MIT</p>
+
               <div className="space-y-2">
-                <h3 className="font-bold text-secondary">Open source project</h3>
+                <h3 className="font-bold text-secondary">
+                  Open source project
+                </h3>
                 <p className="text-sm text-muted-foreground">
-                    The source code is available on GitHub under the MIT license.
+                  The source code is available on GitHub under the MIT license.
                 </p>
               </div>
             </div>
@@ -174,7 +186,8 @@ export function Home() {
         </div>
         <div className="mx-auto text-center md:max-w-[58rem] mt-24">
           <p className="leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            C2 Chopper also includes a CLI, a set of plugins to start with and much more !
+            C2 Chopper also includes a CLI, a set of plugins to start with and
+            much more !
           </p>
         </div>
       </section>
@@ -184,8 +197,8 @@ export function Home() {
             Proudly Open Source
           </h2>
           <p className="max-w-[85%] leading-normal text-muted-foreground sm:text-lg sm:leading-7">
-            C2 Chopper is open source and powered by open source software. <br />{" "}
-            The code is available on{" "}
+            C2 Chopper is open source and powered by open source software.{" "}
+            <br /> The code is available on{" "}
             <a
               href={siteConfig.links.github}
               target="_blank"

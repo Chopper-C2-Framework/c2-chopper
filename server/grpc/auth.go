@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"fmt"
+
 	"github.com/chopper-c2-framework/c2-chopper/core/services"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 )
@@ -33,4 +34,19 @@ func (a *AuthService) Register(ctx context.Context, in *proto.RegisterRequest) (
 	}
 
 	return &proto.RegisterResponse{Success: true, Token: token}, nil
+}
+
+func (a *AuthService) Me(ctx context.Context, in *proto.MeRequest) (*proto.MeResponse, error) {
+	userId := ctx.Value("userId")
+
+	if userId == nil {
+		return &proto.MeResponse{
+			Success: false,
+		}, nil
+	}
+
+	return &proto.MeResponse{
+		Success: true,
+	}, nil
+
 }

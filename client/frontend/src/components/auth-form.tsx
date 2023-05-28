@@ -8,15 +8,19 @@ import { cn } from "@lib/utils";
 import { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { UseMutationResult } from "react-query";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { Icons } from "./icons";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
-  useMutation: () => UseMutationResult<
-    AxiosResponse<any, any>,
-    unknown,
-    any,
-    unknown
-  >;
+  useMutation: () => UseMutationResult<any, any, any, any>;
   formSchema: any;
   defaultValues: any;
 }
@@ -35,9 +39,10 @@ export function AuthForm({
 
   const { mutate, error, data, isLoading } = useMutation();
 
-  async function onSubmit(data:any) {
-    mutate({ username:data.username, password:data.password });
+  async function onSubmit(data: any) {
+    mutate({ username: data.username, password: data.password });
   }
+
 
   return (
     <div className={cn("grid gap-6", className)} {...props}>
@@ -60,7 +65,7 @@ export function AuthForm({
             )}
           />
 
-  <FormField
+          <FormField
             control={form.control}
             name="password"
             render={({ field }) => (
@@ -69,12 +74,18 @@ export function AuthForm({
                 <FormControl>
                   <Input placeholder="password" type="password" {...field} />
                 </FormControl>
-                
+
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          {isLoading ? (
+            <Button type="submit" disabled>
+              <Icons.spinner />
+            </Button>
+          ) : (
+            <Button type="submit">Submit</Button>
+          )}
         </form>
       </Form>
       <div className="relative">

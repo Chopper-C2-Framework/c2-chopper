@@ -82,5 +82,5 @@ export const Icons = {
   check: Check,
   plugin: Plugin,
   golang: Golang,
-  openSource: MIT
+  openSource: MIT,
 };
