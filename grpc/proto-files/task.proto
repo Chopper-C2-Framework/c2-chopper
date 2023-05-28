@@ -22,7 +22,7 @@ service TaskService {
     };
   }
 
-  rpc GetActiveTasks(GetActiveTasksRequest) returns (GetActiveTasksResponse) {
+  rpc GetActiveTasks(google.protobuf.Empty) returns (GetActiveTasksResponse) {
     option (google.api.http) = {
       get: "/v1/task/unexecuted/all"
     };
@@ -65,6 +65,7 @@ service TaskService {
     };
   }
 
+  // params: limit, page, unseen (bool)
   rpc GetLatestTaskResults(GetLatestTaskResultsRequest) returns (GetLatestTaskResultsResponse) {
     option (google.api.http) = {
       get: "/v1/task/result/latest",
@@ -144,8 +145,6 @@ message GetAgentUnexecutedTasksResponse {
   repeated Task tasks = 1;
   uint32 sleep_time = 2;
 }
-
-message GetActiveTasksRequest {}
 
 message GetActiveTasksResponse {
   repeated Task tasks = 1;

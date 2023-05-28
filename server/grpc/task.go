@@ -155,7 +155,7 @@ func (s *TaskService) GetAgentUnexecutedTasks(ctx context.Context, in *proto.Get
 	}, nil
 }
 
-func (s *TaskService) GetActiveTasks(ctx context.Context, in *proto.GetActiveTasksRequest) (*proto.GetActiveTasksResponse, error) {
+func (s *TaskService) GetActiveTasks(ctx context.Context, in *emptypb.Empty) (*proto.GetActiveTasksResponse, error) {
 	tasks, err := s.TaskService.FindUnexecutedTasks()
 	if err != nil {
 		return &proto.GetActiveTasksResponse{}, err
