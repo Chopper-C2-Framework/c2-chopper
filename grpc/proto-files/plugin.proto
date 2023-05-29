@@ -35,7 +35,8 @@ service PluginService {
 
   rpc GetPluginDetails (GetPluginDetailsRequest) returns (GetPluginDetailsResponse) {
     option(google.api.http) = {
-      get: "/v1/plugins/{file_name}"
+      get: "/v1/plugins/details/{file_name}"
+
     };
   }
 

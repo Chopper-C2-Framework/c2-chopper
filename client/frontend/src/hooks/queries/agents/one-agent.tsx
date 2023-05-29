@@ -10,7 +10,7 @@ export const useAgentInfo = (agent_id: string) => {
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/v1/agent/" + agent_id, {
+        .get(getServerUrl() + "/agent/" + agent_id, {
           headers: {
             Authorization: retrieveToken(),
           },

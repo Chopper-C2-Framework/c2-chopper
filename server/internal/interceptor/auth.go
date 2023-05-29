@@ -42,7 +42,6 @@ func (i *AuthInterceptor) IsAuthenticatedInterceptor(
 		return nil, err
 	}
 	if user != nil {
-		fmt.Println("Appending user here", user.Id)
 		userIdMetada := metadata.Pairs("userid", user.Id)
 		joined := metadata.Join(userIdMetada, md)
 		ctx := metadata.NewIncomingContext(ctx, joined)
@@ -75,8 +74,6 @@ func (i *AuthInterceptor) authorize(ctx context.Context, method string) (*Contex
 	if err != nil {
 		return nil, status.Errorf(codes.Unauthenticated, "access token is invalid: %v", err)
 	}
-
-	fmt.Printf("%v\n", claims)
 
 	for _, role := range accessibleRoles {
 		if role == claims.Role {

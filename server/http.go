@@ -60,7 +60,13 @@ func (g *gRPCServerHTTPGateway) NewgRPCServerHTTPGateway(config *config.Config) 
 	err = gw.RegisterAuthServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 	handleSvcRegError(err)
 
+	err = gw.RegisterPluginServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	handleSvcRegError(err)
+
 	err = gw.RegisterTaskServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	handleSvcRegError(err)
+
+	err = gw.RegisterAgentServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 	handleSvcRegError(err)
 
 	fmt.Printf("[+] HTTP Gateway on on %d\n", config.ServerHTTPPort)

@@ -16,6 +16,7 @@ export const useCreateTask = () => {
     ["task", "create"],
     async (data: CreateTaskRequest) => {
       return axios
+
         .post(`${getServerUrl()}/task/${data.task.agentId}`, data.task)
         .then((r) => r.data);
     },
