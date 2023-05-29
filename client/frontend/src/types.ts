@@ -90,8 +90,8 @@ export interface Agent {
   nickname: string;
   hostname: string;
   username: string;
-  user_id: string;
-  sleep_time: number;
+  userId: string;
+  sleepTime: number;
   cwd: string;
 }
 

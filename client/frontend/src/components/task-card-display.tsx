@@ -17,6 +17,7 @@ import {
 import { Skeleton } from "./ui/skeleton";
 import CreateTaskDialog from "./create-task-dialog";
 import { useDeleteTask } from "@hooks/mutations/task/delete-task";
+import { useAgentInfo } from "@hooks/queries/agents/one-agent";
 
 interface ITaskCardDisplay {
   loading?: boolean;
@@ -24,12 +25,9 @@ interface ITaskCardDisplay {
   task?: Task;
 }
 
-export default function TaskCardDisplay({
-  loading,
-  task,
-  onRefresh,
-}: ITaskCardDisplay) {
-  const deleteTask = useDeleteTask();
+export default function TaskCardDisplay({loading, task, onRefresh}: ITaskCardDisplay){
+  const deleteTask = useDeleteTask()
+  const agent = useAgentInfo(task?.agentId ?? "invalid")
 
   const onDeleteTaskClick = async (task: Task) => {
     if (deleteTask.isLoading) return;
@@ -68,7 +66,10 @@ export default function TaskCardDisplay({
           <div>
             {task.name}
             <CardDescription className="pl-2 font-normal">
-              {task.agentId}
+              {
+                agent.data != null ? `${agent.data.hostname} | ${agent.data.nickname} (${agent.data.username} - ${agent.data.userId})`
+                : <Skeleton className="h-4 w-[70px]" />
+              }
             </CardDescription>
           </div>
           <Popover>

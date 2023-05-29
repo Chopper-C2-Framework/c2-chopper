@@ -35,6 +35,25 @@ func (s *AgentService) ListAgents(ctx context.Context, in *emptypb.Empty) (*prot
 	}, nil
 }
 
+func (s *AgentService) SetAgentNickname(ctx context.Context, in *proto.SetAgentNicknameRequest) (*proto.SetAgentNicknameResponse, error) {
+	fmt.Println("[gRPC] [AgentService] SetAgentNickname:", in.GetAgentId())
+	if len(in.GetAgentId()) == 0 {
+		return &proto.SetAgentNicknameResponse{}, errors.New("agent id is required")
+	}
+	agent, err := s.AgentService.FindAgentOrError(in.GetAgentId())
+	if err != nil {
+		return &proto.SetAgentNicknameResponse{}, err
+	}
+
+	agent.Nickname = in.GetNickname()
+	err = s.AgentService.SaveAgent(agent)
+	if err != nil {
+		return &proto.SetAgentNicknameResponse{}, err
+	}
+
+	return &proto.SetAgentNicknameResponse{}, nil
+}
+
 func (s *AgentService) GetAgentInfo(ctx context.Context, in *proto.GetAgentInfoRequest) (*proto.GetAgentInfoResponse, error) {
 	fmt.Println("[gRPC] [AgentService] GetAgentInfo:", in.GetAgentId())
 	if len(in.GetAgentId()) == 0 {
