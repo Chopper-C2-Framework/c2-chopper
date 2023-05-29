@@ -10,7 +10,7 @@ export const useTask = (task_id: string) => {
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/v1/task/" + task_id, {
+        .get(getServerUrl() + "/task/" + task_id, {
           headers: {
             Authorization: retrieveToken(),
           },

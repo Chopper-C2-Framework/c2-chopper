@@ -60,6 +60,7 @@ type ITaskService interface {
 
 	FindAllTasks() ([]*entity.TaskModel, error)
 	FindUnexecutedTasks() ([]*entity.TaskModel, error)
+	FindNewlyExecutedTasks() ([]*entity.TaskModel, error)
 
 	FindTasksForAgent(agentId string) ([]*entity.TaskModel, error)
 	FindUnexecutedTasksForAgent(agentId string) ([]*entity.TaskModel, error)

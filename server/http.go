@@ -48,7 +48,7 @@ func (g *gRPCServerHTTPGateway) NewgRPCServerHTTPGateway(config *config.Config) 
 
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	err := gw.RegisterAuthServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	err := gw.RegisterAgentServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 	handleSvcRegError(err)
 
 	err = gw.RegisterTeamServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
@@ -60,6 +60,9 @@ func (g *gRPCServerHTTPGateway) NewgRPCServerHTTPGateway(config *config.Config) 
 	err = gw.RegisterAuthServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 	handleSvcRegError(err)
 
+	err = gw.RegisterTaskServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
+	handleSvcRegError(err)
+
 	fmt.Printf("[+] HTTP Gateway on on %d\n", config.ServerHTTPPort)
 
 	corsConfig := cors.New(cors.Options{
@@ -67,6 +70,8 @@ func (g *gRPCServerHTTPGateway) NewgRPCServerHTTPGateway(config *config.Config) 
 		AllowedMethods: []string{
 			http.MethodPost,
 			http.MethodGet,
+			http.MethodDelete,
+			http.MethodPatch,
 		},
 		AllowedHeaders:   []string{"*"},
 		AllowCredentials: false,

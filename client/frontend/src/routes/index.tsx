@@ -9,6 +9,7 @@ import AppLayout from "../layouts/app-layout.tsx";
 import Plugins from "./plugins.tsx";
 import Findings from "./findings.tsx";
 import Report from "./report.tsx";
+import Tasks from "./tasks";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "findings",
         element: <Findings />,
+      },
+      {
+        path: "tasks",
+        element: <Tasks />,
       },
       {
         path: "report",

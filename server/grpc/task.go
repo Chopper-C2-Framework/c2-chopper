@@ -3,6 +3,7 @@ package grpc
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
 	"github.com/google/uuid"
@@ -56,8 +57,8 @@ func (s *TaskService) CreateTask(ctx context.Context, in *proto.CreateTaskReques
 	if err != nil {
 		return &proto.CreateTaskResponse{}, errors.New("Invalid agent id")
 	}
-
 	taskProto := in.GetTask()
+	fmt.Println(in)
 	err = ValidateTaskProto(taskProto)
 	if err != nil {
 		return &proto.CreateTaskResponse{}, err
@@ -167,6 +168,23 @@ func (s *TaskService) GetActiveTasks(ctx context.Context, in *emptypb.Empty) (*p
 	}
 
 	return &proto.GetActiveTasksResponse{
+		Tasks: protoList,
+		Count: uint32(len(protoList)),
+	}, nil
+}
+
+func (s *TaskService) GetNewlyExecutedTasks(ctx context.Context, in *emptypb.Empty) (*proto.GetNewlyExecutedTasksResponse, error) {
+	tasks, err := s.TaskService.FindUnexecutedTasks()
+	if err != nil {
+		return &proto.GetNewlyExecutedTasksResponse{}, err
+	}
+
+	protoList := make([]*proto.Task, len(tasks))
+	for i, task := range tasks {
+		protoList[i] = ConvertTaskToProto(task)
+	}
+
+	return &proto.GetNewlyExecutedTasksResponse{
 		Tasks: protoList,
 		Count: uint32(len(protoList)),
 	}, nil

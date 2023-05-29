@@ -29,6 +29,12 @@ export function UserMainNav({
         Findings
       </Link>
       <Link
+        to="/app/tasks"
+        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+      >
+        Tasks
+      </Link>
+      <Link
         to="/app/report"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >

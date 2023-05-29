@@ -10,7 +10,7 @@ export const useAgentUnexectuedTasks = (agent_id: string) => {
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/v1/task/unexecuted/agent/" + agent_id, {
+        .get(getServerUrl() + "/task/unexecuted/agent/" + agent_id, {
           headers: {
             Authorization: retrieveToken(),
           },
