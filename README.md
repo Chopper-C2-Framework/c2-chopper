@@ -75,7 +75,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * [**GRPC**](https://grpc.io/)
 * [**Shadcn**](https://ui.shadcn.com)
 * [**React Query**](https://tanstack.com/query/v3/docs/react/overview)
-* * [**Go Fiber**](https://gofiber.io/)
+* [**Go Fiber**](https://gofiber.io/)
 
 and more ..
 
