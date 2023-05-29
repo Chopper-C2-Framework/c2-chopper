@@ -148,6 +148,7 @@ export interface Task {
   args: string[];
   agentId: string;
   creatorId: string;
+  createdAt: string;
 }
 
 export interface TaskResult {
@@ -156,6 +157,7 @@ export interface TaskResult {
   taskId: string;
   output: string;
   seen: boolean;
+  createdAt: string;
 }
 
 export interface Host {

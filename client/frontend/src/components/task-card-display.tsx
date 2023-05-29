@@ -35,6 +35,10 @@ export default function TaskCardDisplay({loading, task, onRefresh}: ITaskCardDis
     if(onRefresh != null) onRefresh()
   }
 
+  const navigateToResultsPage = (task: Task) => {
+    window.location.href = `/app/tasks/${task.taskId}/results`
+  }
+
   if(loading || task == null) {
     return (
       <Card className="min-w-[300px]">
@@ -72,14 +76,11 @@ export default function TaskCardDisplay({loading, task, onRefresh}: ITaskCardDis
             <PopoverContent className="w-80 flex flex-col gap-3">
               <Button onClick={() => onDeleteTaskClick(task)}>Delete</Button>
               <CreateTaskDialog onAction={()=> onRefresh && onRefresh()} taskEdit={task} />
+              <Button onClick={() => navigateToResultsPage(task)}>View results</Button>
             </PopoverContent>
           </Popover>
         </CardTitle>
-        
       </CardHeader>
-      {/* <CardContent className="grid gap-4">
-        <p className="text-sm font-medium leading-none">{task.}</p>
-      </CardContent> */}
       <CardFooter className="">
         <Badge>{task.type == "PING" ? "Ping" : (task.type == "SHELL" ? "Shell" : "Unknown")}</Badge>
       </CardFooter>
