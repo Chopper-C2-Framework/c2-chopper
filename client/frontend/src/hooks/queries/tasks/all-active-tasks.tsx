@@ -2,7 +2,7 @@ import { checkIfAuth, retrieveToken } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
 import axios, { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
-import { TaskListResponse } from "./types";
+import { TaskListResponse } from "./interfaces.tsx";
 
 export const useAllActiveTasks = () => {
   const isAuthenticated = checkIfAuth();

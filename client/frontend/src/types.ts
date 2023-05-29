@@ -136,9 +136,9 @@ export interface Cred {
 }
 
 export enum TaskType {
-  UNKNOWN = 0,
-  PING = 1,
-  SHELL = 2,
+  UNKNOWN = "UNKNOWN",
+  PING = "PING",
+  SHELL = "SHELL",
 }
 
 export interface Task {

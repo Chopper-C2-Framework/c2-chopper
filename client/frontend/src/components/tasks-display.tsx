@@ -60,6 +60,7 @@ export function TasksDisplay({tasks, isLoading, onRefresh}: TasksDisplayProps) {
       }
       {
         !isLoading && tasks.map((task) => {
+          console.log(task)
           return (
             <Card className="min-w-[300px] w-[31.5%]">
               <CardHeader>
@@ -86,7 +87,7 @@ export function TasksDisplay({tasks, isLoading, onRefresh}: TasksDisplayProps) {
                 <p className="text-sm font-medium leading-none">{task.}</p>
               </CardContent> */}
               <CardFooter className="">
-                <Badge>{task.type == 1 ? "Shell" : "Ping"}</Badge>
+                <Badge>{task.type == "PING" ? "Ping" : (task.type == "SHELL" ? "Shell" : "Unknown")}</Badge>
               </CardFooter>
             </Card>
           )

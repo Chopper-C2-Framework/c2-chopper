@@ -19,14 +19,14 @@ import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { useState } from "react";
-import { TaskType } from "types";
+import { TaskType } from "@src/types.ts";
 import { useCreateTask } from "@hooks/mutations/task/create-task";
 
 interface ICreateTaskDialog{}
 
 export default function CreateTaskDialog({}: ICreateTaskDialog) {
   const [arg, setArg] = useState("")
-  const [type, setType] = useState<TaskType>(0)
+  const [type, setType] = useState<TaskType>(TaskType.UNKNOWN)
   const [name, setName] = useState("")
   const [agentId, setAgentId] = useState("")
   const [dialogOpen, setDialogOpen] = useState(false)
@@ -43,7 +43,7 @@ export default function CreateTaskDialog({}: ICreateTaskDialog) {
       }
     })
     setArg("")
-    setType(0)
+    setType(TaskType.UNKNOWN)
     setName("")
     setAgentId("")
     setDialogOpen(false)
@@ -77,15 +77,15 @@ export default function CreateTaskDialog({}: ICreateTaskDialog) {
             <Label className="text-right">
               Task Type
             </Label>
-            <Select value={`${type}`} onValueChange={(value) => setType(parseInt(value)) }>
+            <Select value={`${type}`} onValueChange={(value) => setType(value as TaskType) }>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Select a task type" />
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Type</SelectLabel>
-                  <SelectItem value="1">Ping</SelectItem>
-                  <SelectItem value="2">Shell</SelectItem>
+                  <SelectItem value={TaskType.PING}>Ping</SelectItem>
+                  <SelectItem value={TaskType.SHELL}>Shell</SelectItem>
                 </SelectGroup>
               </SelectContent>
             </Select>

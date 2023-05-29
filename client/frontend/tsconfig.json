@@ -8,7 +8,8 @@
     "paths": {
       "@components/*": ["components/*"],
       "@lib/*": ["lib/*"],
-      "@hooks/*": ["hooks/*"]
+      "@hooks/*": ["hooks/*"],
+      "@src/*": ["./*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",

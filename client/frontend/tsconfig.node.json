@@ -8,7 +8,8 @@
     "baseUrl": "src",
     "paths": {
       "@components/*": ["components/*"],
-      "@lib/*": ["lib/*"]
+      "@lib/*": ["lib/*"],
+      "@src/*": ["*"]
     }
   },
   "include": ["vite.config.ts"]
