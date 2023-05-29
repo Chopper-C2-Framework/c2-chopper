@@ -201,7 +201,7 @@ c2-chopper client
 ## Roadmap
 
 - [x] Create documentation website
-- []  Add more control on exploited hosts visibility per team. 
+- [ ] Add more control on exploited hosts visibility per team. 
 - [ ] Make plugins loading better and more ergonomic
 - [ ] Improve Frontend shell experience
 - [ ] Multi-language Support
