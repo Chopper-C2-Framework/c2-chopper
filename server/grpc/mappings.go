@@ -1,6 +1,8 @@
 package grpc
 
 import (
+	"time"
+
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
 	"github.com/chopper-c2-framework/c2-chopper/core/plugins"
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
@@ -81,7 +83,7 @@ func ConvertPluginResultToProto(res *entity.PluginResultModel) *proto.PluginResu
 		Path:       res.Path,
 		Output:     res.Output,
 		OutputType: res.OutputType,
-		CreatedAt:  res.CreatedAt.String(),
+		CreatedAt:  res.CreatedAt.Format(time.RFC822),
 	}
 }
 
@@ -105,11 +107,12 @@ func ConvertTaskToProto(task *entity.TaskModel) *proto.Task {
 	}
 	// TODO: Add user id
 	return &proto.Task{
-		TaskId:  task.ID.String(),
-		Name:    task.Name,
-		Args:    args,
-		Type:    ConvertTaskTypeToProto(task),
-		AgentId: task.AgentId.String(),
+		TaskId:    task.ID.String(),
+		Name:      task.Name,
+		Args:      args,
+		Type:      ConvertTaskTypeToProto(task),
+		AgentId:   task.AgentId.String(),
+		CreatedAt: task.CreatedAt.Format(time.RFC822),
 	}
 }
 
@@ -126,10 +129,11 @@ func ConvertAgentToProto(agent *entity.AgentModel) *proto.Agent {
 
 func ConvertTaskResultToProto(taskResult *entity.TaskResultModel) *proto.TaskResult {
 	return &proto.TaskResult{
-		Id:     taskResult.ID.String(),
-		Status: taskResult.Status,
-		TaskId: taskResult.TaskID.String(),
-		Output: taskResult.Output,
-		Seen:   taskResult.Seen,
+		Id:        taskResult.ID.String(),
+		Status:    taskResult.Status,
+		TaskId:    taskResult.TaskID.String(),
+		Output:    taskResult.Output,
+		Seen:      taskResult.Seen,
+		CreatedAt: taskResult.CreatedAt.Format(time.RFC822),
 	}
 }

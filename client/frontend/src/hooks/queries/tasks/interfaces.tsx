@@ -1,4 +1,4 @@
-import { Task } from "types";
+import { Task, TaskResult } from "types";
 
 export type TaskListResponse = {
   tasks: Task[];
