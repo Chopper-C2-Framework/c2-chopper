@@ -85,6 +85,52 @@ func (s *TaskService) CreateTask(ctx context.Context, in *proto.CreateTaskReques
 	return &proto.CreateTaskResponse{}, nil
 }
 
+func (s *TaskService) EditTask(ctx context.Context, in *proto.EditTaskRequest) (*proto.EditTaskResponse, error) {
+	taskProto := in.GetTask()
+	err := ValidateTaskProto(taskProto)
+	if taskProto == nil {
+		return &proto.EditTaskResponse{}, errors.New("task info are required")
+	}
+	taskId := taskProto.GetTaskId()
+	dbTask, err := s.TaskService.FindTaskOrError(taskId)
+	if err != nil {
+		return &proto.EditTaskResponse{}, errors.New("task not found")
+	}
+
+	taskType := taskProto.GetType()
+	if taskType == proto.TaskType_UNKNOWN {
+		return &proto.EditTaskResponse{}, errors.New("task type is required")
+	}
+
+	if len(taskProto.GetAgentId()) == 0 {
+		return &proto.EditTaskResponse{}, errors.New("Agent id required")
+	}
+
+	agentId, err := uuid.Parse(taskProto.GetAgentId())
+	if err != nil {
+		return &proto.EditTaskResponse{}, errors.New("Invalid agent id")
+	}
+
+	// TODO: Add user id
+	var task = entity.TaskModel{
+		Name:    taskProto.GetName(),
+		Type:    entity.TaskType(taskProto.GetType().String()),
+		AgentId: agentId,
+		// CreatorId: ,
+	}
+
+	if len(taskProto.GetArgs()) != 0 {
+		task.Args = taskProto.GetArgs()[0]
+	}
+
+	err = s.TaskService.UpdateTask(dbTask, &task)
+	if err != nil {
+		return &proto.EditTaskResponse{}, err
+	}
+
+	return &proto.EditTaskResponse{}, nil
+}
+
 func (s *TaskService) GetAllTasks(ctx context.Context, in *emptypb.Empty) (*proto.GetAllTasksResponse, error) {
 	tasks, err := s.TaskService.FindAllTasks()
 	if err != nil {

@@ -9,9 +9,22 @@ import "types.proto";
 option go_package = "./proto";
 
 service TaskService {
+  rpc SetTaskResultsSeen(SetTaskResultsSeenRequest) returns (SetTaskResultsSeenResponse) {
+    option (google.api.http) = {
+      patch: "/v1/task/result/seen",
+    };
+  }
+
   rpc CreateTask(CreateTaskRequest) returns (CreateTaskResponse) {
     option (google.api.http) = {
       post: "/v1/task/{agent_id}"
+      body: "task"
+    };
+  }
+
+  rpc EditTask(EditTaskRequest) returns (EditTaskResponse) {
+    option (google.api.http) = {
+      patch: "/v1/task/{task.task_id}"
       body: "task"
     };
   }
@@ -46,15 +59,15 @@ service TaskService {
     };
   }
 
-  rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
-    option (google.api.http) = {
-      get: "/v1/task/{task_id}"
-    };
-  }
-
   rpc GetAllTasks(google.protobuf.Empty) returns (GetAllTasksResponse) {
     option (google.api.http) = {
       get: "/v1/task/all"
+    };
+  }
+
+  rpc GetTask(GetTaskRequest) returns (GetTaskResponse) {
+    option (google.api.http) = {
+      get: "/v1/task/{task_id}"
     };
   }
 
@@ -78,13 +91,13 @@ service TaskService {
       
     };
   }
-
-  rpc SetTaskResultsSeen(SetTaskResultsSeenRequest) returns (SetTaskResultsSeenResponse) {
-    option (google.api.http) = {
-      patch: "/v1/task/result/seen",
-    };
-  }
 }
+
+message EditTaskRequest {
+  Task task = 1;
+}
+
+message EditTaskResponse { }
 
 message GetAllTasksResponse {
   repeated Task tasks = 1;
