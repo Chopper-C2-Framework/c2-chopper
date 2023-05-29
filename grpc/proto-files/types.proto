@@ -73,6 +73,7 @@ message Task {
   repeated string args = 4;
   string agent_id = 5;
   string creator_id = 6;
+  string created_at = 7;
 }
 
 message TaskResult {
@@ -82,6 +83,7 @@ message TaskResult {
   string task_id = 3;
   string output = 4;
   bool seen = 5;
+  string created_at = 6;
 }
 
 message Host {

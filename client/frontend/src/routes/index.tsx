@@ -10,6 +10,7 @@ import Plugins from "./plugins.tsx";
 import Findings from "./findings.tsx";
 import Report from "./report.tsx";
 import Tasks from "./tasks";
+import TaskResults from "./task-results.tsx";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "tasks",
         element: <Tasks />,
+      },
+      {
+        path: "tasks/:taskId/results",
+        element: <TaskResults />,
       },
       {
         path: "report",

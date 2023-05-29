@@ -12,6 +12,7 @@ service TaskService {
   rpc SetTaskResultsSeen(SetTaskResultsSeenRequest) returns (SetTaskResultsSeenResponse) {
     option (google.api.http) = {
       patch: "/v1/task/result/seen",
+      body: "*"
     };
   }
 

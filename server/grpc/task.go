@@ -220,7 +220,7 @@ func (s *TaskService) GetActiveTasks(ctx context.Context, in *emptypb.Empty) (*p
 }
 
 func (s *TaskService) GetNewlyExecutedTasks(ctx context.Context, in *emptypb.Empty) (*proto.GetNewlyExecutedTasksResponse, error) {
-	tasks, err := s.TaskService.FindUnexecutedTasks()
+	tasks, err := s.TaskService.FindNewlyExecutedTasks()
 	if err != nil {
 		return &proto.GetNewlyExecutedTasksResponse{}, err
 	}
@@ -293,6 +293,11 @@ func (s *TaskService) CreateTaskResult(ctx context.Context, in *proto.CreateTask
 func (s *TaskService) GetTaskResults(ctx context.Context, in *proto.GetTaskResultsRequest) (*proto.GetTaskResultsResponse, error) {
 	if len(in.GetTaskId()) == 0 {
 		return &proto.GetTaskResultsResponse{}, errors.New("Task id required")
+	}
+
+	_, err := uuid.Parse(in.GetTaskId())
+	if err != nil {
+		return &proto.GetTaskResultsResponse{}, errors.New("invalid task id")
 	}
 
 	taskResults, err := s.TaskService.FindTaskResults(in.GetTaskId())
