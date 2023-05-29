@@ -4,49 +4,46 @@ import { getServerUrl } from "@lib/get-server-url";
 import axios from "axios";
 import { useMutation } from "react-query";
 import { Team } from "types";
-import * as z from "zod";
 
-interface UpdateTeamRequest {
-  data: Partial<Team>;
+interface DeleteTeamRequest {
 }
 
-interface UpdateTeamResponse {
+interface DeleteTeamResponse {
   success: boolean;
   data: Team;
 }
-export const updateTeamSchema = z.object({
-  name: z.string(),
-});
 
-export const useUpdateTeamMutation = (team_id: string) => {
+export const useDeleteTeamMutation = (team_id: string) => {
   const { toast } = useToast();
 
-  return useMutation<UpdateTeamResponse, any, UpdateTeamRequest, any>(
-    ["teams", team_id],
-    async (data: UpdateTeamRequest) => {
+  return useMutation<DeleteTeamResponse, any, DeleteTeamRequest, any>(
+    ["teams"],
+    async (_: DeleteTeamRequest) => {
       return axios
-        .patch(getServerUrl() + "/management/team/" + team_id, data, {
-          headers: {
-            Authorization: retrieveToken(),
+        .delete(getServerUrl() + "/management/team/" + team_id,
+          {
+             headers: {
+              "Authorization": retrieveToken(),
+            },
           },
-        })
+        )
         .then((r) => r.data);
     },
     {
       onSuccess: (_) => {
         toast({
-          title: "Team was created successfully",
+          title: "Team was deleted successfully",
         });
       },
       onError: (error) => {
         toast({
-          title: "Error creating the team",
+          title: "Error deleting the team",
           description: error.message,
         });
       },
       onMutate: () => {
         toast({
-          title: "Team is being created",
+          title: "Team is being deleted",
           description: "Please wait",
         });
       },

@@ -182,3 +182,9 @@ export interface TaskResult {
   output: string;
   seen: boolean;
 }
+
+
+export interface Cred {
+  username: string;
+  password: string;
+}

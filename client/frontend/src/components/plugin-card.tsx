@@ -142,8 +142,8 @@ const RunPluginDialog: React.FC<{ plugin: string }> = ({ plugin }) => {
 
   const onSubmit = (data: any) => {
     mutate({
-      items: data,
-      file_name: plugin,
+      Args: data,
+      FileName: plugin,
     });
   };
   return (
@@ -155,7 +155,7 @@ const RunPluginDialog: React.FC<{ plugin: string }> = ({ plugin }) => {
       <div>
         <DynamicForm
           options={data ? data.info.Options : { x: "number" }}
-          onSubmit={mutate}
+          onSubmit={onSubmit}
         />
       </div>
     </DialogContent>
@@ -277,7 +277,21 @@ interface DynamicFormProps {
 
 const DynamicForm: React.FC<DynamicFormProps> = ({ options, onSubmit }) => {
   function handleSubmit(data: any) {
-    onSubmit(data);
+    let Args = {};
+
+    Object.keys(data).forEach((key, index) => {
+      let keyValue = `arg${index}`;
+
+      Args = {
+        ...Args,
+        [keyValue]: {
+          type: "string_value",
+          string_value: data[key],
+        },
+      };
+    });
+
+    onSubmit(Args);
   }
 
   return (

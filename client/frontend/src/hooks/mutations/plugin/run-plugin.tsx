@@ -7,9 +7,21 @@ import { Plugin } from "types";
 import * as z from "zod";
 
 interface RunPluginRequest {
-  file_name: string;
-  items: { [key: string]: "number" | "string" };
+  FileName: string;
+  Args: {
+    [key: string]:
+      | {
+          type: "string_value";
+          string_value: string;
+        }
+      | {
+          type: "number_value";
+          string_value: number;
+        };
+  };
 }
+
+//  "Args": { "arg0": { "type": "string_value", "string_value": "192.168.1.1" }, "arg1": { "type": "string_value", "string_value": "1-100" }, "arg2": { "type": "map_value", "map_value": { "items": [ { "key": "key1", "value": { "type": "string_value", "string_value": "Hello world" } } ] } } }
 
 interface RunPluginsResponse {
   success: boolean;
@@ -18,7 +30,6 @@ interface RunPluginsResponse {
 export const loadPluginSchema = z.object({});
 
 export const useRunPluginMutation = () => {
-  const navigate = useNavigate();
   const { toast } = useToast();
 
   return useMutation<RunPluginsResponse, any, RunPluginRequest, any>(

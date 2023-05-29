@@ -37,9 +37,11 @@ func (s *PluginService) ListPlugins(ctx context.Context, in *emptypb.Empty) (*pr
 func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginRequest) (*proto.RunPluginResponse, error) {
 	fmt.Println("[gRPC] [PluginService] RunPlugin")
 	loadedPlugin, err := s.PluginManager.GetPlugin(in.GetFileName())
+
 	if err != nil {
 		return &proto.RunPluginResponse{Success: false}, err
 	}
+
 	if loadedPlugin.Channel != nil {
 		return &proto.RunPluginResponse{}, errors.New("plugin is already executing.")
 	}
