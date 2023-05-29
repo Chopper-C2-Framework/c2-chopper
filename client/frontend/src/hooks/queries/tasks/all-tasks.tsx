@@ -2,15 +2,21 @@ import { checkIfAuth, retrieveToken } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
 import axios from "axios";
 import { useQuery } from "react-query";
+import { Task } from "types";
 
-export const useAgentTasks = (agent_id: string) => {
+interface AllTasksResponse {
+    tasks: (Task&{taskId:string})[],
+    count:number
+}
+
+export const useAllTasks = () => {
   const isAuthenticated = checkIfAuth();
   return useQuery(
-    ["tasks", "agent", agent_id],
+    ["tasks"],
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/task/agent/" + agent_id, {
+        .get<AllTasksResponse>(getServerUrl() + "/task/all", {
           headers: {
             Authorization: retrieveToken(),
           },

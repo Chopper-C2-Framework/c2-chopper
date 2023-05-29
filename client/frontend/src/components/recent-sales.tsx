@@ -1,67 +1,36 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { useAllTasks } from "@hooks/queries/tasks/all-tasks";
 
-export function RecentSales() {
+export function TasksTable() {
+  const { data: allTasksData, isLoading: allTasksLoading } = useAllTasks();
   return (
-    <div className="space-y-8">
-      <div className="flex items-center">
-        <Avatar className="h-9 w-9">
-          <AvatarImage src="/avatars/01.png" alt="Avatar" />
-          <AvatarFallback>OM</AvatarFallback>
-        </Avatar>
-        <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">Olivia Martin</p>
-          <p className="text-sm text-muted-foreground">
-            olivia.martin@email.com
-          </p>
-        </div>
-        <div className="ml-auto font-medium">+$1,999.00</div>
+    <div className="space-y-4 px-[50px]">
+      <div className="flex items-center w-full space-x-[200px] h-10 bg-gray-800/40 rounded-md px-12 justify-between">
+        <p className="font-bold text-lg text-primary">Task ID</p>
+        <p className="font-bold text-lg text-primary">Task's name</p>
+        <p className="font-bold text-lg text-primary">Task' type</p>
+        <p className="font-bold text-lg text-primary">Task's arguments</p>
       </div>
-      <div className="flex items-center">
-        <Avatar className="flex h-9 w-9 items-center justify-center space-y-0 border">
-          <AvatarImage src="/avatars/02.png" alt="Avatar" />
-          <AvatarFallback>JL</AvatarFallback>
-        </Avatar>
-        <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">Jackson Lee</p>
-          <p className="text-sm text-muted-foreground">jackson.lee@email.com</p>
-        </div>
-        <div className="ml-auto font-medium">+$39.00</div>
-      </div>
-      <div className="flex items-center">
-        <Avatar className="h-9 w-9">
-          <AvatarImage src="/avatars/03.png" alt="Avatar" />
-          <AvatarFallback>IN</AvatarFallback>
-        </Avatar>
-        <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">Isabella Nguyen</p>
-          <p className="text-sm text-muted-foreground">
-            isabella.nguyen@email.com
-          </p>
-        </div>
-        <div className="ml-auto font-medium">+$299.00</div>
-      </div>
-      <div className="flex items-center">
-        <Avatar className="h-9 w-9">
-          <AvatarImage src="/avatars/04.png" alt="Avatar" />
-          <AvatarFallback>WK</AvatarFallback>
-        </Avatar>
-        <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">William Kim</p>
-          <p className="text-sm text-muted-foreground">will@email.com</p>
-        </div>
-        <div className="ml-auto font-medium">+$99.00</div>
-      </div>
-      <div className="flex items-center">
-        <Avatar className="h-9 w-9">
-          <AvatarImage src="/avatars/05.png" alt="Avatar" />
-          <AvatarFallback>SD</AvatarFallback>
-        </Avatar>
-        <div className="ml-4 space-y-1">
-          <p className="text-sm font-medium leading-none">Sofia Davis</p>
-          <p className="text-sm text-muted-foreground">sofia.davis@email.com</p>
-        </div>
-        <div className="ml-auto font-medium">+$39.00</div>
-      </div>
+      {!allTasksLoading && allTasksData !== undefined && allTasksData.tasks ? (
+        allTasksData?.tasks.map((task) => {
+          return (
+            <div
+              key={task.taskId}
+              className="flex items-center justify-between w-full h-10 bg-gray-800/40 rounded-md space-x-[400px] px-12 space-x-[200px] hover:opacity-80 cursor-pointer "
+            >
+              <p>{task.taskId.slice(0, 8) + "..."}</p>
+              <p>{task.name}</p>
+              <p>{task.type}</p>
+              <p>
+                {task.args.map((arg) => (
+                  <span>{arg}</span>
+                ))}
+              </p>
+            </div>
+          );
+        })
+      ) : (
+        <p>No data now</p>
+      )}
     </div>
   );
 }

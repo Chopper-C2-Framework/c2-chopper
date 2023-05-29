@@ -69,6 +69,7 @@ service TaskService {
   rpc GetLatestTaskResults(GetLatestTaskResultsRequest) returns (GetLatestTaskResultsResponse) {
     option (google.api.http) = {
       get: "/v1/task/result/latest",
+      
     };
   }
 

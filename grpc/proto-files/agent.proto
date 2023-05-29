@@ -15,14 +15,14 @@ service AgentService {
   
   rpc GetAgentInfo(GetAgentInfoRequest) returns (GetAgentInfoResponse) {
     option(google.api.http) = {
-      get: "/v1/agent/{agent_id}"
+      get: "/v1/agent/info/{agent_id}"
     };
   }
 
   // Used by agent
   rpc Connect(AgentConnectionRequest) returns (AgentConnectionResponse) {
     option(google.api.http) = {
-      patch: "/v1/agent/{data.id}",
+      patch: "/v1/agent/connect/{data.id}",
       body: "*"
     };
   }

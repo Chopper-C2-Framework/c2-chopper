@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"path"
 	"path/filepath"
 	"plugin"
 	"strings"
@@ -70,7 +71,12 @@ func (manager PluginManager) ListAllPlugins() ([]string, error) {
 		plugins []string
 	)
 
-	files, err := os.ReadDir(manager.config.PluginsDir)
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		return nil, err
+	}
+
+	files, err := os.ReadDir(path.Join(homedir, manager.config.PluginsDir))
 	if err != nil {
 		// log.Panicln("Error: Cannot load plugins, No directory found.", err)
 		return nil, err
