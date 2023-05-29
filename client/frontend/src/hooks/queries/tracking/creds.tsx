@@ -4,19 +4,17 @@ import { Cred } from "@src/types";
 import axios, { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
 
-interface AllCredsRequest {
- }
+interface AllCredsRequest {}
 
 interface AllCredsResponse {
-    creds: Cred[];
-    success: boolean;
-
+  creds: Cred[];
+  success: boolean;
 }
 
 export const useAllCreds = () => {
   const isAuthenticated = checkIfAuth();
   return useQuery<AllCredsResponse>(
-    ["findings","creds"],
+    ["findings", "creds"],
     async () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
@@ -34,4 +32,3 @@ export const useAllCreds = () => {
     }
   );
 };
-

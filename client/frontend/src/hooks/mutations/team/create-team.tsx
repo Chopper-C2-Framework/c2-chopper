@@ -6,8 +6,7 @@ import { useMutation, useQueryClient } from "react-query";
 import { Team } from "types";
 import * as z from "zod";
 
-interface CreateTeamRequest extends Partial<Team>{
-}
+interface CreateTeamRequest extends Partial<Team> {}
 
 interface CreateTeamResponse {
   success: boolean;
@@ -19,7 +18,7 @@ export const createTeamSchema = z.object({
 
 export const useCreateTeam = () => {
   const { toast } = useToast();
-  const queryClient=useQueryClient()
+  const queryClient = useQueryClient();
 
   return useMutation<CreateTeamResponse, any, CreateTeamRequest, any>(
     ["teams"],
@@ -27,15 +26,15 @@ export const useCreateTeam = () => {
       return axios
         .post(getServerUrl() + "/management/team", data, {
           headers: {
-            "Authorization":retrieveToken(),
-          }
+            Authorization: retrieveToken(),
+          },
         })
         .then((r) => r.data);
     },
     {
       onSuccess: (_) => {
-        queryClient.invalidateQueries("teams")
-        
+        queryClient.invalidateQueries("teams");
+
         toast({
           title: "Team was created successfully",
         });

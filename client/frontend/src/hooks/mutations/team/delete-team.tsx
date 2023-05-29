@@ -5,8 +5,7 @@ import axios from "axios";
 import { useMutation } from "react-query";
 import { Team } from "types";
 
-interface DeleteTeamRequest {
-}
+interface DeleteTeamRequest {}
 
 interface DeleteTeamResponse {
   success: boolean;
@@ -20,13 +19,11 @@ export const useDeleteTeamMutation = (team_id: string) => {
     ["teams"],
     async (_: DeleteTeamRequest) => {
       return axios
-        .delete(getServerUrl() + "/management/team/" + team_id,
-          {
-             headers: {
-              "Authorization": retrieveToken(),
-            },
+        .delete(getServerUrl() + "/management/team/" + team_id, {
+          headers: {
+            Authorization: retrieveToken(),
           },
-        )
+        })
         .then((r) => r.data);
     },
     {

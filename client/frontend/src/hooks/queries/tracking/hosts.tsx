@@ -4,18 +4,17 @@ import { Cred, Host } from "@src/types";
 import axios, { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
 
-interface AllHostsRequest {
- }
+interface AllHostsRequest {}
 
 interface AllHostsResponse {
-    hosts: Host[];
-    success: boolean;
+  hosts: Host[];
+  success: boolean;
 }
 
 export const useAllHosts = () => {
   const isAuthenticated = checkIfAuth();
   return useQuery<AllHostsResponse>(
-    ["findings","hosts"],
+    ["findings", "hosts"],
     async () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
@@ -33,5 +32,3 @@ export const useAllHosts = () => {
     }
   );
 };
-
-

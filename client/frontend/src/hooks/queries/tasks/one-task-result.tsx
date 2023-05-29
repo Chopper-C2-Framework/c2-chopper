@@ -21,7 +21,7 @@ export const useTaskResults = (task_id: string) => {
     {
       retry: false,
       refetchOnWindowFocus: false,
-      cacheTime: 0
+      cacheTime: 0,
     }
   );
 };

@@ -25,12 +25,15 @@ export const useAddMemberToTeam = (team_id: string) => {
     ["teams", team_id],
     async (data: JoinToTeamRequest) => {
       return axios
-        .post(getServerUrl() + "/management/team/join/" + team_id, data.user_id,
-        {
-          headers: {
-            "Authorization":retrieveToken(),
+        .post(
+          getServerUrl() + "/management/team/join/" + team_id,
+          data.user_id,
+          {
+            headers: {
+              Authorization: retrieveToken(),
+            },
           }
-        })
+        )
         .then((r) => r.data);
     },
     {

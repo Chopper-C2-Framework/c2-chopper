@@ -185,7 +185,6 @@ export interface TaskResult {
   seen: boolean;
 }
 
-
 export interface Cred {
   username: string;
   password: string;

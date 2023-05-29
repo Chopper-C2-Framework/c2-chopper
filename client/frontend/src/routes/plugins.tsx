@@ -17,7 +17,7 @@ export const Plugins: React.FC<PluginsProps> = ({}) => {
 
   const searchFilter = usePluginsSearchStore((state) => state.search);
 
-  console.log(searchFilter)
+  console.log(searchFilter);
 
   const { mutate: loadPlugin, data, error } = useLoadPluginMutation();
 
@@ -74,9 +74,11 @@ export const Plugins: React.FC<PluginsProps> = ({}) => {
       <h2 className="text-2xl font-bold">Plugins Loaded</h2>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-12 w-full  mt-10">
         {loadedPluginsData && loadedPluginsData.length > 0 ? (
-          loadedPluginsData?.filter(plugin=>plugin.toLowerCase().includes(searchFilter.toLowerCase())).map((plugin) => (
-            <LoadedPluginCard plugin={plugin} />
-          ))
+          loadedPluginsData
+            ?.filter((plugin) =>
+              plugin.toLowerCase().includes(searchFilter.toLowerCase())
+            )
+            .map((plugin) => <LoadedPluginCard plugin={plugin} />)
         ) : (
           <div className="w-full h-10 items-center justify-centter col-span-12">
             <p className="text-center text-secondary font-bold">

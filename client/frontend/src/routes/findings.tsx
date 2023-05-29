@@ -12,11 +12,10 @@ export const Findings: React.FC<FindingsProps> = ({}) => {
     <div className="container py-10">
       <Heading>Findings & Results</Heading>
       <div className="h-10" />
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-12 w-full  mt-10"> 
-      {JSON.stringify(allHostsData)}
-      {JSON.stringify(allCredsData)}
-        
-        </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-12 w-full  mt-10">
+        {JSON.stringify(allHostsData)}
+        {JSON.stringify(allCredsData)}
+      </div>
     </div>
   );
 };
