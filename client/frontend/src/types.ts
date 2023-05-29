@@ -142,18 +142,18 @@ export enum TaskType {
 }
 
 export interface Task {
-  task_id: string;
+  taskId: string;
   name: string;
   type: TaskType;
   args: string[];
-  agent_id: string;
-  creator_id: string;
+  agentId: string;
+  creatorId: string;
 }
 
 export interface TaskResult {
   id: string;
   status: number;
-  task_id: string;
+  taskId: string;
   output: string;
   seen: boolean;
 }
