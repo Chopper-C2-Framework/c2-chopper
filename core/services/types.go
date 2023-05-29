@@ -57,6 +57,7 @@ type IHostService interface{}
 type ITaskService interface {
 	CreateTask(task *entity.TaskModel) error
 	DeleteTask(task *entity.TaskModel) error
+	UpdateTask(target *entity.TaskModel, updates *entity.TaskModel) error
 
 	FindAllTasks() ([]*entity.TaskModel, error)
 	FindUnexecutedTasks() ([]*entity.TaskModel, error)

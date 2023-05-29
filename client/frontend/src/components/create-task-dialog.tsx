@@ -19,22 +19,27 @@ import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import { useState } from "react";
-import { TaskType } from "@src/types.ts";
+import { Task, TaskType } from "@src/types.ts";
 import { useCreateTask } from "@hooks/mutations/task/create-task";
+import { useEditTask } from "@hooks/mutations/task/edit-task";
 
-interface ICreateTaskDialog{}
+interface ICreateTaskDialog{
+  taskEdit?: Task;
+  onAction: () => void;
+}
 
-export default function CreateTaskDialog({}: ICreateTaskDialog) {
-  const [arg, setArg] = useState("")
-  const [type, setType] = useState<TaskType>(TaskType.UNKNOWN)
-  const [name, setName] = useState("")
-  const [agentId, setAgentId] = useState("")
+export default function CreateTaskDialog({taskEdit, onAction}: ICreateTaskDialog) {
+  const [arg, setArg] = useState(taskEdit?.args[0] ?? "")
+  const [type, setType] = useState<TaskType>(taskEdit?.type ?? TaskType.UNKNOWN)
+  const [name, setName] = useState(taskEdit?.name ?? "")
+  const [agentId, setAgentId] = useState(taskEdit?.agentId ?? "")
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const createTaskHook = useCreateTask()
+  const editTaskHook = useEditTask()
 
-  const createNewTask = () => {
-    createTaskHook.mutateAsync({
+  const createNewTask = async () => {
+    await createTaskHook.mutateAsync({
       task: {
         agentId,
         name,
@@ -47,18 +52,39 @@ export default function CreateTaskDialog({}: ICreateTaskDialog) {
     setName("")
     setAgentId("")
     setDialogOpen(false)
+    onAction()
+  }
+
+  const editTask = async () => {
+    await editTaskHook.mutateAsync({
+      task: {
+        taskId: taskEdit!.taskId,
+        agentId,
+        name,
+        type,
+        args: [arg],
+      }
+    })
+    setArg("")
+    setType(TaskType.UNKNOWN)
+    setName("")
+    setAgentId("")
+    setDialogOpen(false)
+    onAction()
   }
 
   return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogTrigger asChild>
         <Button size="sm">
-          New task
+          {
+            taskEdit == null ? "New task" : "Edit task"
+          }
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create a new task</DialogTitle>
+          <DialogTitle>{taskEdit == null ? "Create a new" : "Edit a"} task</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -98,7 +124,12 @@ export default function CreateTaskDialog({}: ICreateTaskDialog) {
           </div>
         </div>
         <DialogFooter>
-          <Button type="submit" onClick={createNewTask}>Create</Button>
+          {
+            taskEdit == null && <Button type="submit" onClick={createNewTask}>Create</Button>
+          }
+          {
+            taskEdit != null && <Button type="submit" onClick={editTask}>Edit</Button>
+          }
         </DialogFooter>
       </DialogContent>
     </Dialog>

@@ -16,6 +16,7 @@ import {
 } from "@components/ui/popover"
 import { Skeleton } from "./ui/skeleton";
 import { useDeleteTask } from "@hooks/mutations/task/delete-task";
+import CreateTaskDialog from "./create-task-dialog";
 
 interface TasksDisplayProps {
   tasks: Task[];
@@ -76,8 +77,9 @@ export function TasksDisplay({tasks, isLoading, onRefresh}: TasksDisplayProps) {
                         <span className="sr-only">Open popover</span>
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-80">
+                    <PopoverContent className="w-80 flex flex-col gap-3">
                       <Button onClick={() => onDeleteTaskClick(task)}>Delete</Button>
+                      <CreateTaskDialog onAction={()=> onRefresh && onRefresh()} taskEdit={task} />
                     </PopoverContent>
                   </Popover>
                 </CardTitle>

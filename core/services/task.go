@@ -41,6 +41,10 @@ func (s *TaskService) DeleteTask(task *entity.TaskModel) error {
 	return nil
 }
 
+func (s *TaskService) UpdateTask(target *entity.TaskModel, updates *entity.TaskModel) error {
+	return s.repo.Update(target, updates)
+}
+
 func (s *TaskService) FindTaskOrError(taskId string) (*entity.TaskModel, error) {
 	var task entity.TaskModel
 	err := s.repo.GetOneByID(&task, taskId)
