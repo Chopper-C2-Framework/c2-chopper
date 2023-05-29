@@ -15,7 +15,14 @@ service AgentService {
   
   rpc GetAgentInfo(GetAgentInfoRequest) returns (GetAgentInfoResponse) {
     option(google.api.http) = {
-      get: "/v1/agent/info/{agent_id}"
+      get: "/v1/agent/{agent_id}"
+    };
+  }
+
+  rpc SetAgentNickname(SetAgentNicknameRequest) returns (SetAgentNicknameResponse) {
+    option(google.api.http) = {
+      patch: "/v1/agent/{agent_id}",
+      body: "nickname"
     };
   }
 
@@ -27,6 +34,13 @@ service AgentService {
     };
   }
 }
+
+message SetAgentNicknameRequest {
+  string agent_id = 1;
+  string nickname = 2;
+}
+
+message SetAgentNicknameResponse {}
 
 message AgentConnectionRequest {
   Agent data = 1;
