@@ -1,27 +1,25 @@
 import { checkIfAuth, retrieveToken } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { useQuery } from "react-query";
-import { TaskListResponse } from "./types";
 
-export const useAllActiveTasks = () => {
+export const useAllTasks = () => {
   const isAuthenticated = checkIfAuth();
-  return useQuery<TaskListResponse>(
-    ["tasks", "active"],
+  return useQuery(
+    ["tasks", "all"],
     async () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/task/unexecuted/all", {
+        .get(getServerUrl() + "/task/all", {
           headers: {
             Authorization: retrieveToken(),
           },
         })
-        .then((res: AxiosResponse<TaskListResponse>) => res.data);
+        .then((res) => res.data);
     },
     {
       retry: false,
       refetchOnWindowFocus: false,
-      cacheTime: 0
     }
   );
 };

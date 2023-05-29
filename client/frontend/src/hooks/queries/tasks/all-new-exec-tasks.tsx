@@ -4,14 +4,14 @@ import axios, { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
 import { TaskListResponse } from "./types";
 
-export const useAllActiveTasks = () => {
+export const useAllNewlyExecutedTasks = () => {
   const isAuthenticated = checkIfAuth();
   return useQuery<TaskListResponse>(
-    ["tasks", "active"],
+    ["tasks", "newlyexecuted"],
     async () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/task/unexecuted/all", {
+        .get(getServerUrl() + "/task/newexecuted/all", {
           headers: {
             Authorization: retrieveToken(),
           },
