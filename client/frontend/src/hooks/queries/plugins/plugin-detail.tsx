@@ -2,20 +2,25 @@ import { checkIfAuth, retrieveToken } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
 import axios from "axios";
 import { useQuery } from "react-query";
+import { Plugin } from "types";
+
+interface PluginDetailsResponse {
+  data:Plugin
+}
 
 export const usePluginsDetails = (plugin_id: string) => {
   const isAuthenticated = checkIfAuth();
-  return useQuery(
+  return useQuery<Plugin>(
     ["plugins", plugin_id],
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/v1/plugins/" + plugin_id, {
+        .get<{data:Plugin}>(getServerUrl() + "/plugins/details/" + plugin_id, {
           headers: {
             Authorization: retrieveToken(),
           },
         })
-        .then((res) => res.data);
+        .then((res) => res.data.data);
     },
     {
       retry: false,

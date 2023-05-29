@@ -20,7 +20,7 @@ export const useSetTasksSeen = () => {
     ["tasks"],
     async (data: SetTasksResultsSeenRequest) => {
       return axios
-        .patch(getServerUrl() + "/v1/task/result/seen", data)
+        .patch(getServerUrl() + "/task/result/seen", data)
         .then((r) => r.data);
     },
     {

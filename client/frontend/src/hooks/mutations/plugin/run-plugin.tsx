@@ -24,7 +24,7 @@ export const useRunPluginMutation = () => {
     ["plugins"],
     async (data: LoadPluginRequest) => {
       return axios
-        .post(getServerUrl() + "/v1/plugins/run", data)
+        .post(getServerUrl() + "/plugins/run", data)
         .then((r) => r.data);
     },
     {

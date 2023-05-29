@@ -10,7 +10,7 @@ export const useAllNewResults = () => {
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get(getServerUrl() + "/v1/task/result/", {
+        .get(getServerUrl() + "/task/result/", {
           headers: {
             Authorization: retrieveToken(),
           },

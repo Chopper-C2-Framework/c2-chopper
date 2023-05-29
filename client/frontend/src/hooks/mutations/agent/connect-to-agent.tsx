@@ -10,7 +10,7 @@ export const useConnectToAgent = (agent_id: string) => {
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .patch(getServerUrl() + "/v1/agent/" + agent_id, {
+        .patch(getServerUrl() + "/agent/" + agent_id, {
           headers: {
             Authorization: retrieveToken(),
           },

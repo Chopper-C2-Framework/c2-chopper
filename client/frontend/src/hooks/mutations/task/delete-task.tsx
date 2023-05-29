@@ -16,7 +16,7 @@ export const useDeleteTask = (task_id: string) => {
     ["tasks"],
     async (data: DeleteTaskRequest) => {
       return axios
-        .delete(getServerUrl() + "/v1/task" + task_id)
+        .delete(getServerUrl() + "/task" + task_id)
         .then((r) => r.data);
     },
     {
