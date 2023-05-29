@@ -21,7 +21,7 @@ export const useAllActiveTasks = () => {
     {
       retry: false,
       refetchOnWindowFocus: false,
-      cacheTime: 0
+      cacheTime: 0,
     }
   );
 };

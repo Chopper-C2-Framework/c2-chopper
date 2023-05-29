@@ -4,10 +4,9 @@ import axios from "axios";
 import { useQuery } from "react-query";
 import { Agent } from "types";
 
-
 interface AllAgentsResponse {
-  data: Agent[],
-  count:number
+  data: Agent[];
+  count: number;
 }
 
 export const useAllAgentsQuery = () => {

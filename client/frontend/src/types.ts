@@ -126,7 +126,7 @@ export interface PluginMetadata {
 
 export interface PluginInfo {
   Name: string;
-  Options: { [key: string]: string };
+  Options: { [key: string]: "number" | "string" };
   ReturnType: string;
 }
 

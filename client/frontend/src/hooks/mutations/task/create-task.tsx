@@ -5,7 +5,7 @@ import { useMutation } from "react-query";
 import { Task } from "types";
 
 interface CreateTaskRequest {
-  task:Omit<Omit<Task, 'creatorId'>, 'taskId'>;
+  task: Omit<Omit<Task, "creatorId">, "taskId">;
 }
 
 interface CreateTaskResponse {}

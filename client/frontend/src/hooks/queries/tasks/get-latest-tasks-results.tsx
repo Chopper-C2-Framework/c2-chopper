@@ -11,8 +11,8 @@ interface LatestTasksResultsRequest {
 }
 
 interface LatestTasksResultsResponse {
-    count: number;
-    results:TaskResult
+  count: number;
+  results: TaskResult;
 }
 
 export const useLatestTasksResults = (
@@ -20,7 +20,7 @@ export const useLatestTasksResults = (
 ) => {
   const isAuthenticated = checkIfAuth();
   return useQuery(
-    ["tasks","results"],
+    ["tasks", "results"],
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios

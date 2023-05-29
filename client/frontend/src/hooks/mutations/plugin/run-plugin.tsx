@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import { Plugin } from "types";
 import * as z from "zod";
 
-interface LoadPluginRequest {
+interface RunPluginRequest {
   file_name: string;
+  items: { [key: string]: "number" | "string" };
 }
 
-interface LoadPluginResponse {
+interface RunPluginsResponse {
   success: boolean;
   data: Plugin;
 }
@@ -20,16 +21,32 @@ export const useRunPluginMutation = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  return useMutation<LoadPluginResponse, any, LoadPluginRequest, any>(
+  return useMutation<RunPluginsResponse, any, RunPluginRequest, any>(
     ["plugins"],
-    async (data: LoadPluginRequest) => {
+    async (data: RunPluginRequest) => {
       return axios
         .post(getServerUrl() + "/plugins/run", data)
         .then((r) => r.data);
     },
     {
-      onSuccess: (data) => {},
-      onError: (error) => {},
+      onSuccess: (data) => {
+        toast({
+          title: "Plugin has ran",
+          description: "You can view the results",
+        });
+      },
+      onError: (error) => {
+        toast({
+          title: "Error",
+          description: error.message,
+        });
+      },
+      onMutate: () => {
+        toast({
+          title: "Plugin is running",
+          description: "Please wait",
+        });
+      },
     }
   );
 };
