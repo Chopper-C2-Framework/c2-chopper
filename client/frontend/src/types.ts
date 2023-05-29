@@ -126,7 +126,7 @@ export interface PluginMetadata {
 
 export interface PluginInfo {
   Name: string;
-  Options: { [key: string]: string };
+  Options: { [key: string]: "number" | "string" };
   ReturnType: string;
 }
 
@@ -183,4 +183,9 @@ export interface TaskResult {
   task_id: string;
   output: string;
   seen: boolean;
+}
+
+export interface Cred {
+  username: string;
+  password: string;
 }

@@ -1,4 +1,4 @@
-import { Task, TaskResult } from "@src/types"
+import { Task, TaskResult } from "@src/types";
 import {
   Card,
   CardContent,
@@ -6,7 +6,7 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@components/ui/card"
+} from "@components/ui/card";
 import {
   Table,
   TableBody,
@@ -15,16 +15,22 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@components/ui/table"
+} from "@components/ui/table";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 import { useSetTasksSeen } from "@hooks/mutations/task/set-task-result-seen";
 import { useAgentInfo } from "@hooks/queries/agents/one-agent";
 import { Skeleton } from "./ui/skeleton";
 
-interface ITaskResultsDisplay{
+interface ITaskResultsDisplay {
   results: TaskResult[];
   task: Task;
 }
@@ -34,12 +40,14 @@ export default function TaskResultsDisplay({task, results}: ITaskResultsDisplay)
   const agent = useAgentInfo(task.agentId)
   return (
     <div className="container gap-5 px-8 py-5 flex flex-col align-center">
-      <Card >
+      <Card>
         <CardHeader>
           <CardTitle className="flex items-center">
             <div>
               {task.name}
-              <CardDescription className="pl-2 font-normal">Type: {task.type.toLowerCase()}</CardDescription>
+              <CardDescription className="pl-2 font-normal">
+                Type: {task.type.toLowerCase()}
+              </CardDescription>
             </div>
           </CardTitle>
         </CardHeader>
@@ -60,7 +68,12 @@ export default function TaskResultsDisplay({task, results}: ITaskResultsDisplay)
               <Label htmlFor="args" className="text-right">
                 Argument
               </Label>
-              <Input id="args" value={task.args[0]} readOnly className="col-span-3"/>
+              <Input
+                id="args"
+                value={task.args[0]}
+                readOnly
+                className="col-span-3"
+              />
             </div>
           </div>
           <div className="w-1/2 flex flex-col gap-2">
@@ -68,26 +81,32 @@ export default function TaskResultsDisplay({task, results}: ITaskResultsDisplay)
               <Label htmlFor="creatorId" className="text-right">
                 Created By
               </Label>
-              <Input id="creatorId" value={task.creatorId} readOnly className="col-span-3"/>
+              <Input
+                id="creatorId"
+                value={task.creatorId}
+                readOnly
+                className="col-span-3"
+              />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="createdAt" className="text-right">
                 Created At
               </Label>
-              <Input id="createdAt" value={task.createdAt} readOnly className="col-span-3"/>
+              <Input
+                id="createdAt"
+                value={task.createdAt}
+                readOnly
+                className="col-span-3"
+              />
             </div>
           </div>
         </CardContent>
-        <CardFooter className="">
-          Hello
-        </CardFooter>
+        <CardFooter className="">Hello</CardFooter>
       </Card>
 
       <Table>
         <TableCaption>
-          {
-            results.length == 0 && "No executions for this task."
-          }
+          {results.length == 0 && "No executions for this task."}
         </TableCaption>
         <TableHeader>
           <TableRow>
@@ -102,16 +121,20 @@ export default function TaskResultsDisplay({task, results}: ITaskResultsDisplay)
             <TableRow key={idx}>
               <TableCell className="font-medium">{result.createdAt}</TableCell>
               <TableCell>{result.status}</TableCell>
-              <Dialog onOpenChange={async (open) => {
-                if(open && !result.seen) {
-                  await setTaskSeen.mutateAsync({
-                    result_ids: [result.id]
-                  })
-                  result.seen = true;
-                }
-              }}>
+              <Dialog
+                onOpenChange={async (open) => {
+                  if (open && !result.seen) {
+                    await setTaskSeen.mutateAsync({
+                      result_ids: [result.id],
+                    });
+                    result.seen = true;
+                  }
+                }}
+              >
                 <DialogTrigger asChild>
-                  <TableCell className="line-clamp-1 cursor-pointer">{result.output}</TableCell>
+                  <TableCell className="line-clamp-1 cursor-pointer">
+                    {result.output}
+                  </TableCell>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-[425px]">
                   <DialogHeader>
@@ -130,5 +153,5 @@ export default function TaskResultsDisplay({task, results}: ITaskResultsDisplay)
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

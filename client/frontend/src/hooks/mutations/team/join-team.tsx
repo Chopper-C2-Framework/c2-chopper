@@ -6,47 +6,51 @@ import { useMutation } from "react-query";
 import { Team } from "types";
 import * as z from "zod";
 
-interface UpdateTeamRequest {
-  data: Partial<Team>;
+interface JoinToTeamRequest {
+  user_id: string;
 }
 
-interface UpdateTeamResponse {
+interface JoinToTeamResponse {
   success: boolean;
   data: Team;
 }
-export const updateTeamSchema = z.object({
-  name: z.string(),
+export const addMemberToTeamSchema = z.object({
+  member_id: z.string(),
 });
 
-export const useUpdateTeamMutation = (team_id: string) => {
+export const useAddMemberToTeam = (team_id: string) => {
   const { toast } = useToast();
 
-  return useMutation<UpdateTeamResponse, any, UpdateTeamRequest, any>(
+  return useMutation<JoinToTeamResponse, any, JoinToTeamRequest, any>(
     ["teams", team_id],
-    async (data: UpdateTeamRequest) => {
+    async (data: JoinToTeamRequest) => {
       return axios
-        .patch(getServerUrl() + "/management/team/" + team_id, data, {
-          headers: {
-            Authorization: retrieveToken(),
-          },
-        })
+        .post(
+          getServerUrl() + "/management/team/join/" + team_id,
+          data.user_id,
+          {
+            headers: {
+              Authorization: retrieveToken(),
+            },
+          }
+        )
         .then((r) => r.data);
     },
     {
       onSuccess: (_) => {
         toast({
-          title: "Team was created successfully",
+          title: "Member was added successfully",
         });
       },
       onError: (error) => {
         toast({
-          title: "Error creating the team",
+          title: "Error adding new member to team",
           description: error.message,
         });
       },
       onMutate: () => {
         toast({
-          title: "Team is being created",
+          title: "Member is being added",
           description: "Please wait",
         });
       },

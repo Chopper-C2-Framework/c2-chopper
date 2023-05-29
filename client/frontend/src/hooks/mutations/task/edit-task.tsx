@@ -5,7 +5,7 @@ import axios from "axios";
 import { useMutation } from "react-query";
 
 interface EditTaskRequest {
-  task: Omit<Omit<Task, 'creatorId'>, 'createdAt'>;
+  task: Omit<Task, "creatorId">;
 }
 
 interface EditTaskResponse {}

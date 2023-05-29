@@ -6,6 +6,11 @@ import "google/api/annotations.proto";
 import "types.proto";
 
 service TeamService {
+  rpc GetTeams(GetTeamsRequest) returns(GetTeamsResponse){
+    option(google.api.http) = {
+      get: "/v1/management/team"
+    };
+  };
   rpc CreateTeam(CreateTeamRequest) returns (CreateTeamResponse) {
     option (google.api.http) = {
       post: "/v1/management/team"
@@ -14,15 +19,9 @@ service TeamService {
   }
 
   rpc JoinTeam(JoinTeamRequest) returns (JoinTeamResponse) {
-    option (google.api.http) = {post: "/v1/management/team/join/team/{team_id}"};
+    option (google.api.http) = {post: "/v1/management/team/join/{team_id}"};
   }
 
-  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
-    option (google.api.http) = {
-      patch: "/v1/management/team/{team_id}"
-      body: "updated_team"
-    };
-  }
 
   rpc AddMemberToTeam(AddMemberToTeamRequest) returns (AddMemberToTeamResponse) {
     option (google.api.http) = {
@@ -31,11 +30,12 @@ service TeamService {
     };
   }
 
-  rpc GetTeams(GetTeamsRequest) returns(GetTeamsResponse){
-    option(google.api.http) = {
-      get: "/v1/management/team"
+  rpc UpdateTeam(UpdateTeamRequest) returns (UpdateTeamResponse) {
+    option (google.api.http) = {
+      patch: "/v1/management/team/{team_id}"
+      body: "updated_team"
     };
-  };
+  }
 
   rpc DeleteTeam(DeleteTeamRequest) returns (DeleteTeamResponse) {
     option (google.api.http) = {delete: "/v1/management/team/{team_id}"};

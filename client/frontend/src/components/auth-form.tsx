@@ -5,9 +5,9 @@ import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@lib/utils";
-import { AxiosResponse } from "axios";
 import { useForm } from "react-hook-form";
 import { UseMutationResult } from "react-query";
+import { Icons } from "./icons";
 import {
   Form,
   FormControl,
@@ -17,7 +17,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { Icons } from "./icons";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {
   useMutation: () => UseMutationResult<any, any, any, any>;
@@ -37,7 +36,7 @@ export function AuthForm({
     defaultValues,
   });
 
-  const { mutate, error, data, isLoading } = useMutation();
+  const { mutate, isLoading } = useMutation();
 
   async function onSubmit(data: any) {
     mutate({ username: data.username, password: data.password });

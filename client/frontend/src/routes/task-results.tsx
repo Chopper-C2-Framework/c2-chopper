@@ -8,16 +8,16 @@ interface TaskResultsProps {}
 
 export const TaskResults: React.FC<TaskResultsProps> = ({}) => {
   const { taskId } = useParams();
-  if(taskId == undefined){
-    window.location.href = "/app/tasks"
-    return <></>
+  if (taskId == undefined) {
+    window.location.href = "/app/tasks";
+    return <></>;
   }
-  const taskResults = useTaskResults(taskId)
-  const task = useTask(taskId)
+  const taskResults = useTaskResults(taskId);
+  const task = useTask(taskId);
 
-  if(taskResults.isError || task.isError){
-    window.location.href = "/app/tasks"
-    return <></>
+  if (taskResults.isError || task.isError) {
+    window.location.href = "/app/tasks";
+    return <></>;
   }
 
   return (
@@ -28,14 +28,15 @@ export const TaskResults: React.FC<TaskResultsProps> = ({}) => {
         </div>
       </div>
       <div className="px-16">
-        { 
-          taskResults.data != null && !taskResults.isLoading && task.data && (
-            <TaskResultsDisplay task={task.data} results={taskResults.data.results} />
-          )
-        }
+        {taskResults.data != null && !taskResults.isLoading && task.data && (
+          <TaskResultsDisplay
+            task={task.data}
+            results={taskResults.data.results}
+          />
+        )}
       </div>
     </div>
-  )
+  );
 };
 
 export default TaskResults;

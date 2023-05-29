@@ -19,10 +19,11 @@ export const loadPluginSchema = z.object({});
 export const useLoadPluginMutation = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const client= useQueryClient()
+  const client = useQueryClient();
 
   return useMutation<LoadPluginResponse, any, LoadPluginRequest, any>(
     ["plugins", "loaded"],
+
     async (data: LoadPluginRequest) => {
       return axios
         .post<LoadPluginResponse>(getServerUrl() + "/plugins/load", data)
@@ -30,12 +31,22 @@ export const useLoadPluginMutation = () => {
     },
     {
       onSuccess: (data) => {
-        client.invalidateQueries("plugins")
-        
+        toast({
+          title: `Plugin ${data.data.info.Name} loaded`,
+          description: "Plugin loaded successfully",
+          variant: "success",
+        });
 
+        client.invalidateQueries("plugins");
       },
-      
-      onError: (error) => {},
+
+      onError: (error) => {
+        toast({
+          title: "Plugin failed to load",
+          description: error.message,
+          variant: "destructive",
+        });
+      },
     }
   );
 };

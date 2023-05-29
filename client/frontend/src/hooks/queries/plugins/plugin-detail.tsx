@@ -5,25 +5,29 @@ import { useQuery } from "react-query";
 import { Plugin } from "types";
 
 interface PluginDetailsResponse {
-  data:Plugin
+  data: Plugin;
 }
 
-export const usePluginsDetails = (plugin_id: string) => {
+export const usePluginsDetails = (plugin_id: string, enabled?: boolean) => {
   const isAuthenticated = checkIfAuth();
   return useQuery<Plugin>(
     ["plugins", plugin_id],
     () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get<{data:Plugin}>(getServerUrl() + "/plugins/details/" + plugin_id, {
-          headers: {
-            Authorization: retrieveToken(),
-          },
-        })
+        .get<{ data: Plugin }>(
+          getServerUrl() + "/plugins/details/" + plugin_id,
+          {
+            headers: {
+              Authorization: retrieveToken(),
+            },
+          }
+        )
         .then((res) => res.data.data);
     },
     {
       retry: false,
+      enabled,
       refetchOnWindowFocus: false,
     }
   );

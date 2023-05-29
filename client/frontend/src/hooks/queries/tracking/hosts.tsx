@@ -1,31 +1,34 @@
 import { checkIfAuth, retrieveToken } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
-import axios from "axios";
+import { Cred, Host } from "@src/types";
+import axios, { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
-import { Agent } from "types";
 
-interface AllAgentsResponse {
-  data: Agent[];
-  count: number;
+interface AllHostsRequest {}
+
+interface AllHostsResponse {
+  hosts: Host[];
+  success: boolean;
 }
 
-export const useAllAgentsQuery = () => {
+export const useAllHosts = () => {
   const isAuthenticated = checkIfAuth();
-  return useQuery<AllAgentsResponse>(
-    ["agents"],
-    () => {
+  return useQuery<AllHostsResponse>(
+    ["findings", "hosts"],
+    async () => {
       if (!isAuthenticated) throw new Error("Unable to login ");
       return axios
-        .get<AllAgentsResponse>(getServerUrl() + "/agent/all", {
+        .get(getServerUrl() + "/tracking/host", {
           headers: {
             Authorization: retrieveToken(),
           },
         })
-        .then((res) => res.data);
+        .then((res: AxiosResponse<AllHostsResponse>) => res.data);
     },
     {
       retry: false,
       refetchOnWindowFocus: false,
+      cacheTime: 0,
     }
   );
 };
