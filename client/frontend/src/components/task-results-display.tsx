@@ -21,6 +21,8 @@ import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useSetTasksSeen } from "@hooks/mutations/task/set-task-result-seen";
+import { useAgentInfo } from "@hooks/queries/agents/one-agent";
+import { Skeleton } from "./ui/skeleton";
 
 interface ITaskResultsDisplay{
   results: TaskResult[];
@@ -29,6 +31,7 @@ interface ITaskResultsDisplay{
 
 export default function TaskResultsDisplay({task, results}: ITaskResultsDisplay){
   const setTaskSeen = useSetTasksSeen()
+  const agent = useAgentInfo(task.agentId)
   return (
     <div className="container gap-5 px-8 py-5 flex flex-col align-center">
       <Card >
@@ -44,9 +47,14 @@ export default function TaskResultsDisplay({task, results}: ITaskResultsDisplay)
           <div className="w-1/2 flex flex-col gap-2">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="agentId" className="text-right">
-                Agent Id
+                Agent
               </Label>
-              <Input id="agentId" value={task.agentId} readOnly className="col-span-3"/>
+              {
+                (agent.data == null || agent.isLoading) && <Skeleton className="h-4 w-[70px]" />
+              }
+              {
+                (agent.data != null && !agent.isLoading) && <Input id="agentId" value={`${agent.data.hostname} | ${agent.data.nickname} (${agent.data.username} - ${agent.data.userId})`} readOnly className="col-span-3"/>
+              }
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="args" className="text-right">

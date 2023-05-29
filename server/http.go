@@ -66,9 +66,6 @@ func (g *gRPCServerHTTPGateway) NewgRPCServerHTTPGateway(config *config.Config) 
 	err = gw.RegisterTaskServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
 	handleSvcRegError(err)
 
-	err = gw.RegisterAgentServiceHandlerFromEndpoint(ctx, mux, *grpcServerEndpoint, opts)
-	handleSvcRegError(err)
-
 	fmt.Printf("[+] HTTP Gateway on on %d\n", config.ServerHTTPPort)
 
 	corsConfig := cors.New(cors.Options{
