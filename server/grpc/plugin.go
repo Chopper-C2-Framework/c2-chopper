@@ -45,13 +45,14 @@ func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginReques
 	}
 	plugin := loadedPlugin.Plugin
 
-	var args []interface{}
-	for _, v := range in.Args {
-		args = append(args, GetValue(v))
+	args := make(map[string]interface{})
+	for key, v := range in.Args {
+		fmt.Println(key)
+		args[key] = GetValue(v)
 	}
 
 	// Set plugin arguments
-	err = plugin.SetArgs(args...)
+	err = plugin.SetArgs(args)
 	if err != nil {
 		return &proto.RunPluginResponse{Success: false}, err
 	}

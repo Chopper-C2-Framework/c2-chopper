@@ -45,6 +45,6 @@ type IPlugin interface {
 	Info() *PluginInfo
 	Options() map[string]string
 	Exploit(chan *entity.TaskResultModel, ...interface{}) []byte
-	SetArgs(...interface{}) error
+	SetArgs(map[string]interface{}) error
 	IsWaitingForTaskResult() (bool, string)
 }
