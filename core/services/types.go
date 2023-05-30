@@ -1,6 +1,9 @@
 package services
 
-import "github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
+import (
+	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
+	"github.com/google/uuid"
+)
 
 type Services struct {
 	TeamService         ITeamService
@@ -14,7 +17,7 @@ type Services struct {
 
 type IPluginResultService interface {
 	CreatePluginResult(newRes *entity.PluginResultModel) error
-	GetPluginResultsOrError(path string) ([]*entity.PluginResultModel, error)
+	GetPluginResultsOrError(path string, userId uuid.UUID) ([]*entity.PluginResultModel, error)
 }
 
 type ITeamService interface {

@@ -13,6 +13,7 @@ import { Github, Star, ToyBrick } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { Badge } from "./ui/badge";
+import { useNavigate } from "react-router-dom";
 import { Button } from "./ui/button";
 import {
   Card,
@@ -52,6 +53,7 @@ export const PluginCard: React.FC<PluginCardProps> = ({ plugin }) => {
 };
 
 export const LoadedPluginCard: React.FC<PluginCardProps> = ({ plugin }) => {
+  const navigate = useNavigate();
   const { data, error } = usePluginsDetails(plugin);
   return (
     <Card className="col-span-3">
@@ -94,6 +96,9 @@ export const LoadedPluginCard: React.FC<PluginCardProps> = ({ plugin }) => {
           </DialogTrigger>
           <RunPluginDialog plugin={plugin} />
         </Dialog>
+        <Button className="w-full mt-2" variant="outline" onClick={()=>navigate(`/app/plugins/${plugin}/results`)}>
+          View Executions
+        </Button>
       </CardFooter>
     </Card>
   );

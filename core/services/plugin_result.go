@@ -5,6 +5,7 @@ import (
 
 	orm "github.com/chopper-c2-framework/c2-chopper/core/domain"
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
+	"github.com/google/uuid"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -35,10 +36,14 @@ func (t PluginResultService) CreatePluginResult(newRes *entity.PluginResultModel
 	return nil
 }
 
-func (t PluginResultService) GetPluginResultsOrError(path string) ([]*entity.PluginResultModel, error) {
+func (t PluginResultService) GetPluginResultsOrError(path string, userId uuid.UUID) ([]*entity.PluginResultModel, error) {
 	var results []*entity.PluginResultModel
+	var filters map[string]interface{} = make(map[string]interface{})
 
-	err := t.repo.GetByField(&results, "path", path)
+	filters["path"] = path
+	filters["creator_id"] = userId
+
+	err := t.repo.GetByFields(&results, filters)
 	if err != nil {
 		return nil, err
 	}

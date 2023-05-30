@@ -1,8 +1,8 @@
 import { useToast } from "@components/ui/use-toast";
+import { retrieveToken } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
 import axios from "axios";
 import { useMutation } from "react-query";
-import { useNavigate } from "react-router-dom";
 import { Plugin } from "types";
 import * as z from "zod";
 
@@ -34,13 +34,18 @@ export const useRunPluginMutation = () => {
 
   return useMutation<RunPluginsResponse, any, RunPluginRequest, any>(
     ["plugins"],
+    
     async (data: RunPluginRequest) => {
       return axios
-        .post(getServerUrl() + "/plugins/run", data)
+        .post(getServerUrl() + "/plugins/run", data, {
+          headers: {
+            Authorization: retrieveToken(),
+          },
+        })
         .then((r) => r.data);
     },
     {
-      onSuccess: (data) => {
+      onSuccess: () => {
         toast({
           title: "Plugin has ran",
           description: "You can view the results",

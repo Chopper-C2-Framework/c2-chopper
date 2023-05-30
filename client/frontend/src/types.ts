@@ -110,8 +110,8 @@ export interface PluginResult {
   id: string;
   path: string;
   output: string;
-  output_type: string;
-  created_at: string;
+  outputType: string;
+  createdAt: string;
 }
 
 export interface PluginMetadata {

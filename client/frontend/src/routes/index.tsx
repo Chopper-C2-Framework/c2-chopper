@@ -11,6 +11,7 @@ import Register from "./register.tsx";
 import Report from "./report.tsx";
 import Tasks from "./tasks";
 import TaskResults from "./task-results.tsx";
+import PluginResults from "./plugin-results.tsx";
 
 const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
       {
         path: "tasks/:taskId/results",
         element: <TaskResults />,
+      },
+      {
+        path: "plugins/:pluginName/results",
+        element: <PluginResults />,
       },
       {
         path: "report",

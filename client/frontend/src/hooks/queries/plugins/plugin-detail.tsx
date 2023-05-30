@@ -1,6 +1,6 @@
 import { checkIfAuth, retrieveToken } from "@lib/auth-utils";
 import { getServerUrl } from "@lib/get-server-url";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useQuery } from "react-query";
 import { Plugin } from "types";
 
@@ -23,7 +23,7 @@ export const usePluginsDetails = (plugin_id: string, enabled?: boolean) => {
             },
           }
         )
-        .then((res) => res.data.data);
+        .then((res: AxiosResponse<PluginDetailsResponse>) => res.data.data);
     },
     {
       retry: false,

@@ -80,10 +80,12 @@ func (Server *gRPCServer) NewgRPCServer(
 	AuthInterceptor := interceptor.AuthInterceptor{
 		AuthService: coreServices.AuthService,
 		AccessibleRoles: map[string][]string{
-			"/TeamService/UpdateTeam": {"User"},
-			"/TeamService/CreateTeam": {"User"},
-			"/TeamService/DeleteTeam": {"User"},
-			"/AuthService/Me":         {"Admin", "User"},
+			"/TeamService/UpdateTeam":         {"User"},
+			"/TeamService/CreateTeam":         {"User"},
+			"/TeamService/DeleteTeam":         {"User"},
+			"/PluginService/GetPluginResults": {"User"},
+			"/PluginService/RunPlugin":        {"User"},
+			"/AuthService/Me":                 {"Admin", "User"},
 		},
 	}
 

@@ -6,6 +6,8 @@ import (
 	"fmt"
 
 	"github.com/chopper-c2-framework/c2-chopper/grpc/proto"
+	"github.com/google/uuid"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/protobuf/types/known/emptypb"
 
 	"github.com/chopper-c2-framework/c2-chopper/core/domain/entity"
@@ -37,7 +39,6 @@ func (s *PluginService) ListPlugins(ctx context.Context, in *emptypb.Empty) (*pr
 func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginRequest) (*proto.RunPluginResponse, error) {
 	fmt.Println("[gRPC] [PluginService] RunPlugin")
 	loadedPlugin, err := s.PluginManager.GetPlugin(in.GetFileName())
-
 	if err != nil {
 		return &proto.RunPluginResponse{Success: false}, err
 	}
@@ -46,6 +47,15 @@ func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginReques
 		return &proto.RunPluginResponse{}, errors.New("plugin is already executing.")
 	}
 	plugin := loadedPlugin.Plugin
+
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok || len(md.Get("userid")) == 0 {
+		return &proto.RunPluginResponse{}, errors.New("unable to process")
+	}
+	userUUID, err := uuid.Parse(md.Get("userid")[0])
+	if err != nil {
+		return &proto.RunPluginResponse{Success: false}, err
+	}
 
 	args := make(map[string]interface{})
 	for key, v := range in.Args {
@@ -67,6 +77,7 @@ func (s *PluginService) RunPlugin(ctx context.Context, in *proto.RunPluginReques
 			Output:     string(result),
 			Path:       in.GetFileName(),
 			OutputType: "string",
+			CreatorId:  userUUID,
 		})
 		loadedPlugin.Channel = nil
 	}()
@@ -97,7 +108,16 @@ func (s *PluginService) GetPluginDetails(ctx context.Context, in *proto.GetPlugi
 
 func (s *PluginService) GetPluginResults(ctx context.Context, in *proto.GetPluginResultsRequest) (*proto.GetPluginResultsResponse, error) {
 	fmt.Println("[gRPC] [PluginService] GetPluginResults")
-	results, err := s.PluginResultService.GetPluginResultsOrError(in.GetFileName())
+	md, ok := metadata.FromIncomingContext(ctx)
+	if !ok || len(md.Get("userid")) == 0 {
+		return &proto.GetPluginResultsResponse{}, errors.New("unable to process")
+	}
+	userUUID, err := uuid.Parse(md.Get("userid")[0])
+	if err != nil {
+		return &proto.GetPluginResultsResponse{}, err
+	}
+
+	results, err := s.PluginResultService.GetPluginResultsOrError(in.GetFileName(), userUUID)
 	if err != nil {
 		return &proto.GetPluginResultsResponse{}, err
 	}
