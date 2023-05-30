@@ -279,12 +279,10 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ options, onSubmit }) => {
   function handleSubmit(data: any) {
     let Args = {};
 
-    Object.keys(data).forEach((key, index) => {
-      let keyValue = `arg${index}`;
-
+    Object.keys(data).forEach((key) => {
       Args = {
         ...Args,
-        [keyValue]: {
+        [key]: {
           type: "string_value",
           string_value: data[key],
         },
