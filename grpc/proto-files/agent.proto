@@ -7,15 +7,15 @@ import "google/api/annotations.proto";
 option go_package = "./proto";
 
 service AgentService {
-  rpc ListAgents(google.protobuf.Empty) returns (AgentListResponse) {
-    option(google.api.http) = {
-      get: "/v1/agent/all"
-    };
-  }
-  
   rpc GetAgentInfo(GetAgentInfoRequest) returns (GetAgentInfoResponse) {
     option(google.api.http) = {
       get: "/v1/agent/{agent_id}"
+    };
+  }
+  
+  rpc ListAgents(google.protobuf.Empty) returns (AgentListResponse) {
+    option(google.api.http) = {
+      get: "/v1/agent/all"
     };
   }
 

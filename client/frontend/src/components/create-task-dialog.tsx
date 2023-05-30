@@ -22,6 +22,7 @@ import { useState } from "react";
 import { Task, TaskType } from "@src/types.ts";
 import { useCreateTask } from "@hooks/mutations/task/create-task";
 import { useEditTask } from "@hooks/mutations/task/edit-task";
+import { useAllAgentsQuery } from "@hooks/queries/agents/all-agents-count";
 
 interface ICreateTaskDialog {
   taskEdit?: Task;
@@ -37,13 +38,16 @@ export default function CreateTaskDialog({
     taskEdit?.type ?? TaskType.UNKNOWN
   );
   const [name, setName] = useState(taskEdit?.name ?? "");
-  const [agentId, setAgentId] = useState(taskEdit?.agentId ?? "");
+  const [agentId, setAgentId] = useState(taskEdit?.agentId);
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const createTaskHook = useCreateTask();
   const editTaskHook = useEditTask();
+  const allAgents = useAllAgentsQuery()
 
   const createNewTask = async () => {
+    if(agentId == undefined) return;
+
     await createTaskHook.mutateAsync({
       task: {
         agentId,
@@ -55,12 +59,14 @@ export default function CreateTaskDialog({
     setArg("");
     setType(TaskType.UNKNOWN);
     setName("");
-    setAgentId("");
+    setAgentId(undefined);
     setDialogOpen(false);
     onAction();
   };
 
   const editTask = async () => {
+    if(agentId == undefined) return;
+
     await editTaskHook.mutateAsync({
       task: {
         taskId: taskEdit!.taskId,
@@ -73,7 +79,7 @@ export default function CreateTaskDialog({
     setArg("");
     setType(TaskType.UNKNOWN);
     setName("");
-    setAgentId("");
+    setAgentId(undefined);
     setDialogOpen(false);
     onAction();
   };
@@ -102,18 +108,29 @@ export default function CreateTaskDialog({
               className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="agentId" className="text-right">
-              Agent Id
-            </Label>
-            <Input
+          {allAgents.data?.data &&  <div className="grid grid-cols-4 items-center gap-4">
+            <Label className="text-right">Select agent</Label>
+            <Select
               value={agentId}
-              onChange={(e) => setAgentId(e.target.value)}
-              id="agentId"
-              placeholder="Agent Id"
-              className="col-span-3"
-            />
-          </div>
+              onValueChange={(value) => setAgentId(value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select an agent to execute" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Agent</SelectLabel>
+                  {
+                    allAgents.data?.data.map((agent) => {
+                      return (
+                        <SelectItem value={agent.id}>{agent.hostname} | {agent.username} ({agent.userId})</SelectItem>
+                      )
+                    })
+                  }
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </div> }
           <div className="grid grid-cols-4 items-center gap-4">
             <Label className="text-right">Task Type</Label>
             <Select
