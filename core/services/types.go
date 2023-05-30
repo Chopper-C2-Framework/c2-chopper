@@ -17,6 +17,9 @@ type Services struct {
 
 type IPluginResultService interface {
 	CreatePluginResult(newRes *entity.PluginResultModel) error
+	DeletePluginResult(newRes string) error
+
+	FindResultByIdOrError(id string) (*entity.PluginResultModel, error)
 	GetPluginResultsOrError(path string, userId uuid.UUID) ([]*entity.PluginResultModel, error)
 }
 

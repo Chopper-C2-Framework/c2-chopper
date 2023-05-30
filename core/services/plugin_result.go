@@ -32,8 +32,30 @@ func (t PluginResultService) CreatePluginResult(newRes *entity.PluginResultModel
 		log.Debugf("failed to create plugin result: %v\n", err)
 		return err
 	}
-
 	return nil
+}
+
+func (t PluginResultService) DeletePluginResult(id string) error {
+	res, err := t.FindResultByIdOrError(id)
+	if err != nil {
+		return err
+	}
+
+	err = t.repo.Delete(res)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (t PluginResultService) FindResultByIdOrError(id string) (*entity.PluginResultModel, error) {
+	var res entity.PluginResultModel
+	err := t.repo.GetOneByID(&res, id)
+
+	if err != nil {
+		return nil, err
+	}
+	return &res, nil
 }
 
 func (t PluginResultService) GetPluginResultsOrError(path string, userId uuid.UUID) ([]*entity.PluginResultModel, error) {

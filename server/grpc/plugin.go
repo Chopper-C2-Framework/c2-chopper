@@ -133,6 +133,19 @@ func (s *PluginService) GetPluginResults(ctx context.Context, in *proto.GetPlugi
 	}, nil
 }
 
+func (s *PluginService) DeletePluginResult(ctx context.Context, in *proto.DeletePluginResultRequest) (*proto.DeletePluginResultResponse, error) {
+	pluginResId := in.GetResultId()
+	if len(pluginResId) == 0 {
+		return &proto.DeletePluginResultResponse{}, errors.New("plugin result id is required")
+	}
+	err := s.PluginResultService.DeletePluginResult(pluginResId)
+	if err != nil {
+		return &proto.DeletePluginResultResponse{}, err
+	}
+
+	return &proto.DeletePluginResultResponse{}, nil
+}
+
 func GetValue(val *proto.ArgValue) interface{} {
 	if val.Type == "string_value" {
 		return val.GetStringValue()

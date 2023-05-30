@@ -45,7 +45,20 @@ service PluginService {
       get: "/v1/plugins/results/{file_name}"
     };
   }
+
+  rpc DeletePluginResult (DeletePluginResultRequest) returns (DeletePluginResultResponse) {
+    option(google.api.http) = {
+      delete: "/v1/plugins/results/{result_id}"
+    };
+  }
 }
+
+message DeletePluginResultRequest {
+  string result_id = 1;
+}
+
+message DeletePluginResultResponse {}
+
 
 message MapItem {
   string key = 1;

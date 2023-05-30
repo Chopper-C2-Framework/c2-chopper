@@ -8,13 +8,17 @@ import {
 } from "@components/ui/card";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import { Button } from "./ui/button";
+import { useDeletePluginResult } from "@hooks/mutations/plugin/delete-plugin-result";
 
 interface IPluginResultsDisplay {
   results: PluginResult[];
   plugin: Plugin;
+  refresh: () => void;
 }
 
-export default function PluginResultsDisplay({plugin, results}: IPluginResultsDisplay){
+export default function PluginResultsDisplay({plugin, results, refresh}: IPluginResultsDisplay){
+  const deletePluginResult = useDeletePluginResult()
   return (
     <div className="container gap-5 px-8 py-5 flex flex-col align-center">
       <Card>
@@ -81,7 +85,7 @@ export default function PluginResultsDisplay({plugin, results}: IPluginResultsDi
         {
           results.map((result, idx) => (
             <Card key={idx} >
-              <CardHeader>
+              <CardHeader className="flex flex-row justify-between">
                 <CardTitle className="flex items-center">
                   <div>
                     {result.createdAt}
@@ -90,6 +94,12 @@ export default function PluginResultsDisplay({plugin, results}: IPluginResultsDi
                     </CardDescription>
                   </div>
                 </CardTitle>
+                <Button onClick={ async ()=> {
+                  await deletePluginResult.mutateAsync({
+                    result_id: result.id
+                  })
+                  refresh()
+                }}>Delete</Button>
               </CardHeader>
               <CardContent className="flex flex-row pr-20 bg-black p-10">
                 <pre>{result.output}</pre>

@@ -30,6 +30,7 @@ export const PluginResults: React.FC<PluginResultsProps> = ({}) => {
       <div className="px-16">
         {pluginResults.data != null && !pluginResults.isLoading && plugin.data && (
           <PluginResultsDisplay
+            refresh={()=>{pluginResults.refetch()}}
             plugin={plugin.data}
             results={pluginResults.data.results}
           />
