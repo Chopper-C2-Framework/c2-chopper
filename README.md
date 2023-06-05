@@ -71,7 +71,7 @@ The framework is built upon a plugin-based architecture, which allows users to e
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [**Golang**](https://go.dev)
-* ![React][React.js](https://react.dev/)
+* [React](https://react.dev/)
 * [**GRPC**](https://grpc.io/)
 * [**Shadcn**](https://ui.shadcn.com)
 * [**React Query**](https://tanstack.com/query/v3/docs/react/overview)
